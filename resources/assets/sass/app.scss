@@ -1,0 +1,76 @@
+// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@for $i from 1 through 100 {
+    .padding-#{$i} { padding: 0px + $i; }
+}
+
+@media only screen and (max-width: 992px) {
+    nav .brand-logo {
+        font-size: 1.5em;
+    }
+}
+nav {
+    margin-bottom: 40px;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.alert-primary {
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+.alert-secondary {
+    color: #383d41;
+    background-color: #e2e3e5;
+    border-color: #d6d8db;
+}
+
+.diary-table{
+    display: table;
+    width: 100%;
+}
+.diary-table-row-header{
+    display: table-row;
+    height: 100%;
+    background: #eee;
+}
+.diary-table-cell-header{
+    display: table-cell;
+    width: 7%;
+    text-align: center;
+    vertical-align: middle;
+    border-left: 1px solid #dadada;
+}
+.diary-table-row-body{
+    display: table-row;
+    height: 100%;
+}
+.diary-table-cell-body{
+    display: table-cell;
+    width: 7%;
+    text-align: center;
+    vertical-align: middle;
+    border-left: 1px solid #dadada;
+    border-bottom: 1px solid #dadada;
+}
+.diary-table-cell-body input[type="text"] {
+    border-bottom: none !important;
+    outline: none !important;
+}

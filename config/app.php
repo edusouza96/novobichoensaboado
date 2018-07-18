@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', 'SomeRandomString'),
+    'key' => env('APP_KEY', 'GvXhHpvv494RPQ750gpIMj3sTXj94grm'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -140,10 +140,10 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        BichoEnsaboado\Providers\AppServiceProvider::class,
+        BichoEnsaboado\Providers\AuthServiceProvider::class,
+        BichoEnsaboado\Providers\EventServiceProvider::class,
+        BichoEnsaboado\Providers\RouteServiceProvider::class,
 
     ],
 

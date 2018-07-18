@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace BichoEnsaboado\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

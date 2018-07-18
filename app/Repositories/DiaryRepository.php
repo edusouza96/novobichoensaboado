@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace BichoEnsaboado\Repositories;
 
 use Carbon\Carbon;
-use App\Models\Diary;
+use BichoEnsaboado\Models\Diary;
 
 class DiaryRepository
 {

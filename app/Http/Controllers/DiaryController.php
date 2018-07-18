@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace BichoEnsaboado\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Http\Requests;
+use BichoEnsaboado\Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Repositories\DiaryRepository;
+use BichoEnsaboado\Http\Controllers\Controller;
+use BichoEnsaboado\Repositories\DiaryRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class DiaryController extends Controller
@@ -33,7 +33,7 @@ class DiaryController extends Controller
             }
 
             $diaries = new Collection();// = $this->diaryRepository->findByDate($date);
-            $diaries->add('eduardo')->add('souza');
+            // $diaries->add('08:00')->add('09:00');
             return view('diary.index', compact('date', 'diaries'));
         }catch(\InvalidArgumentException  $e){
             return back()->with('alertType', 'alert-danger')->with('message', 'Data Invalida!');

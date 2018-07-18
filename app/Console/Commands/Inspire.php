@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace BichoEnsaboado\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Inspiring;

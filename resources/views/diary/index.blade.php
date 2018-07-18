@@ -11,7 +11,7 @@
    
     <div class="diary-table">
         <div class="diary-table-row-header">
-            <div class="diary-table-cell-header" @click="plusRow">Hora</div>
+            <div class="diary-table-cell-header">Hora</div>
             <div class="diary-table-cell-header">Nome do Pet</div>
             <div class="diary-table-cell-header">Raça</div>
             <div class="diary-table-cell-header">Proprietário</div>
@@ -35,14 +35,12 @@
 
 
 @push('js-end')
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
     <script>
         Vue.component('d-table-row', {
             template: `
                 <div>
-                    <div v-for="(item, index) in data" class="diary-table-row-body" @click="plus(true)" >
-                        <div class="diary-table-cell-body">08:00</div>
+                    <div v-for="(item, index) in schedules" class="diary-table-row-body">
+                        <div class="diary-table-cell-body" @click="plus(item)" > @{{item}} </div>
                         <div class="diary-table-cell-body"><input placeholder="Placeholder" type="text" name="name"></div>
                         <div class="diary-table-cell-body"><input type="text" name="breed"></div>
                         <div class="diary-table-cell-body"><input type="text" name="owner"></div>
@@ -63,30 +61,46 @@
             `,
             
             methods:{
-                plus: function(flag){
-                    return this.showRow = flag;
+                plus: function(hour){
+                    this.data.push(hour);
+                }, 
+                
+            },
+            computed:{
+               
+                removeDefaultHours: function(){
+                    var that = this;
+                    this.data.filter(function(obj){
+                        var index = that.defaultHours.indexOf(obj);
+                        if(index > -1)
+                            that.defaultHours.splice(index, 1);
+
+                        return true;
+                    });
+                },
+
+                schedules: function(){
+                    return this.data.concat(this.defaultHours).sort();
                 }
             },
             props:['data'],
             data: function() {
                 return {
-                    showRow: false
+                    showRow: false,
+                    defaultHours: [
+                        '08:00', '08:30','09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+                        '13:00', '13:30','14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
+                    ],
                 }
             }
         });
-
 
         new Vue({
             el: '#diaries',
             data: {
                 data: {!! json_encode($diaries) !!}
             },
-            methods:{
-                plusRow: function(){
-                    this.data.push('mais um');
-                    
-                }   
-            },
+            
         });
     </script>
 @endpush

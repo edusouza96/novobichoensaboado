@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace BichoEnsaboado\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

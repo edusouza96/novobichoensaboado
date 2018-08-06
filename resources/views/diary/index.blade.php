@@ -53,7 +53,7 @@
                         <div class="diary-table-cell-body"><input type="text" name="value"></div>
                         <div class="diary-table-cell-body"><input type="text" name="delivery_fee"></div>
                         <div class="diary-table-cell-body"><input type="text" name="gross"></div>
-                        <div class="diary-table-cell-body"><button>Agendar</button></div>
+                        <div class="diary-table-cell-body"><a @click="save()"><i class="fas fa-check"></i></a></div>
                     
                     </div>
                 </div>

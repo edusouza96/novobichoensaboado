@@ -17,7 +17,7 @@ class DiaryRepository
 
     public function findByDate(Carbon $date)
     {
-        return $this->diary->where('date_hour', $date);
+        return $this->diary->whereBetween('date_hour', [$date->startOfDay()->toDateTimeString(), $date->endOfDay()->toDateTimeString()])->get();
     }
 
     public function all()

@@ -363,4 +363,7 @@ nav {
   border-bottom: none !important;
   outline: none !important; }
 
+.cursor-pointer {
+  cursor: pointer; }
+
 /*# sourceMappingURL=app.css.map */

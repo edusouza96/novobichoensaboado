@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class DiaryController extends Controller
 {
+    /** @var DiaryRepository */
     private $diaryRepository;
 
     public function __construct(DiaryRepository $diaryRepository)
@@ -32,8 +33,7 @@ class DiaryController extends Controller
                 $date = Carbon::createFromFormat('Y-m-d', $date);
             }
 
-            $diaries = new Collection();// = $this->diaryRepository->findByDate($date);
-            // $diaries->add('08:00')->add('09:00');
+            $diaries = $this->diaryRepository->findByDate($date);
             return view('diary.index', compact('date', 'diaries'));
         }catch(\InvalidArgumentException  $e){
             return back()->with('alertType', 'alert-danger')->with('message', 'Data Invalida!');

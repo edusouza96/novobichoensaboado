@@ -8,7 +8,7 @@
 
 
 <div id="diaries">
-   
+
     <div class="diary-table">
         <div class="diary-table-row-header">
             <div class="diary-table-cell-header">Hora</div>
@@ -39,21 +39,69 @@
         Vue.component('d-table-row', {
             template: `
                 <div>
-                    <div v-for="(item, index) in schedules" class="diary-table-row-body">
-                        <div class="diary-table-cell-body" @click="plus(item)" > @{{item}} </div>
-                        <div class="diary-table-cell-body"><input placeholder="Placeholder" type="text" name="name"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="breed"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="owner"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="fetch"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="address"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="neighborhood"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="phone1"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="phone2"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="service"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="value"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="delivery_fee"></div>
-                        <div class="diary-table-cell-body"><input type="text" name="gross"></div>
-                        <div class="diary-table-cell-body"><a @click="save()"><i class="fas fa-check"></i></a></div>
+                    <div v-for="(register, index) in schedules" class="diary-table-row-body">
+                        <div class="diary-table-cell-body cursor-pointer" @click="plus(register)" title="Clique para adicionar uma linha"> 
+                            @{{register.hour}}
+                        </div>
+                       
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="name" v-model="register.client.name">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="breed" v-model="register.client.breed">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="owner" v-model="register.client.owner">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <span v-if="register.fetch == 1">
+                                <input type="checkbox" class="filled-in" :id="index" checked="checked"/>
+                                <label :for="index"></label>
+                            </span>
+                            <span v-else>
+                                <input type="checkbox" class="filled-in" :id="index"/>
+                                <label :for="index"></label>
+                            </span>                            
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="address" v-model="register.client.address">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="neighborhood" v-model="register.client.neighborhood">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="phone1" v-model="register.client.phone1">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="phone2" v-model="register.client.phone2">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="service" v-model="register.service.name">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="value" v-model="register.value">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="delivery_fee" v-model="register.deliveryFee">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <input type="text" name="gross" v-model="register.gross">
+                        </div>
+                        
+                        <div class="diary-table-cell-body">
+                            <a @click="save()"><i class="fas fa-check"></i></a>
+                        </div>
                     
                     </div>
                 </div>
@@ -63,11 +111,9 @@
             methods:{
                 plus: function(hour){
                     this.data.push(hour);
-                }, 
-                
+                }
             },
             computed:{
-               
                 removeDefaultHours: function(){
                     var that = this;
                     this.data.filter(function(obj){
@@ -80,7 +126,11 @@
                 },
 
                 schedules: function(){
-                    return this.data.concat(this.defaultHours).sort();
+                    return this.data.concat(this.defaultHours).sort(function(current, previous){
+                        if(current.hour > previous.hour) return 1
+                        if(current.hour < previous.hour) return -1
+                        return 0;
+                    });
                 }
             },
             props:['data'],
@@ -88,8 +138,26 @@
                 return {
                     showRow: false,
                     defaultHours: [
-                        '08:00', '08:30','09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-                        '13:00', '13:30','14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
+                        {'hour':'08:00', 'client': {}, 'service': {} }, 
+                        {'hour':'08:30', 'client': {}, 'service': {} },
+                        {'hour':'09:00', 'client': {}, 'service': {} }, 
+                        {'hour':'09:30', 'client': {}, 'service': {} }, 
+                        {'hour':'10:00', 'client': {}, 'service': {} }, 
+                        {'hour':'10:30', 'client': {}, 'service': {} }, 
+                        {'hour':'11:00', 'client': {}, 'service': {} }, 
+                        {'hour':'11:30', 'client': {}, 'service': {} }, 
+                        {'hour':'12:00', 'client': {}, 'service': {} }, 
+                        {'hour':'12:30', 'client': {}, 'service': {} },
+                        {'hour':'13:00', 'client': {}, 'service': {} }, 
+                        {'hour':'13:30', 'client': {}, 'service': {} },
+                        {'hour':'14:00', 'client': {}, 'service': {} }, 
+                        {'hour':'14:30', 'client': {}, 'service': {} }, 
+                        {'hour':'15:00', 'client': {}, 'service': {} }, 
+                        {'hour':'15:30', 'client': {}, 'service': {} }, 
+                        {'hour':'16:00', 'client': {}, 'service': {} }, 
+                        {'hour':'16:30', 'client': {}, 'service': {} }, 
+                        {'hour':'17:00', 'client': {}, 'service': {} }, 
+                        {'hour':'17:30', 'client': {}, 'service': {} },
                     ],
                 }
             }

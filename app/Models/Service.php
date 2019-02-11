@@ -16,7 +16,7 @@ class Service extends Model
 
     public function breed()
     {
-        return $this->belongsTo(Breed::class, 'id_breed');
+        return $this->belongsTo(Breed::class, 'breed_id');
     }
 
     public function getId()

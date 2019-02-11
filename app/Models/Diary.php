@@ -24,11 +24,15 @@ class Diary extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class, 'id_client');
+        return $this->belongsTo(Client::class, 'client_id');
     }
-    public function service()
+    public function servicePet()
     {
-        return $this->belongsTo(Service::class, 'id_service');
+        return $this->belongsTo(Service::class, 'service_pet_id');
+    }
+    public function serviceVet()
+    {
+        return $this->belongsTo(Service::class, 'service_vet_id');
     }
 
     public function getId()
@@ -40,9 +44,13 @@ class Diary extends Model
         return $this->client;
     }
 
-    public function getService()
+    public function getServicePet()
     {
-        return $this->service;
+        return $this->servicePet;
+    }
+    public function getServiceVet()
+    {
+        return $this->serviceVet;
     }
 
     public function getFetch()
@@ -50,9 +58,13 @@ class Diary extends Model
         return $this->fetch;
     }
 
-    public function getValue()
+    public function getServicePetValue()
     {
-        return $this->value;
+        return $this->service_pet_value;
+    }
+    public function getServiceVetValue()
+    {
+        return $this->service_vet_value;
     }
 
     public function getDeliveryFee()
@@ -77,7 +89,7 @@ class Diary extends Model
 
     public function getPackage()
     {
-        return $this->id_package;
+        return $this->package_id;
     }
 
     public function getCompanion()
@@ -97,9 +109,12 @@ class Diary extends Model
             'gross' => $this->getGross(),
             'client' => $this->getClient(),
             'package' => $this->getPackage(),
-            'service' => $this->getService(),
+            'servicePet' => $this->getServicePet(),
+            'serviceVet' => $this->getServiceVet(),
             'status' => $this->getStatus(),
-            'value' => $this->getValue(),
+            'petValue' => $this->getValue(),
+            'petValue' => $this->getPetValue(),
+            'vetValue' => $this->getVettValue(),
         ];
     }
 }

@@ -17,11 +17,11 @@ class Client extends Model
 
     public function breed()
     {
-        return $this->belongsTo(Breed::class, 'id_breed');
+        return $this->belongsTo(Breed::class, 'breed_id');
     }
     public function neighborhood()
     {
-        return $this->belongsTo(Neighborhood::class, 'id_neighborhood');
+        return $this->belongsTo(Neighborhood::class, 'neighborhood_id');
     }
 
     public function getId()
@@ -38,11 +38,11 @@ class Client extends Model
     }
     public function getOwner()
     {
-        return $this->owner;
+        return $this->owner_name;
     }
     public function getIdOwner()
     {
-        return $this->id_owner;
+        return $this->owner_id;
     }
     public function getName()
     {
@@ -70,8 +70,9 @@ class Client extends Model
         return [
             'id'            => $this->getId(),
             'name'          => $this->getName(),
-            'breed'         => $this->getBreed()->getName(),
-            'owner'         => $this->getOwner(),
+            'breed_name'    => $this->getBreed()->getName(),
+            'breed_id'      => $this->getBreed()->getId(),
+            'owner_name'         => $this->getOwner(),
             'neighborhood'  => $this->getNeighborhood()->getName(),
             'address'       => $this->getAddress(),
             'phone1'        => $this->getPhone1(),

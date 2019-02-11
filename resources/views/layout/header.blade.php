@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
     <head>
         <title> @yield('title') </title>
         <!--Import Google Icon Font-->
@@ -8,6 +9,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         @stack('css-begin')
         @stack('js-begin')
     </head>

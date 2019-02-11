@@ -17,6 +17,11 @@ class ClientRepository
     {
         return $this->client->all();   
     }
+    
+    public function findByName($name)
+    {
+        return $this->client->where('name', 'like', "%$name%")->get();   
+    }
 
     public function update()
     {

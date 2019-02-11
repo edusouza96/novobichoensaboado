@@ -18,6 +18,13 @@ class ServiceRepository
         return $this->service->all();   
     }
 
+    public function findByBreed($id)
+    {
+        return $this->service->whereHas('breed', function($query) use($id){
+            $query->whereId($id);
+        })->get();
+    }
+
     public function update()
     {
         // 

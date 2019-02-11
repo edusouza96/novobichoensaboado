@@ -15,11 +15,11 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_breed');
-            $table->integer('id_neighborhood')->nullable();
-            $table->string('owner', 255);
-            $table->integer('id_owner')->nullable();
             $table->string('name', 255);
+            $table->integer('breed_id');
+            $table->integer('neighborhood_id')->nullable();
+            $table->integer('owner_id')->nullable();
+            $table->string('owner_name', 255);
             $table->string('address', 255)->nullable();
             $table->bigInteger('phone1')->nullable();
             $table->bigInteger('phone2')->nullable();

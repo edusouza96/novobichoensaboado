@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: BichoEnsaboado
-        psr4_prefix: BichoEnsaboado
-        src_path: app

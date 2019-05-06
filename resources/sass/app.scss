@@ -1,0 +1,105 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+// Font-Awesome
+@import "~@fortawesome/fontawesome-free/css/all.min";
+
+.navbar-primary {
+    background-color: $bg-default;
+    color: $color-default;
+}
+.navbar-primary .navbar-brand {
+    color: #fff;
+}
+
+.navbar-primary .navbar-brand:hover,
+.navbar-primary .navbar-brand:focus {
+    color: #fff;
+}
+
+.navbar-primary .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-primary .navbar-nav .nav-link:hover,
+.navbar-primary .navbar-nav .nav-link:focus {
+    color: rgba(255, 255, 255, 1);
+}
+
+.navbar-primary .navbar-nav .nav-link.disabled {
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.navbar-primary .navbar-nav .show > .nav-link,
+.navbar-primary .navbar-nav .active > .nav-link,
+.navbar-primary .navbar-nav .nav-link.show,
+.navbar-primary .navbar-nav .nav-link.active {
+    color: #fff;
+}
+
+.navbar-primary .navbar-toggler {
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navbar-primary .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-primary .navbar-text {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-primary .navbar-text a {
+    color: #fff;
+}
+
+.navbar-primary .navbar-text a:hover,
+.navbar-primary .navbar-text a:focus {
+    color: #fff;
+}
+
+.main {
+    margin-top: 5em;
+}
+
+.thead-primary {
+    background-color: $bg-default;
+    color: $color-default;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.modal-header {
+    background-color: $bg-default;
+    color: $color-default;
+}
+
+.table-row-background-status-empty {
+    background-color: #fff;
+}
+
+.table-row-background-status-scheduled {
+    background-color: rgba(222,217,8,0.6);
+}
+
+.table-row-background-status-present {
+    background-color: rgba(24,202,39,0.6);
+}
+
+.table-row-background-status-finished {
+    background-color: rgba(255, 0, 0, 0.6);
+}
+
+.header-choose-days-package {
+    border: 9px solid #007fbf;
+    @extend .thead-primary;
+}

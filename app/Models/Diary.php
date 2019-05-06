@@ -1,0 +1,146 @@
+<?php
+
+namespace BichoEnsaboado\Models;
+
+use BichoEnsaboado\Models\User;
+use BichoEnsaboado\Models\Client;
+use BichoEnsaboado\Models\Package;
+use BichoEnsaboado\Models\Service;
+use BichoEnsaboado\Enums\StatusType;
+use Illuminate\Database\Eloquent\Model;
+
+class Diary extends Model
+{
+    
+    protected $table = 'diaries';
+    protected $dates = ['date_hour'];
+    protected $fillable = ['gross'];
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
+    }
+    public function servicePet()
+    {
+        return $this->belongsTo(Service::class, 'service_pet_id');
+    }
+    public function serviceVet()
+    {
+        return $this->belongsTo(Service::class, 'service_vet_id');
+    }
+    public function package()
+    {
+        return $this->belongsTo(Package::class, 'package_id');
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    public function getServicePet()
+    {
+        return $this->servicePet;
+    }
+    public function getServiceVet()
+    {
+        return $this->serviceVet;
+    }
+
+    public function getFetch()
+    {
+        return $this->fetch;
+    }
+
+    public function getServicePetValue()
+    {
+        return $this->service_pet_value;
+    }
+    public function getServiceVetValue()
+    {
+        return $this->service_vet_value;
+    }
+
+    public function getDeliveryFee()
+    {
+        return $this->delivery_fee;
+    }
+
+    public function getGross()
+    {
+        return $this->gross;
+    }
+
+    public function getDateHour()
+    {
+        return $this->date_hour;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function getPackage()
+    {
+        return $this->package;
+    }
+
+    public function getCompanion()
+    {
+        return $this->companion;
+    }
+    
+    public function getCheckinHour()
+    {
+        return $this->checkin_hour;
+    }
+    
+    public function getObservation()
+    {
+        return $this->observation;
+    }
+
+    private function getColorByStatus()
+    {
+        if($this->status == StatusType::SCHEDULED) return 'table-row-background-status-scheduled';
+        if($this->status == StatusType::PRESENT) return 'table-row-background-status-present';
+        if($this->status == StatusType::FINISHED) return 'table-row-background-status-finished';
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'companion' => $this->getCompanion(),
+            'dateHour' => $this->getDateHour()->toDateTimeString(),
+            'hour' => $this->getDateHour()->format('H:i'),
+            'deliveryFee' => $this->getDeliveryFee(),
+            'fetch' => $this->getFetch(),
+            'gross' => $this->getGross(),
+            'client' => $this->getClient(),
+            'package' => $this->getPackage() ? $this->getPackage()->getId() : null,
+            'servicePet' => $this->getServicePet(),
+            'serviceVet' => $this->getServiceVet(),
+            'status' => $this->getStatus(),
+            'petValue' => $this->getServicePetValue(),
+            'vetValue' => $this->getServiceVetValue(),
+            'checkin_hour' => $this->getCheckinHour(),
+            'observation' => $this->getObservation(),
+            'cssRowBackground' => $this->getColorByStatus(),
+            'editable' => false,
+        ];
+    }
+}

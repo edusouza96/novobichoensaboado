@@ -74,7 +74,7 @@
                     host: null,
                     methods: ["POST"],
                     uri: "pdv/agenda/{id}",
-                    name: "pdv.diary",
+                    name: "pdv.index",
                     action: "BichoEnsaboadoHttpControllersPdvController@index"
                 },
                 {

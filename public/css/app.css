@@ -16452,3 +16452,17 @@ a.text-dark:focus {
   border: 9px solid #007fbf;
 }
 
+[v-cloak] > * {
+  display: none;
+}
+
+[v-cloak]::before {
+  content: "loading\2026";
+}
+
+.pdv-content-bottom {
+  position: absolute;
+  width: 90%;
+  top: 27em;
+}
+

@@ -27,7 +27,7 @@ Route::group(['prefix' => 'agenda'], function () {
 });
 
 Route::group(['prefix' => 'pdv'], function () {
-    Route::get('agenda/{id}', ['as' => 'pdv.diary', 'uses' => 'PdvController@index']);
+    Route::get('{id?}', ['as' => 'pdv.index', 'uses' => 'PdvController@index']);
 });
 
 Route::group(['prefix' => 'proprietario'], function () {

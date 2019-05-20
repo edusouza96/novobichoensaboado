@@ -209,7 +209,7 @@ export default {
   },
   methods: {
     url: function(id) {
-      return laroute.route('pdv.diary', {id: id});
+      return laroute.route('pdv.index', {id: id});
     },
     plus: function(hour) {
       var register = Object.assign({}, hour);

@@ -103,3 +103,12 @@
     border: 9px solid #007fbf;
     @extend .thead-primary;
 }
+
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "loading…" }
+
+.pdv-content-bottom {
+    position: absolute;
+    width: 90%;
+    top: 27em;
+}

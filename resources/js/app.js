@@ -26,6 +26,9 @@ import Datetime from 'vue-datetime';
 import 'vue-datetime/dist/vue-datetime.css';
 Vue.use(Datetime);
 
+import VueBootstrapTypeahead from 'vue-bootstrap-typeahead';
+Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead);
+
 Vue.component("diary-table", require("./components/DiaryTable.vue").default);
 
 Vue.component("modal-clients", require("./components/ModalClients.vue").default);

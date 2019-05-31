@@ -34,13 +34,17 @@ Route::group(['prefix' => 'proprietario'], function () {
     Route::get('meus-pets/{id}', ['as' => 'owner.myPets', 'uses' => 'OwnerController@myPets']);
 });
 
-Route::group(['prefix' => 'client'], function () {
+Route::group(['prefix' => 'cliente'], function () {
     Route::get('localizar-por-nome/{name}', ['as' => 'client.findByName', 'uses' => 'ClientController@findByName']);
 });
 
-Route::group(['prefix' => 'service'], function () {
+Route::group(['prefix' => 'servico'], function () {
     Route::get('localizar-por-raca/{id}', ['as' => 'service.findByBreed', 'uses' => 'ServiceController@findByBreed']);
     Route::get('veterinario', ['as' => 'service.allVet', 'uses' => 'ServiceController@allVet']);
+});
+
+Route::group(['prefix' => 'produto'], function () {
+    Route::get('localizar-por-nome/{name}', ['as' => 'product.findByName', 'uses' => 'ProductController@findByName']);
 });
 
 Route::get('/info', function () {

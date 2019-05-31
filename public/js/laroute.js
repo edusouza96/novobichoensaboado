@@ -28,26 +28,23 @@
                 {
                     host: null,
                     methods: ["GET", "HEAD"],
-                    uri: "client/localizar-por-nome/{name}",
+                    uri: "cliente/localizar-por-nome/{name}",
                     name: "client.findByName",
-                    action:
-                        "BichoEnsaboadoHttpControllersClientController@findByName"
+                    action: "BichoEnsaboadoHttpControllersClientController@findByName"
                 },
                 {
                     host: null,
                     methods: ["GET", "HEAD"],
-                    uri: "service/localizar-por-raca/{id}",
+                    uri: "servico/localizar-por-raca/{id}",
                     name: "service.findByBreed",
-                    action:
-                        "BichoEnsaboadoHttpControllersServiceController@findByBreed"
+                    action: "BichoEnsaboadoHttpControllersServiceController@findByBreed"
                 },
                 {
                     host: null,
                     methods: ["GET", "HEAD"],
-                    uri: "service/veterinario",
+                    uri: "servico/veterinario",
                     name: "service.allVet",
-                    action:
-                        "BichoEnsaboadoHttpControllersServiceController@allVet"
+                    action: "BichoEnsaboadoHttpControllersServiceController@allVet"
                 },
                 {
                     host: null,
@@ -83,6 +80,13 @@
                     uri: "proprietario/meus-pets/{id}",
                     name: "owner.myPets",
                     action: "BichoEnsaboadoHttpControllersOwnerController@myPets"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "produto/localizar-por-nome/{name}",
+                    name: "product.findByName",
+                    action:"BichoEnsaboadoHttpControllersProductController@findByName"
                 }
             ],
             prefix: "",

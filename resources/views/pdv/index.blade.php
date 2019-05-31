@@ -10,6 +10,10 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label for="">Procurar Produto</label>
+                        <vue-bootstrap-typeahead 
+  v-model="query"
+  :data="['Canada', 'USA', 'Mexico']"
+/>
                         <select name="" class="form-control">
                             <option value="">Selecione</option>
                         </select>
@@ -99,6 +103,7 @@
     new Vue({
         el: '#pdv',
         data: {
+            query: null,
             products:[{"units":2,"description":"banho","amount":20,"unitaryValue":10}, {"units":2,"description":"banho","amount":20,"unitaryValue":10}]
         },
         methods:{

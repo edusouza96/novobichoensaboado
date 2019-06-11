@@ -41,4 +41,6 @@ Vue.component("modal-observation", require("./components/ModalObservation.vue").
 
 Vue.component("modal-pets-by-owner", require("./components/ModalPetsByOwner.vue").default);
 
+Vue.component("modal-finish-pay", require("./components/ModalFinishPay.vue").default);
+
 

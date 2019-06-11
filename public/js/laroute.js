@@ -87,6 +87,13 @@
                     uri: "produto/localizar-por-nome/{name}",
                     name: "product.findByName",
                     action:"BichoEnsaboadoHttpControllersProductController@findByName"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "desconto",
+                    name: "rebate.findAll",
+                    action:"BichoEnsaboadoHttpControllersRebateController@findAll"
                 }
             ],
             prefix: "",

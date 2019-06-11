@@ -143,4 +143,35 @@ class Diary extends Model
             'editable' => false,
         ];
     }
+
+    public function toJsonPet()
+    {
+        if (is_null($this->getServicePet())) return null;
+        return json_encode([
+            "units" => 1,
+            "description" => $this->getServicePet()->getName(),
+            "unitaryValue" => $this->getServicePetValue(),
+            "amount" => $this->getServicePetValue(),
+        ]);
+    }
+    public function toJsonVet()
+    {
+        if (is_null($this->getServiceVet())) return null;
+        return json_encode([
+            "units" => 1,
+            "description" => $this->getServiceVet()->getName(),
+            "unitaryValue" => $this->getServiceVetValue(),
+            "amount" => $this->getServiceVetValue(),
+        ]);
+    }
+    public function toJsonDeliveryFee()
+    {
+        if ($this->getFetch() == 0) return null;
+        return json_encode([
+            "units" => 1,
+            "description" => 'Serviço de Busca',
+            "unitaryValue" => $this->getDeliveryFee(),
+            "amount" => $this->getDeliveryFee(),
+        ]);
+    }
 }

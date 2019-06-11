@@ -47,6 +47,10 @@ Route::group(['prefix' => 'produto'], function () {
     Route::get('localizar-por-nome/{name}', ['as' => 'product.findByName', 'uses' => 'ProductController@findByName']);
 });
 
+Route::group(['prefix' => 'desconto'], function () {
+    Route::get('', ['as' => 'rebate.findAll', 'uses' => 'RebateController@findAll']);
+});
+
 Route::get('/info', function () {
     dd(phpinfo());
 });

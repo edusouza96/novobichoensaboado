@@ -23,9 +23,13 @@ class PdvController extends Controller
         try {
             $diary = is_null($id) ? null : $this->diaryRepository->find($id);
 
-            return view('pdv.index', compact('diary'));
+            $jsonPet = $diary ? $diary->toJsonPet() : null;
+            $jsonVet = $diary ? $diary->toJsonVet() : null;
+            $jsonDeliveryFee = $diary ? $diary->toJsonDeliveryFee() : null;
+            
+            return view('pdv.index', compact('jsonPet', 'jsonVet', 'jsonDeliveryFee'));
         } catch (\InvalidArgumentException $ex) {
-            return back()->with('alertType', 'danger')->with('message', 'Data Invalida!');
+            return back()->with('alertType', 'danger')->with('message', '');
         }
     }
 

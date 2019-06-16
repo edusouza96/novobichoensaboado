@@ -61,21 +61,22 @@
               <div class="col-4">
                 <div class="form-group">
                   <label for="valueReceived">Valor Recebido</label>
-                  <input type="text" name="valueReceived" class="form-control">
+                  <input type="text" name="valueReceived" class="form-control" v-model="valueReceived" v-money="money">
+                  
                 </div>
               </div>
 
               <div class="col-4">
                 <div class="form-group">
-                  <label for="change">troco</label>
-                  <input type="text" name="change" class="form-control" disabled>
+                  <label for="leftover">troco</label>
+                  <input type="text" name="leftover" class="form-control" :class="leftoverClass" v-model="leftover" disabled>
                 </div>
               </div>
             </div>
 
             <div class="row">
               <div class="col-12">
-                <button type="button" class="btn-info btn-lg btn-block" disabled>Total R$ 0,00</button>
+                <button type="button" class="btn-info btn-lg btn-block" disabled>Total R$ {{ totalPayable }}</button>
               </div>
             </div>
           </fieldset>
@@ -87,6 +88,7 @@
             class="btn btn-success"
             data-dismiss="modal"
             @click="confirm()"
+            :disabled="isOwing()"
           >Confirmar</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
         </div>
@@ -97,7 +99,7 @@
 
 <script>
 export default {
-  props: ['products'],
+  props: ['products', 'amountSale'],
   data: function() {
     return {
       rebates: [],
@@ -105,14 +107,29 @@ export default {
       promotionValue: '0,00',
       paymentMethods: window.paymentMethodsType,
       paymentMethod: '',
+      valueReceived: '',
+      plots: 0,
+      leftoverClass: '',
+      money: {
+        decimal: ',',
+        thousands: '',
+        precision: 2,
+      }
     };
   },
   methods: {
+    getValueReceived(){
+      return this.valueReceived == '' ? '0,00' : this.valueReceived;
+    },
     confirm() {
       alert("Paguei");
     },
     convertToBrPattern(value){
       return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2});
+    },
+    convertToUsPattern(value){
+      
+      return value == undefined ? 0.00 : parseFloat(value.replace(",", "."));
     },
     getRebate(id){
       return this.rebates.find((rebate)=> {
@@ -120,7 +137,10 @@ export default {
           return rebate;
         }
       })
-    }
+    },
+    isOwing(){
+      return this.convertToUsPattern(this.leftover) < 0;
+    },
   },
   watch: {
     rebate(){
@@ -130,6 +150,9 @@ export default {
       }else{
         this.promotionValue = '0,00';
       }
+    },
+    leftover(){
+      this.leftoverClass = this.isOwing() ? 'text-red' : '';
     }
   },
   computed:{
@@ -140,16 +163,27 @@ export default {
           return product;
         }
       });
-
-      return productsPet.reduce((accumulator, product) => {
-        return {
-          amount: parseFloat(accumulator.amount) + parseFloat(product.amount)
-        }
-      }).amount;
+  
+      if(productsPet.length > 0){
+        return productsPet.reduce((accumulator, product) => {
+          return {
+            amount: parseFloat(accumulator.amount) + parseFloat(product.amount)
+          }
+        }).amount;
+      }else{
+        return 0.00;
+      }
     },
     showFieldPlots(){
       return this.paymentMethod == this.paymentMethods.CREDIT_CARD.id;
+    },
+    totalPayable(){
+      return this.convertToBrPattern(this.convertToUsPattern(this.amountSale) - this.convertToUsPattern(this.promotionValue));
+    },
+    leftover(){
+      return this.convertToBrPattern(this.convertToUsPattern(this.getValueReceived()) - (this.convertToUsPattern(this.amountSale) - this.convertToUsPattern(this.promotionValue)));
     }
+
   },
   created: function(){
     $.get(laroute.route("rebate.findAll"))
@@ -159,3 +193,9 @@ export default {
   },
 };
 </script>
+
+<style>
+  .text-red{
+    color: #ff0000; 
+  }
+</style>

@@ -28,6 +28,9 @@ import Datetime from 'vue-datetime';
 import 'vue-datetime/dist/vue-datetime.css';
 Vue.use(Datetime);
 
+import money from 'v-money'
+Vue.use(money, {precision: 2})
+
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead';
 Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead);
 

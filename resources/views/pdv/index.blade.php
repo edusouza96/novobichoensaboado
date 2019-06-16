@@ -3,7 +3,7 @@
 
 @section('content')
 <div id="pdv" class="container" v-cloak>
-    <modal-finish-pay :products="products"></modal-finish-pay>
+    <modal-finish-pay :products="products" :amount-sale="amountSale"></modal-finish-pay>
     <div class="pdv-content row">
         <div class="col-md-7 col-xs-12" style="">
             <div class="row">

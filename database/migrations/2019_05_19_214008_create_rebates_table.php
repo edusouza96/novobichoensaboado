@@ -18,8 +18,12 @@ class CreateRebatesTable extends Migration
             $table->string('name');
             $table->decimal('value', 10, 2);
             $table->boolean('active')->default(1);
+            /** Desconto em serviços de banho e tosa */
             $table->boolean('pet')->default(1);
+            /** Desconto em serviços de Veterianaria */
             $table->boolean('vet')->default(0);
+            /** Desconto em produtos da loja */
+            $table->boolean('product')->default(0);
             $table->timestamps();
         });
     }

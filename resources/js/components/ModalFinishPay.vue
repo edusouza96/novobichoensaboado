@@ -16,17 +16,17 @@
               <div class="col-8">
                 <div class="form-group">
                   <label for="promotion">Promoção</label>
-                  <select name="promotion" class="form-control promotion">
+                  <select name="promotion" class="form-control promotion" v-model="rebate">
                     <option value>Selecione</option>
-                    <option v-for="rebate in rebates" :key="rebate.id" :value="rebate.id">{{ rebate.name }}</option>
+                    <option v-for="reb in rebates" :key="reb.id" :value="reb.id">{{ reb.name }}</option>
                   </select>
                 </div>
               </div>
 
               <div class="col-4">
                 <div class="form-group">
-                  <label for="promotionValue">valor</label>
-                  <input type="text" name="promotionValue" class="form-control promotion-value" disabled>
+                  <label for="promotionValue">Valor do Desconto</label>
+                  <input type="text" name="promotionValue" v-model="promotionValue" class="form-control promotion-value" disabled>
                 </div>
               </div>
             </div>
@@ -96,18 +96,55 @@
 
 <script>
 export default {
-  props: [],
+  props: ['products'],
   data: function() {
     return {
-      rebates: []
+      rebates: [],
+      rebate: '',
+      promotionValue: '0,00',
     };
   },
   methods: {
     confirm() {
       alert("Paguei");
+    },
+    convertToBrPattern(value){
+      return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2});
+    },
+    getRebate(id){
+      return this.rebates.find((rebate)=> {
+        if(rebate.id == id){
+          return rebate;
+        }
+      })
     }
   },
-  watch: {},
+  watch: {
+    rebate(){
+      let rebate = this.getRebate(this.rebate);
+      if(this.rebate > 0){
+        this.promotionValue = this.convertToBrPattern((rebate.value / 100) * this.totalServicePet);
+      }else{
+        this.promotionValue = '0,00';
+      }
+    }
+  },
+  computed:{
+    totalServicePet(){   
+      
+      let productsPet = this.products.filter((product)=>{
+        if(product.type == window.servicesType.PET){
+          return product;
+        }
+      });
+
+      return productsPet.reduce((accumulator, product) => {
+        return {
+          amount: parseFloat(accumulator.amount) + parseFloat(product.amount)
+        }
+      }).amount;
+    },
+  },
   created: function(){
     $.get(laroute.route("rebate.findAll"))
       .done(function(data) {

@@ -7,6 +7,7 @@ use BichoEnsaboado\Models\Client;
 use BichoEnsaboado\Models\Package;
 use BichoEnsaboado\Models\Service;
 use BichoEnsaboado\Enums\StatusType;
+use BichoEnsaboado\Enums\ServicesType;
 use Illuminate\Database\Eloquent\Model;
 
 class Diary extends Model
@@ -152,6 +153,7 @@ class Diary extends Model
             "description" => $this->getServicePet()->getName(),
             "unitaryValue" => $this->getServicePetValue(),
             "amount" => $this->getServicePetValue(),
+            "type" => ServicesType::PET,
         ]);
     }
     public function toJsonVet()
@@ -162,6 +164,7 @@ class Diary extends Model
             "description" => $this->getServiceVet()->getName(),
             "unitaryValue" => $this->getServiceVetValue(),
             "amount" => $this->getServiceVetValue(),
+            "type" => ServicesType::VET,
         ]);
     }
     public function toJsonDeliveryFee()
@@ -172,6 +175,7 @@ class Diary extends Model
             "description" => 'Serviço de Busca',
             "unitaryValue" => $this->getDeliveryFee(),
             "amount" => $this->getDeliveryFee(),
+            "type" => ServicesType::DELIVERY_FEE,
         ]);
     }
 }

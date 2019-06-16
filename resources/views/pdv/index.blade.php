@@ -3,7 +3,7 @@
 
 @section('content')
 <div id="pdv" class="container" v-cloak>
-    <modal-finish-pay></modal-finish-pay>
+    <modal-finish-pay :products="products"></modal-finish-pay>
     <div class="pdv-content row">
         <div class="col-md-7 col-xs-12" style="">
             <div class="row">
@@ -126,6 +126,7 @@
                     "description": this.selectedProduct.name,
                     "unitaryValue": this.unitaryValueProduct,
                     "amount": this.amountValueProduct,
+                    "type": window.servicesType.PRODUCTS,
                 });
 
                 this.query = '';

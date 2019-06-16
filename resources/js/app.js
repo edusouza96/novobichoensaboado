@@ -5,6 +5,7 @@
  */
 
 require("./bootstrap");
+require("./env");
 
 $.ajaxSetup({
     headers: {
@@ -15,6 +16,7 @@ $.ajaxSetup({
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 });
+
 
 window.moment = require('moment');
 window.Vue = require("vue");

@@ -2558,18 +2558,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: [],
+  props: ['products'],
   data: function data() {
     return {
-      rebates: []
+      rebates: [],
+      rebate: '',
+      promotionValue: '0,00'
     };
   },
   methods: {
     confirm: function confirm() {
       alert("Paguei");
+    },
+    convertToBrPattern: function convertToBrPattern(value) {
+      return parseFloat(value).toLocaleString('pt-BR', {
+        minimumFractionDigits: 2
+      });
+    },
+    getRebate: function getRebate(id) {
+      return this.rebates.find(function (rebate) {
+        if (rebate.id == id) {
+          return rebate;
+        }
+      });
     }
   },
-  watch: {},
+  watch: {
+    rebate: function rebate() {
+      var rebate = this.getRebate(this.rebate);
+
+      if (this.rebate > 0) {
+        this.promotionValue = this.convertToBrPattern(rebate.value / 100 * this.totalServicePet);
+      } else {
+        this.promotionValue = '0,00';
+      }
+    }
+  },
+  computed: {
+    totalServicePet: function totalServicePet() {
+      var productsPet = this.products.filter(function (product) {
+        if (product.type == window.servicesType.PET) {
+          return product;
+        }
+      });
+      return productsPet.reduce(function (accumulator, product) {
+        return {
+          amount: parseFloat(accumulator.amount) + parseFloat(product.amount)
+        };
+      }).amount;
+    }
+  },
   created: function created() {
     $.get(laroute.route("rebate.findAll")).done(function (data) {
       this.rebates = data;
@@ -68051,22 +68089,42 @@ var render = function() {
                       _c(
                         "select",
                         {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.rebate,
+                              expression: "rebate"
+                            }
+                          ],
                           staticClass: "form-control promotion",
-                          attrs: { name: "promotion" }
+                          attrs: { name: "promotion" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.rebate = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
                         },
                         [
                           _c("option", { attrs: { value: "" } }, [
                             _vm._v("Selecione")
                           ]),
                           _vm._v(" "),
-                          _vm._l(_vm.rebates, function(rebate) {
+                          _vm._l(_vm.rebates, function(reb) {
                             return _c(
                               "option",
-                              {
-                                key: rebate.id,
-                                domProps: { value: rebate.id }
-                              },
-                              [_vm._v(_vm._s(rebate.name))]
+                              { key: reb.id, domProps: { value: reb.id } },
+                              [_vm._v(_vm._s(reb.name))]
                             )
                           })
                         ],
@@ -68075,13 +68133,45 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(1)
+                  _c("div", { staticClass: "col-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "promotionValue" } }, [
+                        _vm._v("Valor do Desconto")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.promotionValue,
+                            expression: "promotionValue"
+                          }
+                        ],
+                        staticClass: "form-control promotion-value",
+                        attrs: {
+                          type: "text",
+                          name: "promotionValue",
+                          disabled: ""
+                        },
+                        domProps: { value: _vm.promotionValue },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.promotionValue = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ])
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(2),
+              _vm._m(1),
               _vm._v(" "),
-              _vm._m(3)
+              _vm._m(2)
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
@@ -68134,21 +68224,6 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-4" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "promotionValue" } }, [_vm._v("valor")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control promotion-value",
-          attrs: { type: "text", name: "promotionValue", disabled: "" }
-        })
-      ])
     ])
   },
   function() {
@@ -82612,6 +82687,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+__webpack_require__(/*! ./env */ "./resources/js/env.js");
+
 $.ajaxSetup({
   headers: {
     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
@@ -83164,6 +83241,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalServicesVet_vue_vue_type_template_id_85932236___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/env.js":
+/*!*****************************!*\
+  !*** ./resources/js/env.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.servicesType = {
+  PET: 1,
+  VET: 2,
+  PRODUCTS: 3,
+  DELIVERY_FEE: 4
+};
 
 /***/ }),
 

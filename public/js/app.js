@@ -2557,13 +2557,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['products'],
   data: function data() {
     return {
       rebates: [],
       rebate: '',
-      promotionValue: '0,00'
+      promotionValue: '0,00',
+      paymentMethods: window.paymentMethodsType,
+      paymentMethod: ''
     };
   },
   methods: {
@@ -2606,6 +2609,9 @@ __webpack_require__.r(__webpack_exports__);
           amount: parseFloat(accumulator.amount) + parseFloat(product.amount)
         };
       }).amount;
+    },
+    showFieldPlots: function showFieldPlots() {
+      return this.paymentMethod == this.paymentMethods.CREDIT_CARD.id;
     }
   },
   created: function created() {
@@ -68169,9 +68175,113 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(1),
+              _c("fieldset", [
+                _c("legend", [_vm._v("Opções de Pagamento")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-8" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "paymentMethod" } }, [
+                        _vm._v("Forma de Pagamento")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.paymentMethod,
+                              expression: "paymentMethod"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { name: "paymentMethod" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.paymentMethod = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Selecione")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.paymentMethods, function(method) {
+                            return _c(
+                              "option",
+                              {
+                                key: method.id,
+                                domProps: { value: method.id }
+                              },
+                              [_vm._v(_vm._s(method.label))]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.showFieldPlots,
+                          expression: "showFieldPlots"
+                        }
+                      ],
+                      staticClass: "col-4"
+                    },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "plots" } }, [
+                          _vm._v("Parcelas")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.plots,
+                              expression: "plots"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number", name: "plots" },
+                          domProps: { value: _vm.plots },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.plots = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]
+                  )
+                ])
+              ]),
               _vm._v(" "),
-              _vm._m(2)
+              _vm._m(1)
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
@@ -68224,41 +68334,6 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("fieldset", [
-      _c("legend", [_vm._v("Opções de Pagamento")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-8" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "methodPay" } }, [
-              _vm._v("Forma de Pagamento")
-            ]),
-            _vm._v(" "),
-            _c(
-              "select",
-              { staticClass: "form-control", attrs: { name: "methodPay" } },
-              [_c("option", { attrs: { value: "" } }, [_vm._v("Selecione")])]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-4" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "plots" } }, [_vm._v("Parcelas")]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "form-control",
-              attrs: { type: "number", name: "plots" }
-            })
-          ])
-        ])
-      ])
     ])
   },
   function() {
@@ -83256,6 +83331,20 @@ window.servicesType = {
   VET: 2,
   PRODUCTS: 3,
   DELIVERY_FEE: 4
+};
+window.paymentMethodsType = {
+  CASH: {
+    id: 1,
+    label: 'Em Dinheiro'
+  },
+  CREDIT_CARD: {
+    id: 2,
+    label: 'Cartão de Crédito'
+  },
+  DEBIT_CARD: {
+    id: 3,
+    label: 'Cartão de Débito'
+  }
 };
 
 /***/ }),

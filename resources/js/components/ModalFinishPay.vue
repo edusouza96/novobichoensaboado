@@ -37,17 +37,18 @@
             <div class="row">
               <div class="col-8">
                 <div class="form-group">
-                  <label for="methodPay">Forma de Pagamento</label>
-                  <select name="methodPay" class="form-control">
+                  <label for="paymentMethod">Forma de Pagamento</label>
+                  <select name="paymentMethod" class="form-control" v-model="paymentMethod">
                     <option value>Selecione</option>
+                    <option v-for="method in paymentMethods" :value="method.id" :key="method.id">{{ method.label }}</option>
                   </select>
                 </div>
               </div>
 
-              <div class="col-4">
+              <div class="col-4" v-show="showFieldPlots">
                 <div class="form-group">
                   <label for="plots">Parcelas</label>
-                  <input type="number" name="plots" class="form-control">
+                  <input type="number" name="plots" class="form-control" v-model="plots">
                 </div>
               </div>
             </div>
@@ -102,6 +103,8 @@ export default {
       rebates: [],
       rebate: '',
       promotionValue: '0,00',
+      paymentMethods: window.paymentMethodsType,
+      paymentMethod: '',
     };
   },
   methods: {
@@ -144,6 +147,9 @@ export default {
         }
       }).amount;
     },
+    showFieldPlots(){
+      return this.paymentMethod == this.paymentMethods.CREDIT_CARD.id;
+    }
   },
   created: function(){
     $.get(laroute.route("rebate.findAll"))

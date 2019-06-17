@@ -2584,7 +2584,16 @@ __webpack_require__.r(__webpack_exports__);
       return this.valueReceived == '' ? '0,00' : this.valueReceived;
     },
     confirm: function confirm() {
-      alert("Paguei");
+      $.post(laroute.route("pdv.registerPayment"), {
+        products: this.products,
+        paymentMethod: this.paymentMethod,
+        plots: this.plots,
+        rebate: this.rebate,
+        promotionValue: this.promotionValue,
+        valueReceived: this.valueReceived,
+        leftover: this.leftover,
+        amountSale: this.amountSale
+      });
     },
     convertToBrPattern: function convertToBrPattern(value) {
       return parseFloat(value).toLocaleString('pt-BR', {

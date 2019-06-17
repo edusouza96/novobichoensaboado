@@ -33,5 +33,10 @@ class PdvController extends Controller
         }
     }
 
+    public function registerPayment(Request $request)
+    {
+        dd($request->all());
+    }
+
    
 }

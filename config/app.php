@@ -174,6 +174,7 @@ return [
         // BichoEnsaboado\Providers\BroadcastServiceProvider::class,
         BichoEnsaboado\Providers\EventServiceProvider::class,
         BichoEnsaboado\Providers\RouteServiceProvider::class,
+        Lord\Laroute\LarouteServiceProvider::class,
 
     ],
 

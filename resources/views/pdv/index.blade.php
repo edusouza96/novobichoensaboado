@@ -3,7 +3,7 @@
 
 @section('content')
 <div id="pdv" class="container" v-cloak>
-    <modal-finish-pay :products="products" :amount-sale="amountSale"></modal-finish-pay>
+    <modal-finish-pay :products="products" :amount-sale="amountSale" :diary-id="diaryId"></modal-finish-pay>
     <div class="pdv-content row">
         <div class="col-md-7 col-xs-12" style="">
             <div class="row">
@@ -109,6 +109,7 @@
     new Vue({
         el: '#pdv',
         data: {
+            diaryId: '{!! $id !!}',
             query: '',
             selectedProduct: null,
             units: 1,
@@ -122,6 +123,7 @@
             },
             addProduct(){
                 this.products.push({
+                    "id": this.selectedProduct.id,
                     "units": this.units,
                     "description": this.selectedProduct.name,
                     "unitaryValue": this.unitaryValueProduct,
@@ -150,7 +152,7 @@
                 }
             },
             unitaryValueProduct(){
-                return parseFloat(this.selectedProduct ? this.selectedProduct.valueSales : 0).toFixed(2);
+                return parseFloat(this.selectedProduct ? this.selectedProduct.value_sales : 0).toFixed(2);
             },
             amountValueProduct(){
                 return (this.unitaryValueProduct * this.units).toFixed(2);

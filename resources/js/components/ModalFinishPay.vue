@@ -88,7 +88,7 @@
             class="btn btn-success"
             data-dismiss="modal"
             @click="confirm()"
-            :disabled="isOwing()"
+            :disabled="isOwing() || !isSelectedPaymentMethod()"
           >Confirmar</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
         </div>
@@ -99,7 +99,7 @@
 
 <script>
 export default {
-  props: ['products', 'amountSale'],
+  props: ['products', 'amountSale', 'diaryId'],
   data: function() {
     return {
       rebates: [],
@@ -108,7 +108,7 @@ export default {
       paymentMethods: window.paymentMethodsType,
       paymentMethod: '',
       valueReceived: '',
-      plots: 0,
+      plots: 1,
       leftoverClass: '',
       money: {
         decimal: ',',
@@ -127,17 +127,19 @@ export default {
         paymentMethod: this.paymentMethod,
         plots: this.plots,
         rebate: this.rebate,
-        promotionValue: this.promotionValue,
-        valueReceived: this.valueReceived,
-        leftover: this.leftover,
-        amountSale: this.amountSale
+        promotionValue: this.convertToUsPattern(this.promotionValue),
+        valueReceived: this.convertToUsPattern(this.valueReceived),
+        leftover: this.convertToUsPattern(this.leftover),
+        amountSale: this.convertToUsPattern(this.amountSale),
+        diaryId: this.diaryId,
+      }).done((result)=> {
+        window.location.href = laroute.route("pdv.invoice", result);
       });
     },
     convertToBrPattern(value){
       return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2});
     },
     convertToUsPattern(value){
-      
       return value == undefined ? 0.00 : parseFloat(value.replace(",", "."));
     },
     getRebate(id){
@@ -150,6 +152,9 @@ export default {
     isOwing(){
       return this.convertToUsPattern(this.leftover) < 0;
     },
+    isSelectedPaymentMethod(){
+      return this.paymentMethod > 0;
+    }
   },
   watch: {
     rebate(){

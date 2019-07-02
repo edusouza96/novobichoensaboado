@@ -2561,7 +2561,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['products', 'amountSale'],
+  props: ['products', 'amountSale', 'diaryId'],
   data: function data() {
     return {
       rebates: [],
@@ -2570,7 +2570,7 @@ __webpack_require__.r(__webpack_exports__);
       paymentMethods: window.paymentMethodsType,
       paymentMethod: '',
       valueReceived: '',
-      plots: 0,
+      plots: 1,
       leftoverClass: '',
       money: {
         decimal: ',',
@@ -2589,10 +2589,13 @@ __webpack_require__.r(__webpack_exports__);
         paymentMethod: this.paymentMethod,
         plots: this.plots,
         rebate: this.rebate,
-        promotionValue: this.promotionValue,
-        valueReceived: this.valueReceived,
-        leftover: this.leftover,
-        amountSale: this.amountSale
+        promotionValue: this.convertToUsPattern(this.promotionValue),
+        valueReceived: this.convertToUsPattern(this.valueReceived),
+        leftover: this.convertToUsPattern(this.leftover),
+        amountSale: this.convertToUsPattern(this.amountSale),
+        diaryId: this.diaryId
+      }).done(function (result) {
+        window.location.href = laroute.route("pdv.invoice", result);
       });
     },
     convertToBrPattern: function convertToBrPattern(value) {
@@ -2612,6 +2615,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     isOwing: function isOwing() {
       return this.convertToUsPattern(this.leftover) < 0;
+    },
+    isSelectedPaymentMethod: function isSelectedPaymentMethod() {
+      return this.paymentMethod > 0;
     }
   },
   watch: {
@@ -68478,7 +68484,7 @@ var render = function() {
                   attrs: {
                     type: "button",
                     "data-dismiss": "modal",
-                    disabled: _vm.isOwing()
+                    disabled: _vm.isOwing() || !_vm.isSelectedPaymentMethod()
                   },
                   on: {
                     click: function($event) {
@@ -82897,8 +82903,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_datetime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_datetime__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-datetime/dist/vue-datetime.css */ "./node_modules/vue-datetime/dist/vue-datetime.css");
 /* harmony import */ var vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_datetime_dist_vue_datetime_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
-/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vue_bootstrap_typeahead__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-bootstrap-typeahead */ "./node_modules/vue-bootstrap-typeahead/src/components/VueBootstrapTypeahead.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -82925,7 +82931,7 @@ Vue.use(vue_notification__WEBPACK_IMPORTED_MODULE_0___default.a);
 
 Vue.use(vue_datetime__WEBPACK_IMPORTED_MODULE_1___default.a);
 
-Vue.use(v_money__WEBPACK_IMPORTED_MODULE_5___default.a, {
+Vue.use(v_money__WEBPACK_IMPORTED_MODULE_3___default.a, {
   precision: 2
 });
 

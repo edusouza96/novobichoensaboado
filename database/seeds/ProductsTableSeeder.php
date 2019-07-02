@@ -14,8 +14,8 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'barcode' => 'BE10101010',
             'name' => 'Biscoito',
-            'valueSales' => '10',
-            'valueBuy' => '5',
+            'value_sales' => '10',
+            'value_buy' => '5',
             'quantity' => '10',
         ]);
     }

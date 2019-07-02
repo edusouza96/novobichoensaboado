@@ -26,11 +26,11 @@ class Product extends Model
     }
     public function getValueSales()
     {
-        return $this->valueSales;
+        return $this->value_sales;
     }
     public function getValueBuy()
     {
-        return $this->valueBuy;
+        return $this->value_buy;
     }
     public function getQuantity()
     {
@@ -39,6 +39,14 @@ class Product extends Model
     public function getBarcode()
     {
         return $this->barcode;
+    }
+
+    public function getDataToSaveSale()
+    {
+        return [
+            "quantity"  => $this->getQuantity(),	
+            "unitary_value" => $this->getValueSales(),
+        ];
     }
    
 }

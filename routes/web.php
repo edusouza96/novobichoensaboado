@@ -29,6 +29,7 @@ Route::group(['prefix' => 'agenda'], function () {
 Route::group(['prefix' => 'pdv'], function () {
     Route::get('{id?}', ['as' => 'pdv.index', 'uses' => 'PdvController@index']);
     Route::post('registrar-pagamento', ['as' => 'pdv.registerPayment', 'uses' => 'PdvController@registerPayment']);
+    Route::get('nota-fiscal/{id}', ['as' => 'pdv.invoice', 'uses' => 'PdvController@invoice']);
 });
 
 Route::group(['prefix' => 'proprietario'], function () {

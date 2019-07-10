@@ -25,7 +25,7 @@ class SaleRepository
         return $this->sale->find($id);   
     }
 
-    public function save($valueReceived, $leftover, $amountSale, $paymentMethod, $plots, $promotionValue)
+    public function save($valueReceived, $leftover, $amountSale, $paymentMethod, $plots, $promotionValue, $userLogged, $store)
     {
         $sale = $this->newInstance();
         $sale->value_received = $valueReceived;
@@ -34,6 +34,9 @@ class SaleRepository
         $sale->payment_method_id = $paymentMethod;
         $sale->plots = $plots;
         $sale->rebate = $promotionValue;
+        $sale->store_id = $store;
+        $sale->createdBy()->associate($userLogged);
+        $sale->updatedBy()->associate($userLogged);
 
         $sale->save();
 

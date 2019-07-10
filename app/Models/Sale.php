@@ -2,6 +2,7 @@
 
 namespace BichoEnsaboado\Models;
 
+use BichoEnsaboado\Models\User;
 use BichoEnsaboado\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,12 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Sale extends Model
 {
     use SoftDeletes;
-    
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
+
     protected $table = 'sales';
 
     public function diary()
@@ -24,7 +20,16 @@ class Sale extends Model
     
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'sales_products', 'sale_id', 'product_id')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'sales_products', 'sale_id', 'product_id')->withTimestamps()->withPivot('quantity', 'unitary_value');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     public function getId()
@@ -55,6 +60,19 @@ class Sale extends Model
     {
         return $this->rebate;
     }
-   
+    
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    public function getDiary()
+    {
+        return $this->diary;
+    }
+    public function getProducts()
+    {
+        return $this->products;
+    }
    
 }

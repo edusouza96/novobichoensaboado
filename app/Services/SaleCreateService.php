@@ -3,7 +3,9 @@
 namespace BichoEnsaboado\Services;
 
 use BichoEnsaboado\Models\Sale;
+use BichoEnsaboado\Models\User;
 use Illuminate\Support\Collection;
+use BichoEnsaboado\Enums\ServicesType;
 use BichoEnsaboado\Repositories\SaleRepository;
 use BichoEnsaboado\Repositories\DiaryRepository;
 use BichoEnsaboado\Repositories\ProductRepository;
@@ -29,7 +31,7 @@ class SaleCreateService
 
     }
 
-    public function create(array $attributes)
+    public function create(array $attributes, User $userLogged, $store)
     {
         $sale = $this->saleRepository->save(
             $attributes['valueReceived'],
@@ -38,6 +40,8 @@ class SaleCreateService
             $attributes['paymentMethod'],
             $attributes['plots'],
             $attributes['promotionValue'],
+            $userLogged, 
+            $store
         );
 
         $this->attachDiary($sale, $attributes['diaryId']);
@@ -45,6 +49,7 @@ class SaleCreateService
         $products = collect($attributes['products']);
         $this->attachProduct($sale, $products);
         
+        return $sale->getId();
 
     }
 
@@ -58,7 +63,7 @@ class SaleCreateService
 
     private function attachProduct(Sale $sale, Collection $products)
     {
-        $products = $products->where('type', 3);
+        $products = $products->where('type', ServicesType::PRODUCTS);
 
         foreach ($products as $productAttributes) {
             $product = $this->productRepository->find($productAttributes['id']);

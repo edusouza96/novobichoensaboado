@@ -16543,3 +16543,17 @@ a.text-dark:focus {
   text-align: center;
 }
 
+.invoice-header-info-pet {
+  border-bottom: 1px solid #000;
+}
+
+.invoice-header-info-service {
+  border-bottom: 1px solid #000;
+  border-left: 1px solid #000;
+  padding-top: 2em;
+}
+
+.invoice-identified > .row > div {
+  border-bottom: 1px solid #b3b3b3;
+}
+

@@ -21,6 +21,9 @@ class CreateSalesTable extends Migration
             $table->integer('payment_method_id');
             $table->integer('plots');
             $table->decimal('rebate', 10, 2)->nullable();
+            $table->integer('store_id');
+            $table->integer('created_by');
+            $table->integer('updated_by')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

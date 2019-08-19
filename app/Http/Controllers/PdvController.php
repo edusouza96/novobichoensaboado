@@ -64,9 +64,13 @@ class PdvController extends Controller
 
     public function invoice($id)
     {
-        $sale = $this->saleRepository->find($id);
-        $sale = new InvoicePresenter($sale);
-        return view('pdv.invoice', compact('sale'));
+        try{
+            $sale = $this->saleRepository->find($id);
+            $sale = new InvoicePresenter($sale);
+            return view('pdv.invoice', compact('sale'));
+        }catch (\InvalidArgumentException $ex) {
+            return back()->with('alertType', 'danger')->with('message', 'Não Encontrado Registro de Venda');
+        }
     }
 
    

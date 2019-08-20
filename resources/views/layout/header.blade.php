@@ -29,6 +29,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('pdv.index') }}">PDV</a>
                 </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}">Sair</a>

@@ -19,6 +19,10 @@ Route::get('sair', ['as' => 'logout', function () {
     return view('welcome');
 }]);
 
+Route::get('dashboard', ['as' => 'dashboard.index', function () {
+    return view('dashboard.index');
+}]);
+
 Route::group(['prefix' => 'agenda'], function () {
     Route::get('{date?}', ['as' => 'diary.index', 'uses' => 'DiaryController@index']);
     Route::post('salvar', ['as' => 'diary.store', 'uses' => 'DiaryController@store']);

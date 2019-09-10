@@ -2581,6 +2581,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -68643,16 +68649,30 @@ var staticRenderFns = [
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-6" }, [_vm._v("Vendas")]),
+                _c("fieldset", [
+                  _c("legend", { staticClass: "text-center" }, [
+                    _vm._v("Vendas")
+                  ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6" }, [_vm._v("R$ 0,00")])
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [_vm._v("Banhos")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [_vm._v("R$ 0,00")])
+                  ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-6" }, [_vm._v("Despesas")]),
+                _c("fieldset", { staticClass: "mt-5 mb-5" }, [
+                  _c("legend", { staticClass: "text-center" }, [
+                    _vm._v("Despesas")
+                  ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6" }, [_vm._v("R$ 0,00")])
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _vm._v("Funcionarios")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [_vm._v("R$ 0,00")])
+                  ])
                 ])
               ]),
               _vm._v(" "),

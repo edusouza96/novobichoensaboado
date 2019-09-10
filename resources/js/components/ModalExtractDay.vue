@@ -10,15 +10,21 @@
         </div>
 
         <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">Vendas</div>
-            <div class="col-md-6">R$ 0,00</div>
-          </div>
+          <fieldset>
+            <legend class="text-center">Vendas</legend>
+            <div class="row">
+              <div class="col-md-6">Banhos</div>
+              <div class="col-md-6">R$ 0,00</div>
+            </div>
+          </fieldset>
 
-          <div class="row">
-            <div class="col-md-6">Despesas</div>
-            <div class="col-md-6">R$ 0,00</div>
-          </div>
+          <fieldset class="mt-5 mb-5">
+            <legend class="text-center">Despesas</legend>
+            <div class="row">
+              <div class="col-md-6">Funcionarios</div>
+              <div class="col-md-6">R$ 0,00</div>
+            </div>
+          </fieldset>
         </div>
 
         <div class="modal-footer">

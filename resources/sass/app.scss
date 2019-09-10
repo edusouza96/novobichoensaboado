@@ -88,11 +88,11 @@
 }
 
 .table-row-background-status-scheduled {
-    background-color: rgba(222,217,8,0.6);
+    background-color: rgba(222, 217, 8, 0.6);
 }
 
 .table-row-background-status-present {
-    background-color: rgba(24,202,39,0.6);
+    background-color: rgba(24, 202, 39, 0.6);
 }
 
 .table-row-background-status-finished {
@@ -104,29 +104,51 @@
     @extend .thead-primary;
 }
 
-[v-cloak] > * { display:none }
-[v-cloak]::before { content: "loading…" }
+[v-cloak] > * {
+    display: none;
+}
+[v-cloak]::before {
+    content: "loading…";
+}
 
 .pdv-content-bottom {
     position: absolute;
     width: 90%;
     top: 27em;
 }
-.pdv-content-alert{
+.pdv-content-alert {
     margin-top: 10em;
     text-align: center;
 }
 
-.invoice-header-info-pet{
+.invoice-header-info-pet {
     border-bottom: 1px solid #000;
 }
-.invoice-header-info-service{
+.invoice-header-info-service {
     border-bottom: 1px solid #000;
     border-left: 1px solid #000;
     padding-top: 2em;
 }
 
-.invoice-identified > .row > div{
+.invoice-identified > .row > div {
     border-bottom: 1px solid #b3b3b3;
-    
+}
+
+fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    min-width: 0;
+}
+
+legend {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 20px;
+    font-size: 21px;
+    line-height: inherit;
+    color: #333333;
+    border: 0;
+    border-bottom: 1px solid #e5e5e5;
 }

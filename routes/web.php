@@ -36,6 +36,10 @@ Route::group(['prefix' => 'pdv'], function () {
     Route::get('nota-fiscal/{id}', ['as' => 'pdv.invoice', 'uses' => 'PdvController@invoice']);
 });
 
+Route::group(['prefix' => 'caixa'], function () {
+    Route::post('abrir', ['as' => 'cashdesk.open', 'uses' => 'CashdeskController@open']);
+});
+
 Route::group(['prefix' => 'proprietario'], function () {
     Route::get('meus-pets/{id}', ['as' => 'owner.myPets', 'uses' => 'OwnerController@myPets']);
 });

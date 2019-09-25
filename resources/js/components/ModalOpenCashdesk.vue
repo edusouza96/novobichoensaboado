@@ -34,7 +34,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-success" data-dismiss="modal">Confirmar</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" @click="confirm()">Confirmar</button>
         </div>
       </div>
     </div>
@@ -56,13 +56,13 @@ export default {
   },
   methods: {
     confirm(){
-        // $.post(laroute.route("pdv.registerPayment"),{
-        //     source: this.source,
-        //     valueStart: this.convertToUsPattern(this.valueStart),
-        // }).done((result)=> {
-        //     console.log('done');
+        $.post(laroute.route("cashdesk.open"),{
+            source: this.source,
+            valueStart: this.convertToUsPattern(this.valueStart),
+        }).done((result)=> {
+            console.log('done');
 
-        // });
+        });
     },
     convertToUsPattern(value){
       return value == undefined ? 0.00 : parseFloat(value.replace(",", "."));

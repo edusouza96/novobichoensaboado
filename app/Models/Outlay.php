@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Outlay extends Model
 {
-    protected $table = 'outlay';
+    protected $table = 'outlays';
     protected $dates = ['date_pay'];
 
     public function createdBy()

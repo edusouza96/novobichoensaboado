@@ -15,14 +15,11 @@ class CreateTreasuresTable extends Migration
     {
         Schema::create('treasures', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->decimal('cash_drawer', 10, 2)->nullable();
-            $table->decimal('safe_box', 10, 2)->nullable();
-            $table->decimal('pagseguro', 10, 2)->nullable();
-            $table->decimal('bank', 10, 2)->nullable();
+            $table->string('name');
+            $table->string('display');
+            $table->decimal('value', 10, 2);
             $table->integer('store_id');
-            $table->integer('created_by');
-            $table->integer('updated_by')->nullable();
-            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

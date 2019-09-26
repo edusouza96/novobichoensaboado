@@ -32,6 +32,6 @@ class CreateCashBookEntryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cash_book_entry');
+        Schema::dropIfExists('cash_book_moves');
     }
 }

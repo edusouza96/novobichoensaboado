@@ -28,6 +28,7 @@ class CashBookRepository
     {
         return $this->cashBook
             ->where('store_id', $store)
+            ->whereNull('value_end')
             ->whereDate('date_hour', '=', $date->toDateString())
             ->orderBy('id', 'desc')
             ->first();   

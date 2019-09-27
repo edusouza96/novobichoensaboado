@@ -35,7 +35,7 @@
         created(){
             $.get(laroute.route('cashdesk.status')).done(function(data){
                 this.isOpen = data.hasOwnProperty('value_start');
-                this.value = this.convertToBrPattern(data.value_start);
+                this.value = this.isOpen ? this.convertToBrPattern(data.value_start): null;
             }.bind(this));
         }
 

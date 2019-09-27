@@ -16,7 +16,7 @@ class CreateCashBookTable extends Migration
         Schema::create('cash_book', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->decimal('value_start', 10, 2);
-            $table->decimal('value_end', 10, 2);
+            $table->decimal('value_end', 10, 2)->nullable();
             $table->timestamp('date_hour');
             $table->integer('store_id');
             $table->integer('created_by');

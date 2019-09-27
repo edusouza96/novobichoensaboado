@@ -24,6 +24,15 @@ class CashBookRepository
         return $this->cashBook->find($id);   
     }
 
+    public function findByDate(Carbon $date, $store)
+    {
+        return $this->cashBook
+            ->where('store_id', $store)
+            ->whereDate('date_hour', '=', $date->toDateString())
+            ->orderBy('id', 'desc')
+            ->first();   
+    }
+
     public function newInstance()
     {
         return $this->cashBook->newInstance();

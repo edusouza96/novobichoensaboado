@@ -38,6 +38,7 @@ Route::group(['prefix' => 'pdv'], function () {
 
 Route::group(['prefix' => 'caixa'], function () {
     Route::post('abrir', ['as' => 'cashdesk.open', 'uses' => 'CashdeskController@open']);
+    Route::get('checar-status', ['as' => 'cashdesk.status', 'uses' => 'CashdeskController@status']);
 });
 
 Route::group(['prefix' => 'proprietario'], function () {

@@ -2928,17 +2928,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       valueStart: null,
-      source: '',
+      source: "",
       money: {
-        decimal: ',',
-        thousands: '',
+        decimal: ",",
+        thousands: "",
         precision: 2
       }
     };
+  },
+  computed: {
+    disabledConfirm: function disabledConfirm() {
+      return this.source == "" || this.valueStart == "0,00";
+    }
   },
   methods: {
     confirm: function confirm() {
@@ -2946,11 +2962,13 @@ __webpack_require__.r(__webpack_exports__);
         source: this.source,
         valueStart: this.convertToUsPattern(this.valueStart)
       }).done(function (result) {
-        console.log('done');
+        this.$emit("opened", result);
+      }.bind(this)).fail(function (error) {
+        console.log(error);
       });
     },
     convertToUsPattern: function convertToUsPattern(value) {
-      return value == undefined ? 0.00 : parseFloat(value.replace(",", "."));
+      return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
     }
   }
 });
@@ -69339,7 +69357,11 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-success",
-                attrs: { type: "button", "data-dismiss": "modal" },
+                attrs: {
+                  type: "button",
+                  "data-dismiss": "modal",
+                  disabled: _vm.disabledConfirm
+                },
                 on: {
                   click: function($event) {
                     return _vm.confirm()

@@ -35,11 +35,17 @@ class CashdeskService
         $valueStart = $attributes['valueStart'];
         $source = $attributes['source'];
         $dateHour = Carbon::now();
-        $cashBook = $this->cashBookRepository->save($valueStart, '0.00', $dateHour, $userLogged, $store);
+        $cashBook = $this->cashBookRepository->save($valueStart, null, $dateHour, $userLogged, $store);
         $moves = $this->cashBookMoveRepository->save($valueStart, SourceType::CASH_DRAWER, TypeMovesType::ENTRY, $cashBook, $userLogged);
         $outlay = $this->outlayRepository->save('Aporte - caixa inicial', $valueStart, $dateHour, $source, $costCenter=1, $paid=true, $userLogged, $store);
-        $this->treasureRepository->addValue(SourceType::CASH_DRAWER, $valueStart, $store);
-        $this->treasureRepository->subValue($source, $valueStart, $store);
+        $treasure = $this->treasureRepository->subValue($source, $valueStart, $store);
+        return $this->treasureRepository->addValue(SourceType::CASH_DRAWER, $valueStart, $store);
+    }
+
+    public function status($store)
+    {
+        return $this->cashBookRepository->findByDate(Carbon::now(), $store);
+
     }
 
    

@@ -53,4 +53,15 @@ class CashBookRepository
 
         return $cashBook;
     }
+    
+    public function updateValueEnd(CashBook $cashBook, $valueEnd, $userLogged, $store)
+    {
+        $cashBook->value_end = $valueEnd;
+        $cashBook->store_id = $store;
+        $cashBook->updatedBy()->associate($userLogged);
+
+        $cashBook->save();
+
+        return $cashBook;
+    }
 }

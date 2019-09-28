@@ -44,7 +44,7 @@
             class="btn btn-success"
             data-dismiss="modal"
             @click="confirm()"
-			:disabled="disabledConfirm"
+			      :disabled="disabledConfirm"
           >Confirmar</button>
         </div>
       </div>
@@ -75,8 +75,7 @@ export default {
       $.post(laroute.route("cashdesk.open"), {
         source: this.source,
         valueStart: this.convertToUsPattern(this.valueStart)
-      })
-        .done(
+      }).done(
           function(result) {
             this.$emit("opened", result);
           }.bind(this)

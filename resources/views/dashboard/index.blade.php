@@ -4,7 +4,7 @@
 @section('content')
 <div id="dashboard" class="container" v-cloak>
     <modal-open-cashdesk @opened="opened"></modal-open-cashdesk>
-    <modal-close-cashdesk></modal-close-cashdesk>
+    <modal-close-cashdesk @closed="closed"></modal-close-cashdesk>
     <modal-extract-day></modal-extract-day>
 
     <button class="btn btn-success" data-toggle="modal" data-target="#modal-open-cashdesk" v-if="!isOpen">Abrir Caixa</button>
@@ -27,6 +27,10 @@
             opened(data){
                 this.value = this.convertToBrPattern(data.value);
                 this.isOpen = true;
+            },
+            closed(data){
+                this.value = this.convertToBrPattern(data.value);
+                this.isOpen = false;
             },
             convertToBrPattern(value){
                 return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2});

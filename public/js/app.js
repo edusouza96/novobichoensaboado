@@ -2511,30 +2511,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       valueWithdraw: null,
-      source: '',
-      closingDate: moment().format('YYYY-MM-DD'),
+      source: "",
+      closingDate: moment().format("YYYY-MM-DD"),
       money: {
-        decimal: ',',
-        thousands: '',
+        decimal: ",",
+        thousands: "",
         precision: 2
       }
     };
   },
+  computed: {
+    disabledConfirm: function disabledConfirm() {
+      return this.source == "" || this.closingDate == "" || this.valueWithdraw == "0,00";
+    }
+  },
   methods: {
-    confirm: function confirm() {// $.post(laroute.route("pdv.registerPayment"),{
-      //     source: this.source,
-      //     closingDate: this.closingDate,
-      //     valueWithdraw: this.convertToUsPattern(this.valueWithdraw),
-      // }).done((result)=> {
-      //     console.log('done');
-      // });
+    confirm: function confirm() {
+      $.post(laroute.route("cashdesk.close"), {
+        source: this.source,
+        closingDate: this.closingDate,
+        valueWithdraw: this.convertToUsPattern(this.valueWithdraw)
+      }).done(function (result) {
+        this.$emit("closed", result);
+      }.bind(this)).fail(function (error) {
+        console.log(error);
+      });
     },
     convertToUsPattern: function convertToUsPattern(value) {
-      return value == undefined ? 0.00 : parseFloat(value.replace(",", "."));
+      return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
     }
   }
 });
@@ -68433,6 +68458,40 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "closing_date" } }, [
+                    _vm._v("Data do Fechamento")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.closingDate,
+                        expression: "closingDate"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "date",
+                      name: "closing_date",
+                      id: "closing_date"
+                    },
+                    domProps: { value: _vm.closingDate },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.closingDate = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "value_withdraw" } }, [
                     _vm._v("Valor a Retirar")
                   ]),
@@ -68473,41 +68532,9 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-md-12" }, [
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "closing_date" } }, [
-                    _vm._v("Data do Fechamento")
+                  _c("label", { attrs: { for: "source" } }, [
+                    _vm._v("Destino")
                   ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.closingDate,
-                        expression: "closingDate"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "date",
-                      name: "closing_date",
-                      id: "closing_date"
-                    },
-                    domProps: { value: _vm.closingDate },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.closingDate = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "source" } }, [_vm._v("Fonte")]),
                   _vm._v(" "),
                   _c(
                     "select",
@@ -68551,7 +68578,34 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(1)
+          _c("div", { staticClass: "modal-footer" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary",
+                attrs: { type: "button", "data-dismiss": "modal" }
+              },
+              [_vm._v("Cancelar")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: {
+                  type: "button",
+                  "data-dismiss": "modal",
+                  disabled: _vm.disabledConfirm
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.confirm()
+                  }
+                }
+              },
+              [_vm._v("Confirmar")]
+            )
+          ])
         ])
       ])
     ]
@@ -68576,30 +68630,6 @@ var staticRenderFns = [
           }
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Cancelar")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-success",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Confirmar")]
       )
     ])
   }

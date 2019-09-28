@@ -11,37 +11,54 @@
 
         <div class="modal-body">
           <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="closing_date">Data do Fechamento</label>
+                <input
+                  type="date"
+                  name="closing_date"
+                  id="closing_date"
+                  class="form-control"
+                  v-model="closingDate"
+                />
+              </div>
+            </div>
 
             <div class="col-md-12">
               <div class="form-group">
                 <label for="value_withdraw">Valor a Retirar</label>
-                <input type="text" name="value_withdraw" id="value_withdraw" class="form-control" v-money="money" v-model="valueWithdraw">
-              </div>
-            </div>
-            
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="closing_date">Data do Fechamento</label>
-                <input type="date" name="closing_date" id="closing_date" class="form-control" v-model="closingDate">
+                <input
+                  type="text"
+                  name="value_withdraw"
+                  id="value_withdraw"
+                  class="form-control"
+                  v-money="money"
+                  v-model="valueWithdraw"
+                />
               </div>
             </div>
 
             <div class="col-md-12">
               <div class="form-group">
-                <label for="source">Fonte</label>
+                <label for="source">Destino</label>
                 <select name="source" id="source" class="form-control" v-model="source">
-                    <option value="">Selecione</option>
-                    <option value="1">Cofre</option>
+                  <option value>Selecione</option>
+                  <option value="1">Cofre</option>
                 </select>
               </div>
             </div>
-
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-success" data-dismiss="modal">Confirmar</button>
+          <button
+            type="button"
+            class="btn btn-success"
+            data-dismiss="modal"
+            @click="confirm()"
+            :disabled="disabledConfirm"
+          >Confirmar</button>
         </div>
       </div>
     </div>
@@ -52,30 +69,39 @@
 export default {
   data: function() {
     return {
-        valueWithdraw:null, 
-        source:'', 
-        closingDate: moment().format('YYYY-MM-DD'),
-        money:{
-            decimal: ',',
-            thousands: '',
-            precision: 2,
-        }
+      valueWithdraw: null,
+      source: "",
+      closingDate: moment().format("YYYY-MM-DD"),
+      money: {
+        decimal: ",",
+        thousands: "",
+        precision: 2
+      }
     };
   },
-  methods: {
-    confirm(){
-        // $.post(laroute.route("pdv.registerPayment"),{
-        //     source: this.source,
-        //     closingDate: this.closingDate,
-        //     valueWithdraw: this.convertToUsPattern(this.valueWithdraw),
-        // }).done((result)=> {
-        //     console.log('done');
-
-        // });
-    },
-    convertToUsPattern(value){
-      return value == undefined ? 0.00 : parseFloat(value.replace(",", "."));
-    },
+  computed: {
+    disabledConfirm() {
+      return this.source == "" || this.closingDate == "" || this.valueWithdraw == "0,00";
+    }
   },
+  methods: {
+    confirm() {
+      $.post(laroute.route("cashdesk.close"), {
+        source: this.source,
+        closingDate: this.closingDate,
+        valueWithdraw: this.convertToUsPattern(this.valueWithdraw)
+      }).done(
+          function(result) {
+            this.$emit("closed", result);
+          }.bind(this)
+        )
+        .fail(function(error) {
+          console.log(error);
+        });
+    },
+    convertToUsPattern(value) {
+      return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
+    }
+  }
 };
 </script>

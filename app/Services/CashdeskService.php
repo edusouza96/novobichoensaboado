@@ -42,6 +42,22 @@ class CashdeskService
         return $this->treasureRepository->addValue(SourceType::CASH_DRAWER, $valueStart, $store);
     }
 
+    public function close(array $attributes, User $userLogged, $store)
+    {
+        $valueWithdraw = $attributes['valueWithdraw'];
+        $source = $attributes['source'];
+        $closingDate = Carbon::createFromFormat('Y-m-d', $attributes['closingDate']);
+
+        $cashBook = $this->cashBookRepository->findByDate($closingDate, $store);
+        if(!$cashBook) throw new \Exception("Caixa não aberto para o dia ".$closingDate->format('d/m/Y'));
+        
+        $treasure = $this->treasureRepository->addValue($source, $valueWithdraw, $store);
+        $treasure = $this->treasureRepository->subValue(SourceType::CASH_DRAWER, $valueWithdraw, $store);
+        $cashDrawer = $treasure->getValue() + $valueWithdraw;
+        $cashBook = $this->cashBookRepository->updateValueEnd($cashBook, $cashDrawer, $userLogged, $store);
+        return $treasure;
+    }
+
     public function status($store)
     {
         return $this->cashBookRepository->findByDate(Carbon::now(), $store);

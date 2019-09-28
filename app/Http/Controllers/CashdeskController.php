@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use BichoEnsaboado\Services\CashdeskService;
 use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Http\Requests\OpenCashdeskRequest;
+use BichoEnsaboado\Http\Requests\CloseCashdeskRequest;
 
 class CashdeskController extends Controller
 {
@@ -25,6 +26,16 @@ class CashdeskController extends Controller
     {
         try {
             $cashbook = $this->cashdeskService->open($request->all(), $this->user, $this->store);
+            return response()->json($cashbook);
+        } catch (\InvalidArgumentException $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
+    }
+    
+    public function close(CloseCashdeskRequest $request)
+    {
+        try {
+            $cashbook = $this->cashdeskService->close($request->all(), $this->user, $this->store);
             return response()->json($cashbook);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

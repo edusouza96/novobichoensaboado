@@ -51,4 +51,14 @@ class CashdeskController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }
+   
+    public function getCashDrawer()
+    {
+        try {
+            $treasure = $this->cashdeskService->getCashDrawer($this->store);
+            return response()->json($treasure);
+        } catch (\InvalidArgumentException $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
+    }
 }

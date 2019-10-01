@@ -34,6 +34,10 @@ Vue.use(money, {precision: 2})
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead';
 Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead);
 
+import VuejsDialog from 'vuejs-dialog';
+import 'vuejs-dialog/dist/vuejs-dialog.min.css';
+Vue.use(VuejsDialog);
+
 Vue.component("diary-table", require("./components/DiaryTable.vue").default);
 
 Vue.component("modal-clients", require("./components/ModalClients.vue").default);

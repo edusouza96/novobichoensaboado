@@ -45,4 +45,12 @@ class TreasureRepository
         $treasure->save();
         return $treasure;
     }
+
+    public function getCashDrawer($store)
+    {
+        return $this->treasure
+            ->where('store_id', $store)
+            ->where('name', 'cash_drawer')
+            ->first();
+    }
 }

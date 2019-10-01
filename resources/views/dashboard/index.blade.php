@@ -3,7 +3,7 @@
 
 @section('content')
 <div id="dashboard" class="container" v-cloak>
-    <modal-open-cashdesk @opened="opened"></modal-open-cashdesk>
+    <modal-open-cashdesk @opened="opened" :value="value"></modal-open-cashdesk>
     <modal-close-cashdesk @closed="closed"></modal-close-cashdesk>
     <modal-extract-day></modal-extract-day>
 
@@ -35,12 +35,20 @@
             convertToBrPattern(value){
                 return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2});
             },
+            checkStatus(){
+                $.get(laroute.route('cashdesk.status')).done(function(data){
+                    this.isOpen = data.hasOwnProperty('value_start');
+                }.bind(this));
+            },
+            getCashDrawer(){
+                $.get(laroute.route('cashdesk.getCashDrawer')).done(function(data){
+                    this.value = this.convertToBrPattern(data.value);
+                }.bind(this));
+            }
         },
         created(){
-            $.get(laroute.route('cashdesk.status')).done(function(data){
-                this.isOpen = data.hasOwnProperty('value_start');
-                this.value = this.isOpen ? this.convertToBrPattern(data.value_start): null;
-            }.bind(this));
+            this.checkStatus();
+            this.getCashDrawer();
         }
 
     });

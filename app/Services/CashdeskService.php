@@ -54,6 +54,7 @@ class CashdeskService
         $treasure = $this->treasureRepository->addValue($source, $valueWithdraw, $store);
         $treasure = $this->treasureRepository->subValue(SourceType::CASH_DRAWER, $valueWithdraw, $store);
         $cashDrawer = $treasure->getValue() + $valueWithdraw;
+
         $cashBook = $this->cashBookRepository->updateValueEnd($cashBook, $cashDrawer, $userLogged, $store);
         return $treasure;
     }
@@ -61,6 +62,12 @@ class CashdeskService
     public function status($store)
     {
         return $this->cashBookRepository->findByDate(Carbon::now(), $store);
+
+    }
+
+    public function getCashDrawer($store)
+    {
+        return $this->treasureRepository->getCashDrawer($store);
 
     }
 

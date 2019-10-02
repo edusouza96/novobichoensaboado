@@ -33,6 +33,16 @@ class CashBookRepository
             ->orderBy('id', 'desc')
             ->first();   
     }
+   
+    public function getUnfinishedCashdesk($store)
+    {
+        return $this->cashBook
+            ->where('store_id', $store)
+            ->whereNull('value_end')
+            ->whereDate('date_hour', '<', Carbon::now()->startOfDay()->format('Y-m-d H:i:s'))
+            ->orderBy('id', 'desc')
+            ->get();   
+    }
 
     public function newInstance()
     {

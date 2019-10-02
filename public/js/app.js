@@ -2976,11 +2976,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       valueStart: null,
       source: "",
+      openWithoutNewContribute: false,
       money: {
         decimal: ",",
         thousands: "",
@@ -2990,7 +2992,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     disabledConfirm: function disabledConfirm() {
-      return this.source == "" || this.valueStart == "0,00";
+      return (this.source == "" || this.valueStart == "0,00") && !this.openWithoutNewContribute;
     }
   },
   props: ['value'],
@@ -2998,7 +3000,8 @@ __webpack_require__.r(__webpack_exports__);
     confirm: function confirm() {
       $.post(laroute.route("cashdesk.open"), {
         source: this.source,
-        valueStart: this.convertToUsPattern(this.valueStart)
+        valueStart: this.convertToUsPattern(this.valueStart),
+        openWithoutNewContribute: this.openWithoutNewContribute
       }).done(function (result) {
         this.$emit("opened", result);
       }.bind(this)).fail(function (error) {
@@ -69321,96 +69324,158 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "value_start" } }, [
-                    _vm._v("Valor Caixa Inicial")
+                  _c("label", { attrs: { for: "" } }, [
+                    _vm._v("Abrir caixa, sem novo aporte ?")
                   ]),
                   _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "money",
-                        rawName: "v-money",
-                        value: _vm.money,
-                        expression: "money"
-                      },
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.valueStart,
-                        expression: "valueStart"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "text",
-                      name: "value_start",
-                      id: "value_start"
-                    },
-                    domProps: { value: _vm.valueStart },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                  _c("div", { staticClass: "checkbox" }, [
+                    _c("label", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.openWithoutNewContribute,
+                            expression: "openWithoutNewContribute"
+                          }
+                        ],
+                        attrs: { type: "checkbox", value: "1" },
+                        domProps: {
+                          checked: Array.isArray(_vm.openWithoutNewContribute)
+                            ? _vm._i(_vm.openWithoutNewContribute, "1") > -1
+                            : _vm.openWithoutNewContribute
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.openWithoutNewContribute,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "1",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.openWithoutNewContribute = $$a.concat([
+                                    $$v
+                                  ]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.openWithoutNewContribute = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.openWithoutNewContribute = $$c
+                            }
+                          }
                         }
-                        _vm.valueStart = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "source" } }, [_vm._v("Fonte")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.source,
-                          expression: "source"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "source", id: "source" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.source = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Selecione")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "1" } }, [
-                        _vm._v("Cofre")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "2" } }, [
-                        _vm._v("Gaveta")
-                      ])
-                    ]
-                  )
+                      }),
+                      _vm._v(" Sim")
+                    ])
+                  ])
                 ])
               ])
             ]),
             _vm._v(" "),
-            _vm._m(1)
+            _c(
+              "fieldset",
+              { attrs: { disabled: _vm.openWithoutNewContribute } },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "value_start" } }, [
+                        _vm._v("Valor Caixa Inicial")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "money",
+                            rawName: "v-money",
+                            value: _vm.money,
+                            expression: "money"
+                          },
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.valueStart,
+                            expression: "valueStart"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "value_start",
+                          id: "value_start"
+                        },
+                        domProps: { value: _vm.valueStart },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.valueStart = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "source" } }, [
+                        _vm._v("Fonte")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.source,
+                              expression: "source"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { name: "source", id: "source" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.source = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Selecione")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("Cofre")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "2" } }, [
+                            _vm._v("Gaveta")
+                          ])
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              ]
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "modal-footer" }, [
@@ -69466,27 +69531,6 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "" } }, [
-            _vm._v("Abrir caixa, sem novo aporte ?")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "checkbox" }, [
-            _c("label", [
-              _c("input", { attrs: { type: "checkbox", value: "1" } }),
-              _vm._v(" Sim")
-            ])
-          ])
-        ])
-      ])
     ])
   }
 ]

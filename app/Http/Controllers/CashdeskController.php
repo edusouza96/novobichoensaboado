@@ -61,4 +61,14 @@ class CashdeskController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }
+
+    public function inconsistencyUnfinishedCashdesk()
+    {
+        try {
+            $result = $this->cashdeskService->inconsistencyUnfinishedCashdesk($this->store);
+            return response()->json($result);
+        } catch (\InvalidArgumentException $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
+    }
 }

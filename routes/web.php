@@ -41,6 +41,7 @@ Route::group(['prefix' => 'caixa'], function () {
     Route::post('fechar', ['as' => 'cashdesk.close', 'uses' => 'CashdeskController@close']);
     Route::get('checar-status', ['as' => 'cashdesk.status', 'uses' => 'CashdeskController@status']);
     Route::get('valor-gaveta', ['as' => 'cashdesk.getCashDrawer', 'uses' => 'CashdeskController@getCashDrawer']);
+    Route::get('inconsistencia-caixa-nao-finalizado', ['as' => 'cashdesk.inconsistencyUnfinishedCashdesk', 'uses' => 'CashdeskController@inconsistencyUnfinishedCashdesk']);
 });
 
 Route::group(['prefix' => 'proprietario'], function () {

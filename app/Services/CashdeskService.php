@@ -32,9 +32,17 @@ class CashdeskService
 
     public function open(array $attributes, User $userLogged, $store)
     {
+        $openWithoutNewContribute = $attributes['openWithoutNewContribute'];
+        $dateHour = Carbon::now();
+
+        if($openWithoutNewContribute){
+            $treasure = $this->treasureRepository->getCashDrawer($store);
+            $cashBook = $this->cashBookRepository->save($treasure->getValue(), null, $dateHour, $userLogged, $store);
+            return $treasure;
+        }
+
         $valueStart = $attributes['valueStart'];
         $source = $attributes['source'];
-        $dateHour = Carbon::now();
         $cashBook = $this->cashBookRepository->save($valueStart, null, $dateHour, $userLogged, $store);
         $moves = $this->cashBookMoveRepository->save($valueStart, SourceType::CASH_DRAWER, TypeMovesType::ENTRY, $cashBook, $userLogged);
         $outlay = $this->outlayRepository->save('Aporte - caixa inicial', $valueStart, $dateHour, $source, $costCenter=1, $paid=true, $userLogged, $store);
@@ -68,7 +76,11 @@ class CashdeskService
     public function getCashDrawer($store)
     {
         return $this->treasureRepository->getCashDrawer($store);
+    }
 
+    public function inconsistencyUnfinishedCashdesk($store)
+    {
+        return $this->cashBookRepository->getUnfinishedCashdesk($store);
     }
 
    

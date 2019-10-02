@@ -24,16 +24,16 @@ class OpenCashdeskRequest extends FormRequest
     public function rules()
     {
         return [
-            'valueStart' => 'required',
-            'source' => 'required',
+            'valueStart' => 'required_if:openWithoutNewContribute,false',
+            'source' => 'required_if:openWithoutNewContribute,false',
         ];
     }
 
     public function messages()
     {
         return [
-            'valueStart.required' => 'O campo Valor é obrigatório',
-            'source.required' => 'O campo Fonte é obrigatório',
+            'valueStart.required_if' => 'O campo Valor é obrigatório',
+            'source.required_if' => 'O campo Fonte é obrigatório',
         ];
     }
 }

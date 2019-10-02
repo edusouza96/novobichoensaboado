@@ -7,12 +7,36 @@
     <modal-close-cashdesk @closed="closed"></modal-close-cashdesk>
     <modal-extract-day></modal-extract-day>
 
-    <button class="btn btn-success" data-toggle="modal" data-target="#modal-open-cashdesk" v-if="!isOpen">Abrir Caixa</button>
+    <div class="row">
+        <div class="card mb-3 text-center" style="max-width: 10rem;">
+            <div class="card-header text-white bg-primary">Valor em Caixa</div>
+            <div class="card-body">
+            <p class="card-text">R$ @{{value}}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="card mb-3 text-center" style="max-width: 10rem;">
+            <div class="card-header text-white bg-primary">Inconsistencias</div>
+            <div class="card-body">
+            <p class="card-text" v-for="inconsistency in inconsistencyUnfinishedCashdesk">@{{inconsistency.date_hour}}</p>
+            </div>
+        </div>
+    </div>
+     
+    <div class="row">
+        <button class="btn btn-success btn-action-dashboard" data-toggle="modal" data-target="#modal-open-cashdesk" v-if="!isOpen">Abrir Caixa</button>
+    </div>
 
-    <button class="btn btn-danger" data-toggle="modal" data-target="#modal-close-cashdesk" v-if="isOpen">Fechar Caixa</button>
+    <div class="row">
+        <button class="btn btn-danger btn-action-dashboard" data-toggle="modal" data-target="#modal-close-cashdesk" v-if="isOpen">Fechar Caixa</button>
+    </div>
 
-    <button class="btn btn-primary" data-toggle="modal" data-target="#modal-extract-day">Extrato do Dia</button>
-    @{{value}}
+    <div class="row">
+        <button class="btn btn-primary btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day">Extrato do Dia</button>
+    </div>
+    
 </div>
 @endsection
 @push('js-end')
@@ -22,6 +46,7 @@
         data: {
             value:null,
             isOpen: false,
+            inconsistencyUnfinishedCashdesk: []
         },
         methods:{
             opened(data){
@@ -44,11 +69,18 @@
                 $.get(laroute.route('cashdesk.getCashDrawer')).done(function(data){
                     this.value = this.convertToBrPattern(data.value);
                 }.bind(this));
+            },
+            getInconsistencyUnfinishedCashdesk(){
+                $.get(laroute.route('cashdesk.inconsistencyUnfinishedCashdesk'))
+                .done(function(data){
+                    this.inconsistencyUnfinishedCashdesk = data;
+                }.bind(this));
             }
         },
         created(){
             this.checkStatus();
             this.getCashDrawer();
+            this.getInconsistencyUnfinishedCashdesk();
         }
 
     });

@@ -35,7 +35,7 @@ class CashdeskService
         $openWithoutNewContribute = $attributes['openWithoutNewContribute'];
         $dateHour = Carbon::now();
 
-        if($openWithoutNewContribute){
+        if($openWithoutNewContribute == 'true'){
             $treasure = $this->treasureRepository->getCashDrawer($store);
             $cashBook = $this->cashBookRepository->save($treasure->getValue(), null, $dateHour, $userLogged, $store);
             return $treasure;

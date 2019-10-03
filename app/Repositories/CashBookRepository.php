@@ -23,6 +23,14 @@ class CashBookRepository
     {
         return $this->cashBook->find($id);   
     }
+    
+    public function getLast($store)
+    {
+        return $this->cashBook
+            ->where('store_id', $store)
+            ->orderBy('id', 'desc')
+            ->first(); 
+    }
 
     public function findByDate(Carbon $date, $store)
     {

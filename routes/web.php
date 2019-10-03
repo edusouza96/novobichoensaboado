@@ -36,6 +36,11 @@ Route::group(['prefix' => 'pdv'], function () {
     Route::get('nota-fiscal/{id}', ['as' => 'pdv.invoice', 'uses' => 'PdvController@invoice']);
 });
 
+Route::group(['prefix' => 'financeiro'], function () {
+    Route::group(['prefix' => 'despesas'], function () {
+        Route::get('salvar', ['as' => 'outlay.store', 'uses' => 'OutlayController@store']);
+    });
+});
 Route::group(['prefix' => 'caixa'], function () {
     Route::post('abrir', ['as' => 'cashdesk.open', 'uses' => 'CashdeskController@open']);
     Route::post('fechar', ['as' => 'cashdesk.close', 'uses' => 'CashdeskController@close']);

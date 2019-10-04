@@ -2612,11 +2612,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      outlays: []
+    };
   },
-  methods: {}
+  methods: {
+    convertToBrPattern: function convertToBrPattern(value) {
+      return parseFloat(value).toLocaleString('pt-BR', {
+        minimumFractionDigits: 2
+      });
+    }
+  },
+  created: function created() {
+    $.get(laroute.route("outlay.findByDate"), {
+      'date_pay': moment().format('YYYY-MM-DD')
+    }).done(function (data) {
+      this.outlays = data;
+    }.bind(this));
+  }
 });
 
 /***/ }),
@@ -68690,91 +68708,117 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: { id: "modal-extract-day", tabindex: "-1", role: "dialog" }
+    },
+    [
+      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-body" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "fieldset",
+              { staticClass: "mt-5 mb-5" },
+              [
+                _c("legend", { staticClass: "text-center" }, [
+                  _vm._v("Despesas")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.outlays, function(outlay) {
+                  return _c("div", { key: outlay.id, staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _vm._v(_vm._s(outlay.description))
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _vm._v(
+                        "R$ " + _vm._s(_vm.convertToBrPattern(outlay.value))
+                      )
+                    ])
+                  ])
+                }),
+                _vm._v(" "),
+                _vm.outlays.length == 0
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "alert alert-info text-center",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _vm._v(
+                          "\n            Nenhuma despesa no dia encontrado.\n          "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ],
+              2
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(2)
+        ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: { id: "modal-extract-day", tabindex: "-1", role: "dialog" }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c("h5", { staticClass: "modal-title" }, [
-                  _vm._v("Extrato do Dia")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("fieldset", [
-                  _c("legend", { staticClass: "text-center" }, [
-                    _vm._v("Vendas")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-6" }, [_vm._v("Banhos")]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-6" }, [_vm._v("R$ 0,00")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("fieldset", { staticClass: "mt-5 mb-5" }, [
-                  _c("legend", { staticClass: "text-center" }, [
-                    _vm._v("Despesas")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _vm._v("Funcionarios")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-6" }, [_vm._v("R$ 0,00")])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Fechar")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Extrato do Dia")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("fieldset", [
+      _c("legend", { staticClass: "text-center" }, [_vm._v("Vendas")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [_vm._v("Banhos")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [_vm._v("R$ 0,00")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Fechar")]
+      )
+    ])
   }
 ]
 render._withStripped = true

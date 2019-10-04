@@ -24,6 +24,16 @@ class OutlayRepository
     {
         return $this->outlay->find($id);   
     }
+    
+    public function findByDate(Carbon $datePay, $store)
+    {
+        return $this->outlay
+            ->where('store_id', $store)
+            ->where('cost_center_id', '<>', 1)
+            ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
+            ->get();
+            
+    }
 
     public function newInstance()
     {

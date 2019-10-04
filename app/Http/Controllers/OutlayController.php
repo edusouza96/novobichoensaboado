@@ -5,6 +5,7 @@ namespace BichoEnsaboado\Http\Controllers;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Services\OutlayCreateService;
+use BichoEnsaboado\Repositories\OutlayRepository;
 use BichoEnsaboado\Http\Requests\OutlayCreateRequest;
 
 class OutlayController extends Controller
@@ -13,12 +14,14 @@ class OutlayController extends Controller
     private $userRepository;
     private $user;
     private $store = 1;
+    private $outlayRepository;
 
-    public function __construct(OutlayCreateService $outlayCreateService, UserRepository $userRepository)
+    public function __construct(OutlayCreateService $outlayCreateService, OutlayRepository $outlayRepository, UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
         $this->user = $this->userRepository->find(1);
         $this->outlayCreateService = $outlayCreateService;
+        $this->outlayRepository = $outlayRepository;
     }
    
     public function create()
@@ -45,9 +48,15 @@ class OutlayController extends Controller
         }
     }
 
-    public function show($id)
+    public function findByDate(Request $request)
     {
-        //
+        try {
+            $datePay = \Carbon\Carbon::createFromFormat('Y-m-d', $request->get('date_pay'));
+            $outlay = $this->outlayRepository->findByDate($datePay , $this->store);
+            return response()->json($outlay);
+        } catch (Exception $ex) {
+            dd('erro');
+        }
     }
 
     public function edit($id)

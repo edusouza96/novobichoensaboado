@@ -39,6 +39,7 @@ Route::group(['prefix' => 'pdv'], function () {
 Route::group(['prefix' => 'financeiro'], function () {
     Route::group(['prefix' => 'despesas'], function () {
         Route::get('salvar', ['as' => 'outlay.store', 'uses' => 'OutlayController@store']);
+        Route::get('buscar-despesas-por-dia', ['as' => 'outlay.findByDate', 'uses' => 'OutlayController@findByDate']);
     });
 });
 Route::group(['prefix' => 'caixa'], function () {

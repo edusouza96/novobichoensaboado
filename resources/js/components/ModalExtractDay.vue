@@ -20,9 +20,12 @@
 
           <fieldset class="mt-5 mb-5">
             <legend class="text-center">Despesas</legend>
-            <div class="row">
-              <div class="col-md-6">Funcionarios</div>
-              <div class="col-md-6">R$ 0,00</div>
+            <div class="row" v-for="outlay in outlays" :key="outlay.id">
+              <div class="col-md-6">{{outlay.description}}</div>
+              <div class="col-md-6">R$ {{convertToBrPattern(outlay.value)}}</div>
+            </div>
+            <div class="alert alert-info text-center" role="alert" v-if="outlays.length == 0">
+              Nenhuma despesa no dia encontrado.
             </div>
           </fieldset>
         </div>
@@ -39,9 +42,19 @@
 export default {
   data: function() {
     return {
+      outlays: [],
     };
   },
   methods: {
+    convertToBrPattern(value){
+      return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2});
+    },
+  },
+  created: function(){
+    $.get(laroute.route("outlay.findByDate"), {'date_pay': moment().format('YYYY-MM-DD')})
+      .done(function(data) {
+        this.outlays = data;
+      }.bind(this));
   },
 };
 </script>

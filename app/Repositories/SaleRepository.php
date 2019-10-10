@@ -25,6 +25,14 @@ class SaleRepository
         return $this->sale->find($id);   
     }
 
+    public function findByDate($date, $store)
+    {
+        return $this->sale
+            ->where('store_id', $store)
+            ->where('created_at', 'like', $date->format('Y-m-d%'))
+            ->get();
+    }
+    
     public function save($valueReceived, $leftover, $amountSale, $paymentMethod, $plots, $promotionValue, $userLogged, $store)
     {
         $sale = $this->newInstance();

@@ -39,8 +39,14 @@ Route::group(['prefix' => 'pdv'], function () {
 Route::group(['prefix' => 'financeiro'], function () {
     Route::group(['prefix' => 'despesas'], function () {
         Route::get('salvar', ['as' => 'outlay.store', 'uses' => 'OutlayController@store']);
-        Route::get('buscar-despesas-por-dia', ['as' => 'outlay.findByDate', 'uses' => 'OutlayController@findByDate']);
+        Route::get('buscar-por-dia', ['as' => 'outlay.findByDate', 'uses' => 'OutlayController@findByDate']);
     });
+
+    Route::group(['prefix' => 'receita'], function () {
+        Route::get('buscar-por-dia', ['as' => 'sale.findByDate', 'uses' => 'SaleController@findByDate']);
+    });
+
+    Route::get('extrato-do-dia', ['as' => 'cashdesk.extractOfDay', 'uses' => 'CashdeskController@extractOfDay']);
 });
 Route::group(['prefix' => 'caixa'], function () {
     Route::post('abrir', ['as' => 'cashdesk.open', 'uses' => 'CashdeskController@open']);

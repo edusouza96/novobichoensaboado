@@ -24,7 +24,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="value_start">Valor Caixa Inicial</label>
+                  <label for="value_start">Valor do Aporte do Caixa Inicial</label>
                   <input
                     type="text"
                     name="value_start"

@@ -5,7 +5,7 @@
 <div id="dashboard" class="container" v-cloak>
     <modal-open-cashdesk @opened="opened" :value="value"></modal-open-cashdesk>
     <modal-close-cashdesk @closed="closed"></modal-close-cashdesk>
-    <modal-extract-day></modal-extract-day>
+    <modal-extract-day :key="reloadComponent"></modal-extract-day>
 
     <div class="row">
         <div class="card mb-3 text-center" style="max-width: 10rem;">
@@ -34,7 +34,7 @@
     </div>
 
     <div class="row">
-        <button class="btn btn-primary btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day">Extrato do Dia</button>
+        <button class="btn btn-primary btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
     </div>
     
 </div>
@@ -46,7 +46,8 @@
         data: {
             value:null,
             isOpen: false,
-            inconsistencyUnfinishedCashdesk: []
+            inconsistencyUnfinishedCashdesk: [],
+            reloadComponent: '1'
         },
         methods:{
             opened(data){
@@ -75,6 +76,9 @@
                 .done(function(data){
                     this.inconsistencyUnfinishedCashdesk = data;
                 }.bind(this));
+            },
+            reload(){
+                this.reloadComponent = Math.floor(Math.random() * 101);
             }
         },
         created(){

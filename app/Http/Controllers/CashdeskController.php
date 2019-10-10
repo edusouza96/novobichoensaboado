@@ -2,6 +2,7 @@
 
 namespace BichoEnsaboado\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Services\CashdeskService;
 use BichoEnsaboado\Repositories\UserRepository;
@@ -68,6 +69,17 @@ class CashdeskController extends Controller
             $result = $this->cashdeskService->inconsistencyUnfinishedCashdesk($this->store);
             return response()->json($result);
         } catch (\InvalidArgumentException $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
+    }
+
+    public function extractOfDay(Request $request)
+    {
+        try {
+            $date = Carbon::createFromFormat('Y-m-d', $request->get('date'));
+            $result = $this->cashdeskService->extractOfDay($date , $this->store);
+            return response()->json($result);
+        } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }

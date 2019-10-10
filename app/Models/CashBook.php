@@ -3,6 +3,7 @@
 namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\User;
+use BichoEnsaboado\Models\CashBookMove;
 use Illuminate\Database\Eloquent\Model;
 
 class CashBook extends Model
@@ -18,7 +19,11 @@ class CashBook extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-    
+    public function moves()
+    {
+        return $this->hasMany(CashBookMove::class);
+    }
+
     public function getId()
     {
         return $this->id;
@@ -42,6 +47,10 @@ class CashBook extends Model
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+    public function getMoves()
+    {
+        return $this->moves;
     }
    
 }

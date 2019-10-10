@@ -75,4 +75,23 @@ class Sale extends Model
         return $this->products;
     }
    
+    public function getCalcValueTotal()
+    {
+        return $this->total - $this->rebate;
+    }
+
+    public function getDescription()
+    {
+        return 'tesre';
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'value' => $this->getCalcValueTotal(),
+            'description' => $this->getDescription(),
+            'teste' => $this->getProducts()
+        ];
+    }
 }

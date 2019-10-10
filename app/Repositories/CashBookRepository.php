@@ -32,14 +32,18 @@ class CashBookRepository
             ->first(); 
     }
 
-    public function findByDate(Carbon $date, $store)
+    public function findByDate(Carbon $date, $store, $finish = false)
     {
-        return $this->cashBook
-            ->where('store_id', $store)
-            ->whereNull('value_end')
+        $sql = $this->cashBook
             ->whereDate('date_hour', '=', $date->toDateString())
-            ->orderBy('id', 'desc')
-            ->first();   
+            ->where('store_id', $store);
+
+        if(!$finish){
+            $sql = $sql->whereNull('value_end');
+
+        }
+        
+        return $sql->orderBy('id', 'desc')->first();   
     }
    
     public function getUnfinishedCashdesk($store)

@@ -2,41 +2,68 @@
 @section('title') Dashboard @endsection
 
 @section('content')
-<div id="dashboard" class="container" v-cloak>
+<div id="dashboard" class="ml-3 mr-3" v-cloak>
     <modal-open-cashdesk @opened="opened" :value="value"></modal-open-cashdesk>
     <modal-close-cashdesk @closed="closed"></modal-close-cashdesk>
     <modal-extract-day :key="reloadComponent"></modal-extract-day>
 
-    <div class="row">
-        <div class="card mb-3 text-center" style="max-width: 10rem;">
-            <div class="card-header text-white bg-primary">Valor em Caixa</div>
-            <div class="card-body">
-            <p class="card-text">R$ @{{value}}</p>
+    <div class="row justify-content-between">
+        <div class="col-md-3 col-xs-12">
+            <div class="card mb-3 text-center">
+                <div class="card-header text-white bg-primary">
+                    <span >Valor em Caixa</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">R$ @{{value}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xs-12">
+            <div class="card mb-3 text-center" v-if="hasInconsistencyUnfinishedCashdesk">
+                <div class="card-header text-white bg-primary">
+                    <i class="fas fa-exclamation-triangle text-warning"></i> Inconsistencias
+                </div>
+                <div>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Data</th>
+                                <th>Valor Inicial</th>
+                                <th>Loja</th>
+                            </tr>
+                        </thead>
+            
+                        <tbody>
+                            <tr v-for="inconsistency in inconsistencyUnfinishedCashdesk" :key="inconsistency.id">
+                                <td>@{{showDateBr(inconsistency.date_hour)}}</td>
+                                <td>R$ @{{convertToBrPattern(inconsistency.value_start)}}</td>
+                                <td>@{{inconsistency.store_id}}</td>
+                            </tr>
+                        </tbody>
+                    </table>  
+                </div>
             </div>
         </div>
     </div>
     
-    <div class="row">
-        <div class="card mb-3 text-center" style="max-width: 10rem;">
-            <div class="card-header text-white bg-primary">Inconsistencias</div>
-            <div class="card-body">
-            <p class="card-text" v-for="inconsistency in inconsistencyUnfinishedCashdesk">@{{inconsistency.date_hour}}</p>
-            </div>
+    <div class="row mt-2">
+        <div class="col-md-3 col-xs-12">
+            <button class="btn btn-success btn-action-dashboard" data-toggle="modal" data-target="#modal-open-cashdesk" v-if="!isOpen">Abrir Caixa</button>
         </div>
     </div>
-     
-    <div class="row">
-        <button class="btn btn-success btn-action-dashboard" data-toggle="modal" data-target="#modal-open-cashdesk" v-if="!isOpen">Abrir Caixa</button>
+
+    <div class="row mt-2">
+        <div class="col-md-3 col-xs-12">
+            <button class="btn btn-danger btn-action-dashboard" data-toggle="modal" data-target="#modal-close-cashdesk" v-if="isOpen">Fechar Caixa</button>
+        </div>
     </div>
 
-    <div class="row">
-        <button class="btn btn-danger btn-action-dashboard" data-toggle="modal" data-target="#modal-close-cashdesk" v-if="isOpen">Fechar Caixa</button>
+    <div class="row mt-2">
+        <div class="col-md-3 col-xs-12">
+            <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
+        </div>
     </div>
-
-    <div class="row">
-        <button class="btn btn-primary btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
-    </div>
-    
 </div>
 @endsection
 @push('js-end')
@@ -79,7 +106,15 @@
             },
             reload(){
                 this.reloadComponent = Math.floor(Math.random() * 101);
-            }
+            },
+            showDateBr(date){
+                return moment(date, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
+            },
+        },
+        computed: {
+            hasInconsistencyUnfinishedCashdesk() {
+                return this.inconsistencyUnfinishedCashdesk.length > 0;
+            },
         },
         created(){
             this.checkStatus();

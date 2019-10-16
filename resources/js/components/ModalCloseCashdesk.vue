@@ -90,14 +90,13 @@ export default {
         source: this.source,
         closingDate: this.closingDate,
         valueWithdraw: this.convertToUsPattern(this.valueWithdraw)
-      }).done(
-          function(result) {
-            this.$emit("closed", result);
-          }.bind(this)
-        )
-        .fail(function(error) {
-          console.log(error);
-        });
+      })
+      .done(function(result) {
+        this.$emit("closed", result);
+      }.bind(this))
+      .fail(function(error) {
+        this.$emit("failed", error);
+      }.bind(this));
     },
     convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));

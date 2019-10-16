@@ -57,3 +57,7 @@ Vue.component("modal-open-cashdesk", require("./components/ModalOpenCashdesk.vue
 Vue.component("modal-close-cashdesk", require("./components/ModalCloseCashdesk.vue").default);
 
 Vue.component("modal-extract-day", require("./components/ModalExtractDay.vue").default);
+
+Vue.component("loading", require("./components/Loading.vue").default);
+
+Vue.component("alert-message", require("./components/AlertMessage.vue").default);

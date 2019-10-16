@@ -96,8 +96,8 @@ export default {
         this.$emit("opened", result);
       }.bind(this))
       .fail(function(error) {
-        console.log(error);
-      });
+        this.$emit("failed", error);
+      }.bind(this));
     },
     convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));

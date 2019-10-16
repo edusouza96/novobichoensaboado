@@ -3,9 +3,10 @@
 
 @section('content')
 <div id="dashboard" class="ml-3 mr-3" v-cloak>
-    <modal-open-cashdesk @opened="opened" :value="value"></modal-open-cashdesk>
-    <modal-close-cashdesk @closed="closed"></modal-close-cashdesk>
+    <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value"></modal-open-cashdesk>
+    <modal-close-cashdesk @failed="alertError" @closed="closed"></modal-close-cashdesk>
     <modal-extract-day :key="reloadComponent"></modal-extract-day>
+    <alert-message :title="titleAlertMessage" text="" :type="typeAlertMessage" :active="showAlert" @active="showAlert=$event"></alert-message>
 
     <div class="row justify-content-between">
         <div class="col-md-3 col-xs-12">
@@ -64,6 +65,11 @@
             <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
         </div>
     </div>
+    <div class="row mt-2">
+        <div class="col-md-3 col-xs-12">
+            <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-loading">teste</button>
+        </div>
+    </div>
 </div>
 @endsection
 @push('js-end')
@@ -74,16 +80,32 @@
             value:null,
             isOpen: false,
             inconsistencyUnfinishedCashdesk: [],
-            reloadComponent: '1'
+            reloadComponent: '1',
+            showAlert: false,
+            titleAlertMessage: "",
+            typeAlertMessage: "",
         },
         methods:{
             opened(data){
                 this.value = this.convertToBrPattern(data.value);
                 this.isOpen = true;
+                this.alertSucess('Caixa Aberto!');
+            },
+            alertSucess(title){
+                this.typeAlertMessage = 'success';
+                this.titleAlertMessage = title;
+                this.showAlert = true;
+            },
+            alertError(message){
+                console.log(message);
+                this.typeAlertMessage = 'error';
+                this.titleAlertMessage = 'Ocorreu um erro, tente novamente!';
+                this.showAlert = true;
             },
             closed(data){
                 this.value = this.convertToBrPattern(data.value);
                 this.isOpen = false;
+                this.alertSucess('Caixa Fechado!');
             },
             convertToBrPattern(value){
                 return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2});

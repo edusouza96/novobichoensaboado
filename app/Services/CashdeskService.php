@@ -52,8 +52,8 @@ class CashdeskService
         $cashBook = $this->cashBookRepository->save($valueStart+$treasure->getValue(), null, $dateHour, $userLogged, $store);
         $moves = $this->cashBookMoveRepository->save($valueStart, SourceType::CASH_DRAWER, TypeMovesType::ENTRY, $cashBook, $userLogged);
         $outlay = $this->outlayRepository->save('Aporte - caixa inicial', $valueStart, $dateHour, $source, $costCenter=1, $paid=true, $userLogged, $store);
-        $treasure = $this->treasureRepository->subValue($source, $valueStart, $store);
-        return $this->treasureRepository->addValue(SourceType::CASH_DRAWER, $valueStart, $store);
+        $treasure = $this->treasureRepository->subValue($valueStart, SourceType::getName($source), $store);
+        return $this->treasureRepository->addValue($valueStart, SourceType::CASH_DRAWER_NAME, $store);
     }
 
     public function close(array $attributes, User $userLogged, $store)
@@ -65,8 +65,8 @@ class CashdeskService
         $cashBook = $this->cashBookRepository->findByDate($closingDate, $store);
         if(!$cashBook) throw new \Exception("Caixa não aberto para o dia ".$closingDate->format('d/m/Y'));
         
-        $treasure = $this->treasureRepository->addValue($source, $valueWithdraw, $store);
-        $treasure = $this->treasureRepository->subValue(SourceType::CASH_DRAWER, $valueWithdraw, $store);
+        $treasure = $this->treasureRepository->addValue($valueWithdraw, SourceType::getName($source), $store);
+        $treasure = $this->treasureRepository->subValue($valueWithdraw, SourceType::CASH_DRAWER_NAME, $store);
         $cashDrawer = $treasure->getValue() + $valueWithdraw;
 
         $cashBook = $this->cashBookRepository->updateValueEnd($cashBook, $cashDrawer, $userLogged, $store);
@@ -116,7 +116,7 @@ class CashdeskService
             ->map(function($move){ 
                 return [
                     'value' => $move->sum('value'),
-                    'method' => SourceType::getName($move->first()->getSource())
+                    'method' => SourceType::getDisplay($move->first()->getSource())
                 ];
             });
     }
@@ -128,7 +128,7 @@ class CashdeskService
             ->map(function($saleGroup){ 
                 return [
                     'value' => $saleGroup->sum('total') - $saleGroup->sum('rebate'),
-                    'method' => PaymentMethodsType::getName($saleGroup->first()->getPaymentMethodId())
+                    'method' => PaymentMethodsType::getDisplay($saleGroup->first()->getPaymentMethodId())
                 ];
             });
     }

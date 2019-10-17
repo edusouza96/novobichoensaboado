@@ -42,7 +42,7 @@ class OutlayCreateService
             $store
         );
 
-        $treasure = $this->treasureRepository->subValue($attributes['source'], $attributes['value'], $store);
+        $treasure = $this->treasureRepository->subValue($attributes['value'], SourceType::getName($attributes['source']), $store);
 
         $cashBook = $this->cashBookRepository->getLast($store);
         $moves = $this->cashBookMoveRepository->save($attributes['value'], $attributes['source'], TypeMovesType::OUT, $cashBook, $userLogged);

@@ -65,11 +65,6 @@
             <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
         </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-md-3 col-xs-12">
-            <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-loading">teste</button>
-        </div>
-    </div>
 </div>
 @endsection
 @push('js-end')

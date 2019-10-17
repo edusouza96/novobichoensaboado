@@ -28,22 +28,28 @@ class TreasureRepository
         return $this->treasure->newInstance();
     }
 
-    public function addValue($id, $value, $store)
+    public function addValue($value, $name, $store)
     {
-        $treasure = $this->find($id);
+        $treasure = $this->findTreasureByName($name, $store);
         $treasure->value += $value;
-        $treasure->store_id = $store;
         $treasure->save();
         return $treasure;
     }
 
-    public function subValue($id, $value, $store)
+    public function subValue($value, $name, $store)
     {
-        $treasure = $this->find($id);
+        $treasure = $this->findTreasureByName($name, $store);
         $treasure->value -= $value;
-        $treasure->store_id = $store;
         $treasure->save();
         return $treasure;
+    }
+
+    public function findTreasureByName($name, $store)
+    {
+        return $this->treasure
+            ->where('name', $name)
+            ->where('store_id', $store)
+            ->first();
     }
 
     public function getCashDrawer($store)

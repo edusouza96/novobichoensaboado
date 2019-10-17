@@ -8,26 +8,28 @@ use Illuminate\Support\Collection;
 use BichoEnsaboado\Enums\ServicesType;
 use BichoEnsaboado\Repositories\SaleRepository;
 use BichoEnsaboado\Repositories\DiaryRepository;
+use BichoEnsaboado\Services\CashBookMoveService;
 use BichoEnsaboado\Repositories\ProductRepository;
 
 class SaleCreateService
 {
 
-    /** @var SaleRepository */
     private $saleRepository;
-
-    /** @var DiaryRepository */
     private $diaryRepository;
-    
-    /** @var ProductRepository */
     private $productRepository;
- 
+    private $cashBookMoveService;
 
-    public function __construct(SaleRepository $saleRepository, DiaryRepository $diaryRepository, ProductRepository $productRepository)
+    public function __construct(
+        SaleRepository $saleRepository, 
+        DiaryRepository $diaryRepository, 
+        ProductRepository $productRepository,
+        CashBookMoveService $cashBookMoveService
+    )
     {
         $this->saleRepository =  $saleRepository;
         $this->diaryRepository = $diaryRepository;
         $this->productRepository = $productRepository;
+        $this->cashBookMoveService = $cashBookMoveService;
 
     }
 
@@ -49,6 +51,7 @@ class SaleCreateService
         $products = collect($attributes['products']);
         $this->attachProduct($sale, $products);
         
+        $this->cashBookMoveService->generateMovement($attributes['amountSale'], 'cash_drawer', $store, 2, $userLogged);
         return $sale->getId();
 
     }

@@ -29,7 +29,7 @@ class OutlayRepository
     {
         return $this->outlay
             ->where('store_id', $store)
-            ->where('cost_center_id', '<>', 1)
+            ->whereNotIn('cost_center_id', [1,2,3])
             ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
             ->get();
             
@@ -39,10 +39,18 @@ class OutlayRepository
     {
         return $this->outlay
             ->where('store_id', $store)
-            ->where('cost_center_id', 1)
+            ->whereIn('cost_center_id', [1,2])
             ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
             ->get();
-            
+    }
+    
+    public function getBleedByDate(Carbon $datePay, $store)
+    {
+        return $this->outlay
+            ->where('store_id', $store)
+            ->where('cost_center_id', 3)
+            ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
+            ->get();
     }
 
     public function newInstance()

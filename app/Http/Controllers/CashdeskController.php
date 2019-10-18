@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use BichoEnsaboado\Services\CashdeskService;
 use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Http\Requests\OpenCashdeskRequest;
+use BichoEnsaboado\Http\Requests\BleedCashdeskRequest;
 use BichoEnsaboado\Http\Requests\CloseCashdeskRequest;
+use BichoEnsaboado\Http\Requests\ContributeCashdeskRequest;
 
 class CashdeskController extends Controller
 {
@@ -23,6 +25,26 @@ class CashdeskController extends Controller
         $this->user = $this->userRepository->find(1);
     }
 
+    public function bleed(BleedCashdeskRequest $request)
+    {
+        try {
+            $cashbook = $this->cashdeskService->bleed($request->all(), $this->user, $this->store);
+            return response()->json($cashbook);
+        } catch (\InvalidArgumentException $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
+    }
+   
+    public function contribute(ContributeCashdeskRequest $request)
+    {
+        try {
+            $cashbook = $this->cashdeskService->contribute($request->all(), $this->user, $this->store);
+            return response()->json($cashbook);
+        } catch (\InvalidArgumentException $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
+    }
+    
     public function open(OpenCashdeskRequest $request)
     {
         try {

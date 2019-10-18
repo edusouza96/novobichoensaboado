@@ -49,6 +49,8 @@ Route::group(['prefix' => 'financeiro'], function () {
     Route::get('extrato-do-dia', ['as' => 'cashdesk.extractOfDay', 'uses' => 'CashdeskController@extractOfDay']);
 });
 Route::group(['prefix' => 'caixa'], function () {
+    Route::post('aporte', ['as' => 'cashdesk.contribute', 'uses' => 'CashdeskController@contribute']);
+    Route::post('sangria', ['as' => 'cashdesk.bleed', 'uses' => 'CashdeskController@bleed']);
     Route::post('abrir', ['as' => 'cashdesk.open', 'uses' => 'CashdeskController@open']);
     Route::post('fechar', ['as' => 'cashdesk.close', 'uses' => 'CashdeskController@close']);
     Route::get('checar-status', ['as' => 'cashdesk.status', 'uses' => 'CashdeskController@status']);

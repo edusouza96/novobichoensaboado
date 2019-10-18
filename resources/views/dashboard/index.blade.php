@@ -3,6 +3,8 @@
 
 @section('content')
 <div id="dashboard" class="ml-3 mr-3" v-cloak>
+    <modal-contribute @failed="alertError" @contributed="contributed"></modal-contribute>
+    <modal-bleed @failed="alertError" @bleeded="bleeded"></modal-bleed>
     <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value"></modal-open-cashdesk>
     <modal-close-cashdesk @failed="alertError" @closed="closed"></modal-close-cashdesk>
     <modal-extract-day :key="reloadComponent"></modal-extract-day>
@@ -62,6 +64,18 @@
 
     <div class="row mt-2">
         <div class="col-md-3 col-xs-12">
+            <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-contribute" v-if="isOpen">Aporte</button>
+        </div>
+    </div>
+    
+    <div class="row mt-2">
+        <div class="col-md-3 col-xs-12">
+            <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-bleed" v-if="isOpen">Sangria</button>
+        </div>
+    </div>
+    
+    <div class="row mt-2">
+        <div class="col-md-3 col-xs-12">
             <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
         </div>
     </div>
@@ -101,6 +115,14 @@
                 this.value = this.convertToBrPattern(data.value);
                 this.isOpen = false;
                 this.alertSucess('Caixa Fechado!');
+            },
+            contributed(data){
+                this.value = this.convertToBrPattern(data.value);
+                this.alertSucess('Aporte Realizado!');
+            },
+            bleeded(data){
+                this.value = this.convertToBrPattern(data.value);
+                this.alertSucess('Sangria Realizada!');
             },
             convertToBrPattern(value){
                 return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2});

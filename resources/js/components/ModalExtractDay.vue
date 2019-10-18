@@ -42,7 +42,7 @@
 							<div class="col-md-8">Aporte</div><div class="col-md-4">R$ {{contribute}}</div>
 						</div>
 						<div class="row">
-							<div class="col-md-8">Sangria</div><div class="col-md-4">R$ 0,00</div>
+							<div class="col-md-8">Sangria</div><div class="col-md-4">R$ {{bleed}}</div>
 						</div>
 					</fieldset>
 				</div>
@@ -64,6 +64,7 @@ export default {
 			valueStart: null,
 			valueEnd: null,
 			contribute: null,
+			bleed: null,
 		};
 	},
 	methods: {
@@ -81,6 +82,7 @@ export default {
 				this.valueStart = this.convertToBrPattern(data.value_start);
 				this.valueEnd = this.convertToBrPattern(data.value_end);
 				this.contribute = this.convertToBrPattern(data.contribute);
+				this.bleed = this.convertToBrPattern(data.bleed);
 			}.bind(this));
 		},
 		

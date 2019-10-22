@@ -17,6 +17,19 @@ class TreasureRepository
     {
         return $this->treasure->all();   
     }
+
+    public function findByStore($storeId)
+    {
+        return $this->treasure->where('store_id', $storeId)->get();   
+    }
+    
+    public function findOptionsCardMachineByStore($storeId)
+    {
+        return $this->treasure
+            ->where('card_machine', 1)
+            ->where('store_id', $storeId)
+            ->get();   
+    }
     
     public function find($id)
     {

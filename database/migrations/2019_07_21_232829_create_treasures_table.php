@@ -20,6 +20,7 @@ class CreateTreasuresTable extends Migration
             $table->decimal('value', 10, 2);
             $table->integer('store_id');
             $table->softDeletes();
+            $table->boolean('card_machine')->default(0);
         });
     }
 

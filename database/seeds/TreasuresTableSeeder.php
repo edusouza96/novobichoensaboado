@@ -30,7 +30,8 @@ class TreasuresTableSeeder extends Seeder
             'display' => 'PagSeguro',
             'name' => 'pagseguro',
             'value' => 0.00,
-            'store_id' => 1
+            'store_id' => 1,
+            'card_machine' => 1,
         ]);
         
         DB::table('treasures')->insert([

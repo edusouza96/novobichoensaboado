@@ -5,7 +5,9 @@ namespace BichoEnsaboado\Services;
 use BichoEnsaboado\Models\Sale;
 use BichoEnsaboado\Models\User;
 use Illuminate\Support\Collection;
+use BichoEnsaboado\Enums\SourceType;
 use BichoEnsaboado\Enums\ServicesType;
+use BichoEnsaboado\Enums\PaymentMethodsType;
 use BichoEnsaboado\Repositories\SaleRepository;
 use BichoEnsaboado\Repositories\DiaryRepository;
 use BichoEnsaboado\Services\CashBookMoveService;
@@ -51,7 +53,9 @@ class SaleCreateService
         $products = collect($attributes['products']);
         $this->attachProduct($sale, $products);
         
-        $this->cashBookMoveService->generateMovement($attributes['amountSale'], 'cash_drawer', $store, 2, $userLogged);
+        $source = $this->defineSource($attributes['paymentMethod'], $attributes['cardMachine']);
+        $sourceName = SourceType::getName($source);
+        $this->cashBookMoveService->generateMovement($attributes['amountSale'], $sourceName, $store, $source, $userLogged);
         return $sale->getId();
 
     }
@@ -73,5 +77,11 @@ class SaleCreateService
             $product->quantity = $productAttributes['units'];
             $this->saleRepository->attachProduct($sale, $product);
         }
+    }
+
+    private function defineSource($paymentMethod, $cardMachine)
+    {
+        if($paymentMethod == PaymentMethodsType::CASH) return SourceType::CASH_DRAWER;
+        if($cardMachine == SourceType::PAGSEGURO) return SourceType::PAGSEGURO;
     }
 }

@@ -56,7 +56,7 @@
                   <label for="cardMachine">Maquina</label>
                   <select name="cardMachine" class="form-control" v-model="cardMachine">
                     <option value>Selecione</option>
-                    <option v-for="card in cardMachines" :value="card.id" :key="card.id">{{ card.label }}</option>
+                    <option v-for="card in cardMachines" :value="card.id" :key="card.id">{{ card.display }}</option>
                   </select>
                 </div>
               </div>
@@ -77,7 +77,7 @@
 
               <div class="col-4">
                 <div class="form-group">
-                  <label for="leftover">troco</label>
+                  <label for="leftover">Troco</label>
                   <input type="text" name="leftover" class="form-control" :class="leftoverClass" v-model="leftover" disabled>
                 </div>
               </div>
@@ -166,6 +166,18 @@ export default {
     },
     isSelectedPaymentMethod(){
       return this.paymentMethod > 0;
+    },
+    getOptionsCardMachine(){
+      $.get(laroute.route("treasure.findOptionsCardMachineByStore", {id:1}))
+        .done(function(data) {
+          this.cardMachines = data;
+        }.bind(this));
+    },
+    getRebates(){
+      $.get(laroute.route("rebate.findAll"))
+      .done(function(data) {
+        this.rebates = data;
+      }.bind(this));
     }
   },
   watch: {
@@ -211,14 +223,11 @@ export default {
     },
     leftover(){
       return this.convertToBrPattern(this.convertToUsPattern(this.getValueReceived()) - (this.convertToUsPattern(this.amountSale) - this.convertToUsPattern(this.promotionValue)));
-    }
-
+    },
   },
   created: function(){
-    $.get(laroute.route("rebate.findAll"))
-      .done(function(data) {
-        this.rebates = data;
-      }.bind(this));
+    this.getRebates();
+    this.getOptionsCardMachine();
   },
 };
 </script>

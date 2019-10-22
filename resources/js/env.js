@@ -10,8 +10,3 @@ window.paymentMethodsType = {
     CREDIT_CARD : { id: 2, label: 'Cartão de Crédito'},
     DEBIT_CARD : { id: 3, label: 'Cartão de Débito'},
 };
-
-window.cardMachinesType = {
-    GETNET : { id: 1, label: 'Getnet'},
-    MORDERNINHA : { id: 2, label: 'Moderninha'},
-};

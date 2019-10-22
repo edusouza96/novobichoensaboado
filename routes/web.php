@@ -36,6 +36,11 @@ Route::group(['prefix' => 'pdv'], function () {
     Route::get('nota-fiscal/{id}', ['as' => 'pdv.invoice', 'uses' => 'PdvController@invoice']);
 });
 
+Route::group(['prefix' => 'fonte'], function () {
+    Route::get('buscar-por-loja/{id}', ['as' => 'treasure.findByStore', 'uses' => 'TreasureController@findByStore']);
+    Route::get('lista-maquinas-cartoes/{id}', ['as' => 'treasure.findOptionsCardMachineByStore', 'uses' => 'TreasureController@findOptionsCardMachineByStore']);
+});
+
 Route::group(['prefix' => 'financeiro'], function () {
     Route::group(['prefix' => 'despesas'], function () {
         Route::get('salvar', ['as' => 'outlay.store', 'uses' => 'OutlayController@store']);

@@ -10,6 +10,10 @@ final class SourceType extends Enum
     const SAFE_BOX_NAME = 'safe_box';
     const CASH_DRAWER = 2;
     const CASH_DRAWER_NAME = 'cash_drawer';
+    const PAGSEGURO = 3;
+    const PAGSEGURO_NAME = 'pagseguro';
+    const BANK = 4;
+    const BANK_NAME = 'bank';
 
     public static function getDisplay($id)
     {
@@ -18,6 +22,10 @@ final class SourceType extends Enum
                 return 'Cofre';
             case self::CASH_DRAWER:
                 return 'Gaveta';
+            case self::PAGSEGURO:
+                return 'PagSeguro';
+            case self::BANK:
+                return 'Banco';
         }
     }
     
@@ -28,6 +36,10 @@ final class SourceType extends Enum
                 return self::SAFE_BOX_NAME;
             case self::CASH_DRAWER:
                 return self::CASH_DRAWER_NAME;
+            case self::PAGSEGURO:
+                return self::PAGSEGURO_NAME;
+            case self::BANK:
+                return self::BANK_NAME;
         }
     }
 }

@@ -117,7 +117,7 @@ class CashdeskService
     public function extractOfDay(Carbon $date, $store)
     {
         $cashBook = $this->cashBookRepository->findByDate($date, $store, true);
-        if(!$cashBook) throw new \Exception("Não foi aberto o caixa", 400);
+        if(!$cashBook) throw new \Exception("Não foi aberto o caixa", 200);
         
         $moves = $cashBook->getMoves();
         $outlays = $this->getValueTotal($moves, TypeMovesType::OUT);

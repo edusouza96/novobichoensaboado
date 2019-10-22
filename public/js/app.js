@@ -2577,7 +2577,8 @@ __webpack_require__.r(__webpack_exports__);
         decimal: ",",
         thousands: "",
         precision: 2
-      }
+      },
+      sources: []
     };
   },
   computed: {
@@ -2599,7 +2600,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     convertToUsPattern: function convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
+    },
+    getSources: function getSources() {
+      $.get(laroute.route("treasure.findByStore", {
+        id: 1
+      })).done(function (data) {
+        this.sources = data;
+      }.bind(this));
     }
+  },
+  created: function created() {
+    this.getSources();
   }
 });
 
@@ -2890,6 +2901,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     isSelectedPaymentMethod: function isSelectedPaymentMethod() {
       return this.paymentMethod > 0;
+    },
+    getOptionsCardMachine: function getOptionsCardMachine() {
+      $.get(laroute.route("treasure.findOptionsCardMachineByStore", {
+        id: 1
+      })).done(function (data) {
+        this.cardMachines = data;
+      }.bind(this));
+    },
+    getRebates: function getRebates() {
+      $.get(laroute.route("rebate.findAll")).done(function (data) {
+        this.rebates = data;
+      }.bind(this));
     }
   },
   watch: {
@@ -2938,9 +2961,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    $.get(laroute.route("rebate.findAll")).done(function (data) {
-      this.rebates = data;
-    }.bind(this));
+    this.getRebates();
+    this.getOptionsCardMachine();
   }
 });
 
@@ -3082,7 +3104,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3093,7 +3114,8 @@ __webpack_require__.r(__webpack_exports__);
         decimal: ",",
         thousands: "",
         precision: 2
-      }
+      },
+      sources: []
     };
   },
   computed: {
@@ -3116,7 +3138,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     convertToUsPattern: function convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
+    },
+    getSources: function getSources() {
+      $.get(laroute.route("treasure.findByStore", {
+        id: 1
+      })).done(function (data) {
+        this.sources = data;
+      }.bind(this));
     }
+  },
+  created: function created() {
+    this.getSources();
   }
 });
 
@@ -3550,7 +3582,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3561,7 +3592,8 @@ __webpack_require__.r(__webpack_exports__);
         decimal: ",",
         thousands: "",
         precision: 2
-      }
+      },
+      sources: []
     };
   },
   computed: {
@@ -3583,7 +3615,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     convertToUsPattern: function convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
+    },
+    getSources: function getSources() {
+      $.get(laroute.route("treasure.findByStore", {
+        id: 1
+      })).done(function (data) {
+        this.sources = data;
+      }.bind(this));
     }
+  },
+  created: function created() {
+    this.getSources();
   }
 });
 
@@ -3639,7 +3681,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3649,7 +3690,8 @@ __webpack_require__.r(__webpack_exports__);
         decimal: ",",
         thousands: "",
         precision: 2
-      }
+      },
+      sources: []
     };
   },
   computed: {
@@ -3670,7 +3712,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     convertToUsPattern: function convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
+    },
+    getSources: function getSources() {
+      $.get(laroute.route("treasure.findByStore", {
+        id: 1
+      })).done(function (data) {
+        this.sources = data;
+      }.bind(this));
     }
+  },
+  created: function created() {
+    this.getSources();
   }
 });
 
@@ -68927,8 +68979,18 @@ var render = function() {
                         _vm._v("Selecione")
                       ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "1" } }, [_vm._v("Cofre")])
-                    ]
+                      _vm._l(_vm.sources, function(sourceDestiny) {
+                        return _c(
+                          "option",
+                          {
+                            key: sourceDestiny.id,
+                            domProps: { value: sourceDestiny.id }
+                          },
+                          [_vm._v(_vm._s(sourceDestiny.display))]
+                        )
+                      })
+                    ],
+                    2
                   )
                 ])
               ])
@@ -69457,7 +69519,7 @@ var render = function() {
                               return _c(
                                 "option",
                                 { key: card.id, domProps: { value: card.id } },
-                                [_vm._v(_vm._s(card.label))]
+                                [_vm._v(_vm._s(card.display))]
                               )
                             })
                           ],
@@ -69512,7 +69574,7 @@ var render = function() {
                   _c("div", { staticClass: "col-4" }, [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "leftover" } }, [
-                        _vm._v("troco")
+                        _vm._v("Troco")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -69919,14 +69981,18 @@ var render = function() {
                             _vm._v("Selecione")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "1" } }, [
-                            _vm._v("Cofre")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "2" } }, [
-                            _vm._v("Gaveta")
-                          ])
-                        ]
+                          _vm._l(_vm.sources, function(sourceOrigin) {
+                            return _c(
+                              "option",
+                              {
+                                key: sourceOrigin.id,
+                                domProps: { value: sourceOrigin.id }
+                              },
+                              [_vm._v(_vm._s(sourceOrigin.display))]
+                            )
+                          })
+                        ],
+                        2
                       )
                     ])
                   ])
@@ -70635,14 +70701,18 @@ var render = function() {
                         _vm._v("Selecione")
                       ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "1" } }, [
-                        _vm._v("Cofre")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "2" } }, [
-                        _vm._v("Gaveta")
-                      ])
-                    ]
+                      _vm._l(_vm.sources, function(sourceDestiny) {
+                        return _c(
+                          "option",
+                          {
+                            key: sourceDestiny.id,
+                            domProps: { value: sourceDestiny.id }
+                          },
+                          [_vm._v(_vm._s(sourceDestiny.display))]
+                        )
+                      })
+                    ],
+                    2
                   )
                 ])
               ]),
@@ -70852,14 +70922,18 @@ var render = function() {
                         _vm._v("Selecione")
                       ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "1" } }, [
-                        _vm._v("Cofre")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "2" } }, [
-                        _vm._v("Gaveta")
-                      ])
-                    ]
+                      _vm._l(_vm.sources, function(sourceOrigin) {
+                        return _c(
+                          "option",
+                          {
+                            key: sourceOrigin.id,
+                            domProps: { value: sourceOrigin.id }
+                          },
+                          [_vm._v(_vm._s(sourceOrigin.display))]
+                        )
+                      })
+                    ],
+                    2
                   )
                 ])
               ])
@@ -85714,16 +85788,6 @@ window.paymentMethodsType = {
   DEBIT_CARD: {
     id: 3,
     label: 'Cartão de Débito'
-  }
-};
-window.cardMachinesType = {
-  GETNET: {
-    id: 1,
-    label: 'Getnet'
-  },
-  MORDERNINHA: {
-    id: 2,
-    label: 'Moderninha'
   }
 };
 

@@ -59,8 +59,10 @@ Vue.component("modal-close-cashdesk", require("./components/ModalCloseCashdesk.v
 
 Vue.component("modal-extract-day", require("./components/ModalExtractDay.vue").default);
 
-Vue.component("alert-message", require("./components/AlertMessage.vue").default);
+Vue.component("alert-message", require("./components/alert-message.vue").default);
 
 Vue.component("modal-contribute", require("./components/modal-contribute.vue").default);
 
 Vue.component("modal-bleed", require("./components/modal-bleed.vue").default);
+
+Vue.component("modal-money-transfer", require("./components/modal-money-transfer.vue").default);

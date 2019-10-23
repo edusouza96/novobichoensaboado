@@ -8,6 +8,7 @@
     <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value"></modal-open-cashdesk>
     <modal-close-cashdesk @failed="alertError" @closed="closed"></modal-close-cashdesk>
     <modal-extract-day :key="reloadComponent"></modal-extract-day>
+    <modal-money-transfer></modal-money-transfer>
     <alert-message :title="titleAlertMessage" text="" :type="typeAlertMessage" :active="showAlert" @active="showAlert=$event"></alert-message>
 
     <div class="row justify-content-between">
@@ -77,6 +78,12 @@
     <div class="row mt-2">
         <div class="col-md-3 col-xs-12">
             <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
+        </div>
+    </div>
+    
+    <div class="row mt-2">
+        <div class="col-md-3 col-xs-12">
+            <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-money-transfer">Transferência</button>
         </div>
     </div>
 </div>

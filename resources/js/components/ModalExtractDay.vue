@@ -77,6 +77,8 @@ export default {
 		getExtractOfToday(){
 			$.get(laroute.route("cashdesk.extractOfDay"), {'date': moment().format('YYYY-MM-DD')})
 			.done(function(data) {
+				if(typeof data == 'string') return false;
+				
 				this.outlays = data.outlays;
 				this.sales = data.sales;
 				this.valueStart = this.convertToBrPattern(data.value_start);

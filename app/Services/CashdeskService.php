@@ -89,11 +89,21 @@ class CashdeskService
         $source = $attributes['source'];
         $valueWithdraw = $attributes['valueWithdraw'];
         $observation = $attributes['observation'];
-        $cashBook = $this->cashBookRepository->getLast($store);
         
         $outlay = $this->outlayRepository->save($observation, $valueWithdraw, Carbon::now(), SourceType::CASH_DRAWER, $costCenter=3, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->addValue($valueWithdraw, SourceType::getName($source), $store);
         $treasure = $this->treasureRepository->subValue($valueWithdraw, SourceType::CASH_DRAWER_NAME, $store);
+
+        return $treasure;
+    }
+    public function moneyTransfer(array $attributes, User $userLogged, $store)
+    {
+        $origin = $attributes['origin'];
+        $destiny = $attributes['destiny'];
+        $value = $attributes['value'];
+
+        $treasure = $this->treasureRepository->subValue($value, SourceType::getName($origin), $store);
+        $treasure = $this->treasureRepository->addValue($value, SourceType::getName($destiny), $store);
 
         return $treasure;
     }
@@ -117,7 +127,7 @@ class CashdeskService
     public function extractOfDay(Carbon $date, $store)
     {
         $cashBook = $this->cashBookRepository->findByDate($date, $store, true);
-        if(!$cashBook) throw new \Exception("Não foi aberto o caixa", 200);
+        if(!$cashBook) throw new \Exception("Não foi aberto o caixa");
         
         $moves = $cashBook->getMoves();
         $outlays = $this->getValueTotal($moves, TypeMovesType::OUT);
@@ -154,7 +164,7 @@ class CashdeskService
             ->map(function($saleGroup){ 
                 return [
                     'value' => $saleGroup->sum('total') - $saleGroup->sum('rebate'),
-                    'method' => PaymentMethodsType::getDisplay($saleGroup->first()->getPaymentMethodId())
+                    'method' => PaymentMethodsType::getName($saleGroup->first()->getPaymentMethodId())
                 ];
             });
     }

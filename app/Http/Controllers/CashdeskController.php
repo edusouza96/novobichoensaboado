@@ -101,7 +101,17 @@ class CashdeskController extends Controller
             $date = Carbon::createFromFormat('Y-m-d', $request->get('date'));
             $result = $this->cashdeskService->extractOfDay($date , $this->store);
             return response()->json($result);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage());
+        }
+    }
+   
+    public function moneyTransfer(Request $request)
+    {
+        try {
+            $result = $this->cashdeskService->moneyTransfer($request->all(), $this->user, $this->store);
+            return response()->json($result);
+        } catch (\Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }

@@ -5,6 +5,7 @@ namespace BichoEnsaboado\Repositories;
 use Carbon\Carbon;
 use BichoEnsaboado\Models\User;
 use BichoEnsaboado\Models\Outlay;
+use BichoEnsaboado\Enums\CostCenterSystemType;
 
 class OutlayRepository
 {
@@ -29,7 +30,7 @@ class OutlayRepository
     {
         return $this->outlay
             ->where('store_id', $store)
-            ->whereNotIn('cost_center_id', [1,2,3])
+            ->whereNotIn('cost_center_id', CostCenterSystemType::GROUP_CATEGORY_SISTEM)
             ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
             ->get();
             
@@ -39,7 +40,7 @@ class OutlayRepository
     {
         return $this->outlay
             ->where('store_id', $store)
-            ->whereIn('cost_center_id', [1,2])
+            ->whereIn('cost_center_id', CostCenterSystemType::GROUP_CONTRIBUTE)
             ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
             ->get();
     }
@@ -48,7 +49,7 @@ class OutlayRepository
     {
         return $this->outlay
             ->where('store_id', $store)
-            ->where('cost_center_id', 3)
+            ->where('cost_center_id', CostCenterSystemType::COST_CENTER_SANGRIA)
             ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
             ->get();
     }

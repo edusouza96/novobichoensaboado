@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use BichoEnsaboado\Enums\SourceType;
 use BichoEnsaboado\Enums\TypeMovesType;
 use BichoEnsaboado\Enums\PaymentMethodsType;
+use BichoEnsaboado\Enums\CostCenterSystemType;
 use BichoEnsaboado\Repositories\SaleRepository;
 use BichoEnsaboado\Repositories\OutlayRepository;
 use BichoEnsaboado\Repositories\CashBookRepository;
@@ -51,7 +52,7 @@ class CashdeskService
         $source = $attributes['source'];
         $cashBook = $this->cashBookRepository->save($valueStart+$treasure->getValue(), null, $dateHour, $userLogged, $store);
         $moves = $this->cashBookMoveRepository->save($valueStart, SourceType::CASH_DRAWER, TypeMovesType::ENTRY, $cashBook, $userLogged);
-        $outlay = $this->outlayRepository->save('Aporte - caixa inicial', $valueStart, $dateHour, $source, $costCenter=1, $paid=true, $userLogged, $store);
+        $outlay = $this->outlayRepository->save('Aporte - caixa inicial', $valueStart, $dateHour, $source, CostCenterSystemType::COST_CENTER_APORTE, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->subValue($valueStart, SourceType::getName($source), $store);
         return $this->treasureRepository->addValue($valueStart, SourceType::CASH_DRAWER_NAME, $store);
     }
@@ -78,7 +79,7 @@ class CashdeskService
         $valueContribute = $attributes['valueContribute'];
         $cashBook = $this->cashBookRepository->getLast($store);
         
-        $outlay = $this->outlayRepository->save('Aporte', $valueContribute, Carbon::now(), $source, $costCenter=2, $paid=true, $userLogged, $store);
+        $outlay = $this->outlayRepository->save('Aporte', $valueContribute, Carbon::now(), $source, CostCenterSystemType::COST_CENTER_APORTE_CAIXA_INICIAL, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->subValue($valueContribute, SourceType::getName($source), $store);
         $treasure = $this->treasureRepository->addValue($valueContribute, SourceType::CASH_DRAWER_NAME, $store);
 
@@ -90,7 +91,7 @@ class CashdeskService
         $valueWithdraw = $attributes['valueWithdraw'];
         $observation = $attributes['observation'];
         
-        $outlay = $this->outlayRepository->save($observation, $valueWithdraw, Carbon::now(), SourceType::CASH_DRAWER, $costCenter=3, $paid=true, $userLogged, $store);
+        $outlay = $this->outlayRepository->save($observation, $valueWithdraw, Carbon::now(), SourceType::CASH_DRAWER, CostCenterSystemType::COST_CENTER_SANGRIA, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->addValue($valueWithdraw, SourceType::getName($source), $store);
         $treasure = $this->treasureRepository->subValue($valueWithdraw, SourceType::CASH_DRAWER_NAME, $store);
 

@@ -33,6 +33,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a>
                 </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('outlay.index') }}">Despesas</a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}">Sair</a>

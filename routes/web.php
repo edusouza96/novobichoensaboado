@@ -41,8 +41,13 @@ Route::group(['prefix' => 'fonte'], function () {
     Route::get('lista-maquinas-cartoes/{id}', ['as' => 'treasure.findOptionsCardMachineByStore', 'uses' => 'TreasureController@findOptionsCardMachineByStore']);
 });
 
+Route::group(['prefix' => 'centro-custo'], function () {
+    Route::get('opcoes', ['as' => 'costCenter.allOptions', 'uses' => 'CostCenterController@allOptions']);
+});
+
 Route::group(['prefix' => 'financeiro'], function () {
     Route::group(['prefix' => 'despesas'], function () {
+        Route::get('/', ['as' => 'outlay.index', 'uses' => 'OutlayController@index']);
         Route::get('salvar', ['as' => 'outlay.store', 'uses' => 'OutlayController@store']);
         Route::get('buscar-por-dia', ['as' => 'outlay.findByDate', 'uses' => 'OutlayController@findByDate']);
     });

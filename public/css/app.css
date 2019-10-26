@@ -16638,3 +16638,21 @@ legend {
   width: 100%;
 }
 
+.filter > .card {
+  background: #f8fafc;
+}
+
+.filter-header {
+  background: #007fbf;
+  color: #fff;
+  font-size: 17px;
+  padding: 7px 10px;
+  text-align: left;
+}
+
+.filter-footer {
+  background: #f8fafc;
+  border-top: none;
+  text-align: end;
+}
+

@@ -3,6 +3,8 @@
 namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\User;
+use BichoEnsaboado\Models\Treasure;
+use BichoEnsaboado\Models\CostCenter;
 use Illuminate\Database\Eloquent\Model;
 
 class Outlay extends Model
@@ -17,6 +19,14 @@ class Outlay extends Model
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+    public function source()
+    {
+        return $this->belongsTo(Treasure::class, 'source_id');
+    }
+    public function costCenter()
+    {
+        return $this->belongsTo(CostCenter::class, 'cost_center_id');
     }
     
     public function getId()
@@ -37,11 +47,11 @@ class Outlay extends Model
     }
     public function getSource()
     {
-        return $this->source_id;
+        return $this->source;
     }
     public function getCostCenter()
     {
-        return $this->cost_center_id;
+        return $this->costCenter;
     }
     public function getPaid()
     {

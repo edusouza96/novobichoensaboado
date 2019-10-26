@@ -103,7 +103,7 @@
 }
 
 .header-choose-days-package {
-    border: 9px solid #007fbf;
+    border: 9px solid $bg-default;
     @extend .thead-primary;
 }
 
@@ -158,4 +158,23 @@ legend {
 
 .btn-action-dashboard{
     width: 100%;
+}
+
+.filter>.card {
+    background: $body-bg;
+
+}
+
+.filter-header{
+    background: $bg-default;
+    color: $color-default;
+    font-size: 17px;
+    padding: 7px 10px;
+    text-align: left;
+}
+
+.filter-footer {
+    background: $body-bg;
+    border-top: none;
+    text-align: end;
 }

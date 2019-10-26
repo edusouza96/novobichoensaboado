@@ -5,6 +5,7 @@ namespace BichoEnsaboado\Repositories;
 use Carbon\Carbon;
 use BichoEnsaboado\Models\User;
 use BichoEnsaboado\Models\Outlay;
+use Illuminate\Support\Collection;
 use BichoEnsaboado\Enums\CostCenterSystemType;
 
 class OutlayRepository
@@ -34,6 +35,29 @@ class OutlayRepository
             ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
             ->get();
             
+    }
+
+    public function findByFilter(array $attributes, $paginate=false)
+    {
+        $search = $this->outlay->newQuery();
+
+        if(isset($attributes['description'])){
+            $search = $search->where('description', 'like', "%{$attributes['description']}%");
+        }
+
+        if(isset($attributes['source'])){
+            $search = $search->where('source_id', $attributes['source']);
+        }
+        
+        if(isset($attributes['cost_center'])){
+            $search = $search->where('cost_center_id', $attributes['cost_center']);
+        }
+        
+        if(isset($attributes['store'])){
+            $search = $search->where('store_id', $attributes['store']);
+        }
+
+        return $paginate ? $search->paginate(15) : $search->get();
     }
     
     public function getContributesByDate(Carbon $datePay, $store)

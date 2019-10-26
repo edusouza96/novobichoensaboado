@@ -23,6 +23,12 @@ class OutlayController extends Controller
         $this->outlayCreateService = $outlayCreateService;
         $this->outlayRepository = $outlayRepository;
     }
+
+    public function index(Request $request)
+    {
+        $outlays = $this->outlayRepository->findByFilter($request->all(), true);
+        return view('outlay.index', compact('outlays'));
+    }
    
     public function create()
     {

@@ -32,7 +32,7 @@ class OutlayController extends Controller
    
     public function create()
     {
-        //
+        return view('outlay.create');
     }
 
  
@@ -40,15 +40,7 @@ class OutlayController extends Controller
     {
         try {
             $outlay = $this->outlayCreateService->create($request->all(), $this->user, $this->store);
-            dd($outlay);
-            dd([
-                "description" => "Teste despesa",
-                "value" => "10",
-                "date_pay" => \Carbon\Carbon::now(),
-                "source" => "2",
-                "cost_center" => "1",
-                "paid" => true,
-            ]);
+            return redirect(route('outlay.index'))->with('alertType', 'success')->with('message', 'Despesa Cadastrada.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }

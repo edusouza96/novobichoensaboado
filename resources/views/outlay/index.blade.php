@@ -4,7 +4,7 @@
 @section('content') 
     <div id="outlays" class="container">
         <div class="text-right mb-3">
-            <a href="{{route('outlay.index')}}" class="btn btn-primary">
+            <a href="{{route('outlay.create')}}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Cadastrar
             </a>
         </div>
@@ -57,13 +57,13 @@
                         </div>
                     </div>
                     <div class="card-footer filter-footer">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="fa fa-search"></i> Buscar
-                        </button>
-
                         <a href="{{route('outlay.index')}}" class="btn btn-secondary">
                             <i class="fa fa-eraser"></i> Limpar
                         </a>
+
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i> Buscar
+                        </button>
                     </div>
                 </div>
             </form>
@@ -80,6 +80,7 @@
                             <th scope="col">Fonte</th>
                             <th scope="col">Centro de Custo</th>
                             <th scope="col">Loja</th>
+                            <th scope="col">Está pago ?</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,6 +92,7 @@
                                 <td>{{ $outlay->getSource()->getDisplay() }}</td>
                                 <td>{{ $outlay->getCostCenter()->getName() }}</td>
                                 <td>{{ $outlay->getStore() }}</td>
+                                <td>{{ $outlay->getPaid() ? "Sim":"Não" }}</td>
                             </tr>
                         @endforeach
                     </tbody>

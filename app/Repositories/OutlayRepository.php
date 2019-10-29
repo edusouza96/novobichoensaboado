@@ -57,6 +57,8 @@ class OutlayRepository
             $search = $search->where('store_id', $attributes['store']);
         }
 
+        $search->orderBy('date_pay', 'desc');
+
         return $paginate ? $search->paginate(15) : $search->get();
     }
     

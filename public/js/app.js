@@ -69839,6 +69839,15 @@ var render = function() {
             _c(
               "button",
               {
+                staticClass: "btn btn-secondary",
+                attrs: { type: "button", "data-dismiss": "modal" }
+              },
+              [_vm._v("Fechar")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
                 directives: [
                   {
                     name: "show",
@@ -69856,15 +69865,6 @@ var render = function() {
                 }
               },
               [_vm._v("Ok")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-secondary",
-                attrs: { type: "button", "data-dismiss": "modal" }
-              },
-              [_vm._v("Fechar")]
             )
           ])
         ])

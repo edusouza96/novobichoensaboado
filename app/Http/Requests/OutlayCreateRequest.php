@@ -24,7 +24,22 @@ class OutlayCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "description" => "required",
+            "value" => "required",
+            "date_pay" => "required",
+            "source" => "required",
+            "cost_center" => "required",
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "description.required" => "O campo Descrição é obrigatório.",
+            "value.required" => "O campo Valor é obrigatório.",
+            "date_pay.required" => "O campo Data de Pagamento/Vencimento é obrigatório.",
+            "source.required" => "O campo Fonte é obrigatório.",
+            "cost_center.required" => "O campo Centro de Custo é obrigatório.",
         ];
     }
 }

@@ -48,7 +48,8 @@ Route::group(['prefix' => 'centro-custo'], function () {
 Route::group(['prefix' => 'financeiro'], function () {
     Route::group(['prefix' => 'despesas'], function () {
         Route::get('/', ['as' => 'outlay.index', 'uses' => 'OutlayController@index']);
-        Route::get('salvar', ['as' => 'outlay.store', 'uses' => 'OutlayController@store']);
+        Route::post('salvar', ['as' => 'outlay.store', 'uses' => 'OutlayController@store']);
+        Route::get('cadastrar', ['as' => 'outlay.create', 'uses' => 'OutlayController@create']);
         Route::get('buscar-por-dia', ['as' => 'outlay.findByDate', 'uses' => 'OutlayController@findByDate']);
     });
 

@@ -2,7 +2,9 @@
 
 namespace BichoEnsaboado\Services;
 
+use Carbon\Carbon;
 use BichoEnsaboado\Models\User;
+use BichoEnsaboado\Enums\SourceType;
 use BichoEnsaboado\Enums\TypeMovesType;
 use BichoEnsaboado\Repositories\OutlayRepository;
 use BichoEnsaboado\Repositories\CashBookRepository;
@@ -31,21 +33,24 @@ class OutlayCreateService
 
     public function create(array $attributes, User $userLogged, $store)
     {
+        $datePay = Carbon::createFromFormat('Y-m-d', $attributes['date_pay']);
+        $value = str_replace(',', '.', $attributes['value']);
+        
         $outlay = $this->outlayRepository->save(
             $attributes['description'], 
-            $attributes['value'], 
-            $attributes['date_pay'], 
+            $value, 
+            $datePay, 
             $attributes['source'], 
             $attributes['cost_center'], 
-            $attributes['paid'], 
+            isset($attributes['paid']) ? $attributes['paid']: false, 
             $userLogged, 
             $store
         );
 
-        $treasure = $this->treasureRepository->subValue($attributes['value'], SourceType::getName($attributes['source']), $store);
+        $treasure = $this->treasureRepository->subValue($value, SourceType::getName($attributes['source']), $store);
 
         $cashBook = $this->cashBookRepository->getLast($store);
-        $moves = $this->cashBookMoveRepository->save($attributes['value'], $attributes['source'], TypeMovesType::OUT, $cashBook, $userLogged);
+        $moves = $this->cashBookMoveRepository->save($value, $attributes['source'], TypeMovesType::OUT, $cashBook, $userLogged);
 
         return $outlay;
     }

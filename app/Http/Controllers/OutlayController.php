@@ -32,7 +32,8 @@ class OutlayController extends Controller
    
     public function create()
     {
-        return view('outlay.create');
+        $outlay = $this->outlayRepository->newInstance();
+        return view('outlay.create', compact('outlay'));
     }
 
  
@@ -40,7 +41,7 @@ class OutlayController extends Controller
     {
         try {
             $outlay = $this->outlayCreateService->create($request->all(), $this->user, $this->store);
-            return redirect(route('outlay.index'))->with('alertType', 'success')->with('message', 'Despesa Cadastrada.');
+            return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Cadastrada.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
@@ -59,15 +60,30 @@ class OutlayController extends Controller
 
     public function edit($id)
     {
-        //
+        $outlay = $this->outlayRepository->find($id);
+        return view('outlay.edit', compact('outlay'));
     }
 
-    public function update(Request $request, $id)
+    public function update(OutlayCreateRequest $request, $id)
     {
-        //
+        try {
+            $outlay = $this->outlayCreateService->update($id, $request->all(), $this->user);
+            return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Atualizada.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
     }
     public function destroy($id)
     {
         //
+    }
+    public function pay($id)
+    {
+        try {
+            $this->outlayRepository->pay($id);
+            return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Paga.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
     }
 }

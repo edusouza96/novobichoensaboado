@@ -80,7 +80,7 @@
                             <th scope="col">Fonte</th>
                             <th scope="col">Centro de Custo</th>
                             <th scope="col">Loja</th>
-                            <th scope="col">Está pago ?</th>
+                            <th scope="col" colspan="3" class="text-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,7 +92,23 @@
                                 <td>{{ $outlay->getSource()->getDisplay() }}</td>
                                 <td>{{ $outlay->getCostCenter()->getName() }}</td>
                                 <td>{{ $outlay->getStore() }}</td>
-                                <td>{{ $outlay->getPaid() ? "Sim":"Não" }}</td>
+                                <td>
+                                    @if(!$outlay->getPaid())
+                                        <a href="{{route('outlay.pay', $outlay->getId())}}" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-exclamation"></i>
+                                        </a>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{route('outlay.edit', $outlay->getId())}}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{route('outlay.destroy', $outlay->getId())}}" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

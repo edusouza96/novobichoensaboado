@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label for="description">Descrição</label>
-                <input type="text" name="description" class="form-control" required>
+                <input type="text" name="description" class="form-control" required value="{{$outlay->getDescription()}}">
             </div>
         </div>
     </div>
@@ -11,13 +11,13 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="source">Valor</label>
-                <input type="text" name="value" id="value" class="form-control" v-money="money" required>
+                <input type="text" name="value" id="value" class="form-control" v-money="money" required value="{{$outlay->getValue()}}">
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
                 <label for="source">Fonte</label>
-                <select name="source" id="source" class="form-control" required>
+                <select name="source" id="source" class="form-control" required v-model="sourceId">
                     <option value>Selecione</option>
                     <option v-for="source in sources" :value="source.id" :key="source.id">@{{ source.display }}</option>
                 </select>
@@ -26,7 +26,7 @@
         <div class="col-5">
             <div class="form-group">
                 <label for="cost_center">Centro de Custo</label>
-                <select name="cost_center" id="cost_center" class="form-control" required>
+                <select name="cost_center" id="cost_center" class="form-control" required v-model="costCenterId">
                     <option value>Selecione</option>
                     <option v-for="cost in costCenters" :value="cost.id" :key="cost.id">@{{ cost.name }}</option>
                 </select>
@@ -46,7 +46,7 @@
         <div class="col-3">
             <div class="form-group">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="paid" name="paid" value="1" checked>
+                    <input type="checkbox" class="form-check-input" id="paid" name="paid" value="1" {{$outlay->statusPay()}}>
                     <label class="form-check-label" for="paid">Já esta pago</label>
                 </div>
             </div>
@@ -67,6 +67,8 @@
                 },
                 sources: [],
                 costCenters: [],
+                costCenterId: "{{$outlay->cost_center_id}}",
+                sourceId: "{{$outlay->source_id}}",
             },
             methods:{
                 getSources(){

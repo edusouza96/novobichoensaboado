@@ -54,5 +54,29 @@ class OutlayCreateService
 
         return $outlay;
     }
+    
+    public function update($id, array $attributes, User $userLogged)
+    {
+        $datePay = Carbon::createFromFormat('Y-m-d', $attributes['date_pay']);
+        $value = str_replace(',', '.', $attributes['value']);
+        
+        $outlay = $this->outlayRepository->update(
+            $id,
+            $attributes['description'], 
+            $value, 
+            $datePay, 
+            $attributes['source'], 
+            $attributes['cost_center'], 
+            isset($attributes['paid']) ? $attributes['paid']: false, 
+            $userLogged
+        );
+dd($outlay);
+        $treasure = $this->treasureRepository->subValue($value, SourceType::getName($attributes['source']), $store);
+
+        $cashBook = $this->cashBookRepository->getLast($store);
+        $moves = $this->cashBookMoveRepository->save($value, $attributes['source'], TypeMovesType::OUT, $cashBook, $userLogged);
+
+        return $outlay;
+    }
 
 }

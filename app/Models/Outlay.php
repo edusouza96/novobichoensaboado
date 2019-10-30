@@ -66,4 +66,11 @@ class Outlay extends Model
         return $this->created_at;
     }
    
+    public function statusPay()
+    {
+        if($this->paid == 1) return 'checked';
+        if($this->paid === 0) return '';
+        return 'checked';
+    }
+   
 }

@@ -27,6 +27,13 @@ class OutlayRepository
         return $this->outlay->find($id);   
     }
     
+    public function pay($id)
+    {
+        $outlay = $this->find($id);   
+        $outlay->paid = true;
+        $outlay->save();
+    }
+    
     public function findByDate(Carbon $datePay, $store)
     {
         return $this->outlay
@@ -96,6 +103,22 @@ class OutlayRepository
         $outlay->paid = $paid;
         $outlay->store_id = $store;
         $outlay->createdBy()->associate($userLogged);
+        $outlay->updatedBy()->associate($userLogged);
+
+        $outlay->save();
+
+        return $outlay;
+    }
+    
+    public function update($id, $description = null, $value, Carbon $datePay, $source, $costCenter, $paid, User $userLogged)
+    {
+        $outlay = $this->find($id);
+        $outlay->description = $description;
+        $outlay->value = $value;
+        $outlay->date_pay = $datePay;
+        $outlay->source_id = $source;
+        $outlay->cost_center_id = $costCenter;
+        $outlay->paid = $paid;
         $outlay->updatedBy()->associate($userLogged);
 
         $outlay->save();

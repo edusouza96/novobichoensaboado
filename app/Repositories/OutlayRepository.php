@@ -27,10 +27,12 @@ class OutlayRepository
         return $this->outlay->find($id);   
     }
     
-    public function pay($id)
+    public function pay($id, $cashBookMove = null)
     {
         $outlay = $this->find($id);   
         $outlay->paid = true;
+        if($cashBookMove)
+            $outlay->cashBookMove()->associate($cashBookMove);
         $outlay->save();
     }
     
@@ -103,7 +105,7 @@ class OutlayRepository
         return $this->outlay->newInstance();
     }
 
-    public function save($description = null, $value, Carbon $datePay, $source, $costCenter, $cashBookMove, $paid, User $userLogged, $store)
+    public function save($description = null, $value, Carbon $datePay, $source, $costCenter, $cashBookMove = null, $paid, User $userLogged, $store)
     {
         $outlay = $this->newInstance();
         $outlay->description = $description;
@@ -111,7 +113,8 @@ class OutlayRepository
         $outlay->date_pay = $datePay;
         $outlay->source_id = $source;
         $outlay->cost_center_id = $costCenter;
-        $outlay->cashBookMove()->associate($cashBookMove);
+        if($cashBookMove)
+            $outlay->cashBookMove()->associate($cashBookMove);
         $outlay->paid = $paid;
         $outlay->store_id = $store;
         $outlay->createdBy()->associate($userLogged);
@@ -122,7 +125,7 @@ class OutlayRepository
         return $outlay;
     }
     
-    public function update($id, $description = null, $value, Carbon $datePay, $source, $costCenter, $paid, User $userLogged)
+    public function update($id, $description = null, $value, Carbon $datePay, $source, $costCenter, $cashBookMove = null, $paid, User $userLogged)
     {
         $outlay = $this->find($id);
         $outlay->description = $description;
@@ -130,6 +133,9 @@ class OutlayRepository
         $outlay->date_pay = $datePay;
         $outlay->source_id = $source;
         $outlay->cost_center_id = $costCenter;
+        $outlay->cash_book_move_id = null;
+        if($cashBookMove)
+            $outlay->cashBookMove()->associate($cashBookMove);
         $outlay->paid = $paid;
         $outlay->updatedBy()->associate($userLogged);
 

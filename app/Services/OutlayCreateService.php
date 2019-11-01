@@ -35,10 +35,13 @@ class OutlayCreateService
     {
         $datePay = Carbon::createFromFormat('Y-m-d', $attributes['date_pay']);
         $value = str_replace(',', '.', $attributes['value']);
+        $moves = null;
 
-        $treasure = $this->treasureRepository->subValue($value, SourceType::getName($attributes['source']), $store);
-        $cashBook = $this->cashBookRepository->getLast($store);
-        $moves = $this->cashBookMoveRepository->save($value, $attributes['source'], TypeMovesType::OUT, $cashBook, $userLogged);
+        if(isset($attributes['paid']) && $attributes['paid']){
+            $treasure = $this->treasureRepository->subValue($value, SourceType::getName($attributes['source']), $store);
+            $cashBook = $this->cashBookRepository->getLast($store);
+            $moves = $this->cashBookMoveRepository->save($value, $attributes['source'], TypeMovesType::OUT, $cashBook, $userLogged);
+        }
         
         $outlay = $this->outlayRepository->save(
             $attributes['description'], 
@@ -47,7 +50,7 @@ class OutlayCreateService
             $attributes['source'], 
             $attributes['cost_center'], 
             $moves,
-            isset($attributes['paid']) ? $attributes['paid']: false, 
+            isset($attributes['paid']) ? $attributes['paid']: false,
             $userLogged, 
             $store
         );
@@ -61,8 +64,20 @@ class OutlayCreateService
 
         $datePay = Carbon::createFromFormat('Y-m-d', $attributes['date_pay']);
         $value = str_replace(',', '.', $attributes['value']);
-        $treasure = $this->treasureRepository->addValue($outlay->getValue(), $outlay->getSource()->getName(), $store);
-        $treasure = $this->treasureRepository->subValue($value, SourceType::getName($attributes['source']), $store);
+        $moves = null;
+
+        if($outlay->getPaid() && isset($attributes['paid']) && $attributes['paid']){
+            $treasure = $this->treasureRepository->addValue($outlay->getValue(), $outlay->getSource()->getName(), $store);
+            $treasure = $this->treasureRepository->subValue($value, SourceType::getName($attributes['source']), $store);
+        }else if(!$outlay->getPaid() && isset($attributes['paid']) && $attributes['paid']){
+            $treasure = $this->treasureRepository->subValue($value, SourceType::getName($attributes['source']), $store);
+            $cashBook = $this->cashBookRepository->getLast($store);
+            $moves = $this->cashBookMoveRepository->save($value, $attributes['source'], TypeMovesType::OUT, $cashBook, $userLogged);
+        }else if($outlay->getPaid() && (!isset($attributes['paid']) || $attributes['paid'] == false)){
+            $this->treasureRepository->addValue($outlay->getValue(), $outlay->getSource()->getName(), $store);
+            $moves = $outlay->getCashBookMove();
+            $this->cashBookMoveRepository->delete($moves->getId());   
+        }
 
         $outlay = $this->outlayRepository->update(
             $id,
@@ -71,12 +86,15 @@ class OutlayCreateService
             $datePay, 
             $attributes['source'], 
             $attributes['cost_center'], 
+            $moves,
             isset($attributes['paid']) ? $attributes['paid']: false, 
             $userLogged
         );
 
-        $moves = $outlay->getCashBookMove();
-        $moves = $this->cashBookMoveRepository->update($moves, $value, $attributes['source'], $moves->getType(), $moves->getCashBook(), $userLogged);
+        if($outlay->getPaid() && isset($attributes['paid']) && $attributes['paid']){
+            $moves = $outlay->getCashBookMove();
+            $moves = $this->cashBookMoveRepository->update($moves, $value, $attributes['source'], $moves->getType(), $moves->getCashBook(), $userLogged);
+        }
 
         return $outlay;
     }
@@ -84,10 +102,24 @@ class OutlayCreateService
     public function delete($id, $store)
     {
         $outlay = $this->outlayRepository->find($id);
-        $this->treasureRepository->addValue($outlay->getValue(), $outlay->getSource()->getName(), $store);
-        $moves = $outlay->getCashBookMove();
-        $this->cashBookMoveRepository->delete($moves->getId());
+        if($outlay->getPaid()){
+            $this->treasureRepository->addValue($outlay->getValue(), $outlay->getSource()->getName(), $store);
+            $moves = $outlay->getCashBookMove();
+            $this->cashBookMoveRepository->delete($moves->getId());
+        }
         $this->outlayRepository->delete($id);
+    }
+
+    public function pay($id, User $userLogged, $store)
+    {
+        $outlay = $this->outlayRepository->find($id);
+        $moves = null;
+        if(!$outlay->getPaid()){
+            $treasure = $this->treasureRepository->subValue($outlay->getValue(), $outlay->getSource()->getName(), $store);
+            $cashBook = $this->cashBookRepository->getLast($store);
+            $moves = $this->cashBookMoveRepository->save($outlay->getValue(), $outlay->getSource()->getId(), TypeMovesType::OUT, $cashBook, $userLogged);
+        }
+        $this->outlayRepository->pay($id, $moves);
     }
 
 }

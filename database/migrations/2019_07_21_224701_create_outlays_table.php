@@ -20,7 +20,7 @@ class CreateOutlaysTable extends Migration
             $table->timestamp('date_pay')->nullable();
             $table->integer('source_id');
             $table->integer('cost_center_id');
-            $table->integer('cash_book_move_id');
+            $table->integer('cash_book_move_id')->nullable();
             $table->boolean('paid')->nullable();
             $table->integer('store_id');
             $table->integer('created_by');

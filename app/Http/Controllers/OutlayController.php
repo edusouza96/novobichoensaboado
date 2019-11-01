@@ -104,7 +104,7 @@ class OutlayController extends Controller
     public function pay($id)
     {
         try {
-            $this->outlayRepository->pay($id);
+            $this->outlayCreateService->pay($id, $this->user, $this->store);
             return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Paga.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

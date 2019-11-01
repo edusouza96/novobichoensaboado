@@ -26,7 +26,7 @@
         <div class="col-md-4 col-xs-12">
             <div class="card mb-3 text-center" v-if="hasInconsistencyUnfinishedCashdesk">
                 <div class="card-header text-white bg-primary">
-                    <i class="fas fa-exclamation-triangle text-warning"></i> Inconsistencias
+                    <i class="fas fa-exclamation-triangle text-warning"></i> Caixas não fechado
                 </div>
                 <div>
                     <table class="table">
@@ -85,6 +85,23 @@
         <div class="col-md-3 col-xs-12">
             <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-money-transfer">Transferência</button>
         </div>
+    </div>
+
+    <div class="row mt-2 d-flex flex-row-reverse">
+        <div class="col-md-4 col-xs-12">
+            <div class="card mb-3 text-center" v-if="hasInconsistencyUnfinishedCashdesk">
+                <div class="card-header text-white bg-primary">
+                    <i class="fas fa-dollar-sign text-warning"></i> Contas a Pagar
+                </div>
+                <div>
+                    <table-outlay-to-pay type="last"></table-outlay-to-pay>
+                    <table-outlay-to-pay type="today"></table-outlay-to-pay>
+                    <table-outlay-to-pay type="tomorrow"></table-outlay-to-pay>
+                   
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection

@@ -59,7 +59,7 @@
         new Vue({
             el: '#form',
             data: {
-                datePay: moment().format("YYYY-MM-DD"),
+                datePay: "{{$outlay->getDatePay()}}" != "" ? moment("{{$outlay->getDatePay()}}", "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"),
                 money: {
                     decimal: ",",
                     thousands: "",

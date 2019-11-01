@@ -44,4 +44,22 @@ class CashBookMoveRepository
 
         return $cashBookMove;
     }
+    
+    public function update(CashBookMove $cashBookMove, $value, $source, $type, CashBook $cashBook, User $userLogged)
+    {
+        $cashBookMove->value = $value;
+        $cashBookMove->source_id = $source;
+        $cashBookMove->type = $type;
+        $cashBookMove->cashBook()->associate($cashBook);
+        $cashBookMove->updatedBy()->associate($userLogged);
+
+        $cashBookMove->save();
+
+        return $cashBookMove;
+    }
+    
+    public function delete($id)
+    {
+        $this->find($id)->delete();   
+    }
 }

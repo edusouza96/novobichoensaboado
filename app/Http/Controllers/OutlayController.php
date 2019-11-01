@@ -2,6 +2,7 @@
 
 namespace BichoEnsaboado\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Services\OutlayCreateService;
@@ -50,8 +51,26 @@ class OutlayController extends Controller
     public function findByDate(Request $request)
     {
         try {
-            $datePay = \Carbon\Carbon::createFromFormat('Y-m-d', $request->get('date_pay'));
+            $datePay = Carbon::createFromFormat('Y-m-d', $request->get('date_pay'));
             $outlay = $this->outlayRepository->findByDate($datePay , $this->store);
+            return response()->json($outlay);
+        } catch (Exception $ex) {
+            dd('erro');
+        }
+    }
+    
+    public function listDashboard($type)
+    {
+        try {
+            $attributes['paid'] = 0;
+            if($type == 'today'){
+                $attributes['date_pay'] = Carbon::now()->format('Y-m-d');
+            }else if($type == 'tomorrow'){
+                $attributes['date_pay'] = Carbon::tomorrow()->format('Y-m-d');
+            }else{
+                $attributes['date_pay_last'] = Carbon::tomorrow()->endOfDay()->format('Y-m-d H:i:s');
+            }
+            $outlay = $this->outlayRepository->findByFilter($attributes, false);
             return response()->json($outlay);
         } catch (Exception $ex) {
             dd('erro');
@@ -67,7 +86,7 @@ class OutlayController extends Controller
     public function update(OutlayCreateRequest $request, $id)
     {
         try {
-            $outlay = $this->outlayCreateService->update($id, $request->all(), $this->user);
+            $outlay = $this->outlayCreateService->update($id, $request->all(), $this->user, $this->store);
             return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Atualizada.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -75,7 +94,12 @@ class OutlayController extends Controller
     }
     public function destroy($id)
     {
-        //
+        try {
+            $this->outlayCreateService->delete($id, $this->store);
+            return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Deletada.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        } 
     }
     public function pay($id)
     {

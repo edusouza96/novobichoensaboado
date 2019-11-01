@@ -48,6 +48,10 @@ class OutlayRepository
     {
         $search = $this->outlay->newQuery();
 
+        if(isset($attributes['paid'])){
+            $search = $search->where('paid', $attributes['paid']);
+        }
+       
         if(isset($attributes['description'])){
             $search = $search->where('description', 'like', "%{$attributes['description']}%");
         }
@@ -63,9 +67,16 @@ class OutlayRepository
         if(isset($attributes['store'])){
             $search = $search->where('store_id', $attributes['store']);
         }
+        
+        if(isset($attributes['date_pay'])){
+            $search = $search->where('date_pay', 'like', $attributes['date_pay'].'%');
+        }
+        
+        if(isset($attributes['date_pay_last'])){
+            $search = $search->where('date_pay', '>', $attributes['date_pay_last']);
+        }
 
         $search->orderBy('date_pay', 'desc');
-
         return $paginate ? $search->paginate(15) : $search->get();
     }
     
@@ -92,7 +103,7 @@ class OutlayRepository
         return $this->outlay->newInstance();
     }
 
-    public function save($description = null, $value, Carbon $datePay, $source, $costCenter, $paid, User $userLogged, $store)
+    public function save($description = null, $value, Carbon $datePay, $source, $costCenter, $cashBookMove, $paid, User $userLogged, $store)
     {
         $outlay = $this->newInstance();
         $outlay->description = $description;
@@ -100,6 +111,7 @@ class OutlayRepository
         $outlay->date_pay = $datePay;
         $outlay->source_id = $source;
         $outlay->cost_center_id = $costCenter;
+        $outlay->cashBookMove()->associate($cashBookMove);
         $outlay->paid = $paid;
         $outlay->store_id = $store;
         $outlay->createdBy()->associate($userLogged);
@@ -124,5 +136,10 @@ class OutlayRepository
         $outlay->save();
 
         return $outlay;
+    }
+
+    public function delete($id)
+    {
+        $this->find($id)->delete();   
     }
 }

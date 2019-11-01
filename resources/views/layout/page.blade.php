@@ -2,7 +2,7 @@
 
 <div class="main">
     @if(session('alertType'))
-        <div class="alert alert-{{ session('alertType') }}" role="alert">
+        <div class="alert alert-{{ session('alertType') }} text-center" role="alert">
             {{ session('message') }}
         </div>
     @endif

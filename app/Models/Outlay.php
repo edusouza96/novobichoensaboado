@@ -5,6 +5,7 @@ namespace BichoEnsaboado\Models;
 use BichoEnsaboado\Models\User;
 use BichoEnsaboado\Models\Treasure;
 use BichoEnsaboado\Models\CostCenter;
+use BichoEnsaboado\Models\CashBookMove;
 use Illuminate\Database\Eloquent\Model;
 
 class Outlay extends Model
@@ -28,6 +29,10 @@ class Outlay extends Model
     {
         return $this->belongsTo(CostCenter::class, 'cost_center_id');
     }
+    public function cashBookMove()
+    {
+        return $this->belongsTo(CashBookMove::class, 'cash_book_move_id');
+    }
     
     public function getId()
     {
@@ -48,6 +53,10 @@ class Outlay extends Model
     public function getSource()
     {
         return $this->source;
+    }
+    public function getCashBookMove()
+    {
+        return $this->cashBookMove;
     }
     public function getCostCenter()
     {

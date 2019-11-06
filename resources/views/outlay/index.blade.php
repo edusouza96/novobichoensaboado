@@ -3,6 +3,7 @@
  
 @section('content') 
     <div id="outlays" class="container">
+        <modal-pay-outlay :id="id" :key="id"></modal-pay-outlay>
         <div class="text-right mb-3">
             <a href="{{route('outlay.create')}}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Cadastrar
@@ -89,14 +90,14 @@
                                 <td>{{ $outlay->getDescription() }}</td>
                                 <td>R$ {{ number_format($outlay->getValue(), 2, ',', '.') }}</td>
                                 <td>{{ $outlay->getDatePay()? $outlay->getDatePay()->format('d/m/Y'):'' }}</td>
-                                <td>{{ $outlay->getSource()->getDisplay() }}</td>
+                                <td>{{ $outlay->getSource() ? $outlay->getSource()->getDisplay() : "" }}</td>
                                 <td>{{ $outlay->getCostCenter()->getName() }}</td>
                                 <td>{{ $outlay->getStore() }}</td>
                                 <td>
                                     @if(!$outlay->getPaid())
-                                        <a href="{{route('outlay.pay', $outlay->getId())}}" class="btn btn-warning btn-sm">
+                                        <button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#modal-pay-outlay" @click="id = {{ $outlay->getId()}}">
                                             <i class="fas fa-exclamation"></i>
-                                        </a>
+                                        </button>
                                     @endif
                                 </td>
                                 <td>
@@ -130,6 +131,7 @@
         new Vue({
             el: '#outlays',
             data: {
+                id: null,
                 sources: [],
                 costCenters: [],
             },
@@ -145,7 +147,7 @@
                     .done(function(data) {
                         this.costCenters = data;
                     }.bind(this));
-                }
+                },
             },
             created(){
                 this.getSources();

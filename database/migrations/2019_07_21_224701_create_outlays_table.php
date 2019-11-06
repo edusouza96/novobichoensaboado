@@ -16,9 +16,9 @@ class CreateOutlaysTable extends Migration
         Schema::create('outlays', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('description')->nullable();
-            $table->decimal('value', 10, 2);
+            $table->decimal('value', 10, 2)->nullable();
             $table->timestamp('date_pay')->nullable();
-            $table->integer('source_id');
+            $table->integer('source_id')->nullable();
             $table->integer('cost_center_id');
             $table->integer('cash_book_move_id')->nullable();
             $table->boolean('paid')->nullable();

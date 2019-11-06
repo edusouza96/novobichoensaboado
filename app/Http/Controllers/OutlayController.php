@@ -92,6 +92,15 @@ class OutlayController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }
+    public function showJson($id)
+    {
+        try {
+            $outlay = $this->outlayRepository->find($id);
+            return response()->json($outlay);
+        } catch (Exception $ex) {
+            dd($ex);
+        } 
+    }
     public function destroy($id)
     {
         try {
@@ -101,10 +110,10 @@ class OutlayController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         } 
     }
-    public function pay($id)
+    public function pay(Request $request)
     {
         try {
-            $this->outlayCreateService->pay($id, $this->user, $this->store);
+            $this->outlayCreateService->pay($request->all(), $this->user, $this->store);
             return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Paga.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

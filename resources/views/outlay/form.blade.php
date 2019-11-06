@@ -11,13 +11,13 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="source">Valor</label>
-                <input type="text" name="value" id="value" class="form-control" v-money="money" required value="{{$outlay->getValue()}}">
+                <input type="text" name="value" id="value" class="form-control" v-money="money" value="{{$outlay->getValue()}}">
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
                 <label for="source">Fonte</label>
-                <select name="source" id="source" class="form-control" required v-model="sourceId">
+                <select name="source" id="source" class="form-control" v-model="sourceId">
                     <option value>Selecione</option>
                     <option v-for="source in sources" :value="source.id" :key="source.id">@{{ source.display }}</option>
                 </select>

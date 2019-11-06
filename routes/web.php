@@ -53,7 +53,8 @@ Route::group(['prefix' => 'financeiro'], function () {
         Route::get('editar/{id}', ['as' => 'outlay.edit', 'uses' => 'OutlayController@edit']);
         Route::post('editar/{id}', ['as' => 'outlay.update', 'uses' => 'OutlayController@update']);
         Route::get('deletar/{id}', ['as' => 'outlay.destroy', 'uses' => 'OutlayController@destroy']);
-        Route::get('pagar/{id}', ['as' => 'outlay.pay', 'uses' => 'OutlayController@pay']);
+        Route::get('buscar/{id}', ['as' => 'outlay.showJson', 'uses' => 'OutlayController@showJson']);
+        Route::post('pagar', ['as' => 'outlay.pay', 'uses' => 'OutlayController@pay']);
         Route::get('lista/{type}', ['as' => 'outlay.listDashboard', 'uses' => 'OutlayController@listDashboard']);
         Route::get('deletar/{type}', ['as' => 'outlay.destroy', 'uses' => 'OutlayController@destroy']);
         Route::get('buscar-por-dia', ['as' => 'outlay.findByDate', 'uses' => 'OutlayController@findByDate']);

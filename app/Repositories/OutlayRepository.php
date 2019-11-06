@@ -27,10 +27,13 @@ class OutlayRepository
         return $this->outlay->find($id);   
     }
     
-    public function pay($id, $cashBookMove = null)
+    public function pay($id, $value, $source, $datePay, $cashBookMove = null)
     {
         $outlay = $this->find($id);   
         $outlay->paid = true;
+        $outlay->value = $value;
+        $outlay->source_id = $source;
+        $outlay->date_pay = $datePay;
         if($cashBookMove)
             $outlay->cashBookMove()->associate($cashBookMove);
         $outlay->save();
@@ -75,10 +78,11 @@ class OutlayRepository
         }
         
         if(isset($attributes['date_pay_last'])){
-            $search = $search->where('date_pay', '>', $attributes['date_pay_last']);
+            $search = $search->where('date_pay', '>', "'".$attributes['date_pay_last']."'");
         }
 
         $search->orderBy('date_pay', 'desc');
+        $sql_with_bindings = str_replace_array('?', $search->getBindings(), $search->toSql());
         return $paginate ? $search->paginate(15) : $search->get();
     }
     
@@ -87,7 +91,7 @@ class OutlayRepository
         return $this->outlay
             ->where('store_id', $store)
             ->whereIn('cost_center_id', CostCenterSystemType::GROUP_CONTRIBUTE)
-            ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
+            ->whereDate('date_pay', 'like', $datePay->format('Y-m-d%'))
             ->get();
     }
     

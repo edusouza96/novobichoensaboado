@@ -89,8 +89,8 @@
 
     <div class="row mt-2 d-flex flex-row-reverse">
         <div class="col-md-4 col-xs-12">
-            <div class="card mb-3 text-center" v-if="hasInconsistencyUnfinishedCashdesk">
-                <div class="card-header text-white bg-primary">
+            <div class="card mb-3" v-if="hasInconsistencyUnfinishedCashdesk">
+                <div class="card-header text-center text-white bg-primary">
                     <i class="fas fa-dollar-sign text-warning"></i> Contas a Pagar
                 </div>
                 <div>

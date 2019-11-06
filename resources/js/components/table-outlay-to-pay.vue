@@ -1,28 +1,31 @@
 <template>
- <table class="table">
-    <thead>
-        <tr :class="classBgColor">
-            <th colspan="3">{{title}}</th>
-        </tr>
-        <tr class="thead-dark">
-            <th>Descrição</th>
-            <th>Valor</th>
-            <th></th>
-        </tr>
-    </thead>
+  <div>
+    <modal-pay-outlay :id="id" :key="id"></modal-pay-outlay>
+    <table class="table">
+      <thead>
+          <tr :class="classBgColor">
+              <th colspan="3" class="text-center">{{title}}</th>
+          </tr>
+          <tr class="thead-dark">
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th></th>
+          </tr>
+      </thead>
 
-    <tbody>
-        <tr v-for="outlay in list" :key="outlay.id">
-            <td>{{outlay.description}}</td>
-            <td>R$ {{convertToBrPattern(outlay.value)}}</td>
-            <td>
-              <a :href="linkPay(outlay.id)" class="btn btn-dark btn-sm">
-                Pagar
-              </a>
-            </td>
-        </tr>
-    </tbody>
-  </table>  
+      <tbody>
+          <tr v-for="outlay in list" :key="outlay.id">
+              <td>{{outlay.description}}</td>
+              <td>R$ {{convertToBrPattern(outlay.value)}}</td>
+              <td>
+                <button class="btn btn-dark btn-sm" type="button" data-toggle="modal" data-target="#modal-pay-outlay" @click="id = outlay.id">
+                  Pagar
+                </button>
+              </td>
+          </tr>
+      </tbody>
+    </table>  
+  </div>
 </template>
 
 <script>
@@ -32,6 +35,7 @@ export default {
       list:[],
       title:"",
       classBgColor:"",
+      id: null,
     }
   },
   props: ["type"],

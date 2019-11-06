@@ -25,9 +25,9 @@ class OutlayCreateRequest extends FormRequest
     {
         return [
             "description" => "required",
-            "value" => "required",
-            "date_pay" => "required",
-            "source" => "required",
+            "value" => "required_if:paid,1",
+            "date_pay" => "required_if:paid,1",
+            "source" => "required_if:paid,1",
             "cost_center" => "required",
         ];
     }
@@ -36,9 +36,9 @@ class OutlayCreateRequest extends FormRequest
     {
         return [
             "description.required" => "O campo Descrição é obrigatório.",
-            "value.required" => "O campo Valor é obrigatório.",
-            "date_pay.required" => "O campo Data de Pagamento/Vencimento é obrigatório.",
-            "source.required" => "O campo Fonte é obrigatório.",
+            "value.required_if" => "O campo Valor é obrigatório.",
+            "date_pay.required_if" => "O campo Data de Pagamento/Vencimento é obrigatório.",
+            "source.required_if" => "O campo Fonte é obrigatório.",
             "cost_center.required" => "O campo Centro de Custo é obrigatório.",
         ];
     }

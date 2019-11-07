@@ -16656,3 +16656,13 @@ legend {
   text-align: end;
 }
 
+.header-info-date-calendar {
+  background: #ccc;
+  color: #007fbf;
+  height: 3.7em;
+  text-align: center;
+  padding-top: 1em;
+  font-weight: bolder;
+  font-size: 18px;
+}
+

@@ -37,7 +37,20 @@
             data-toggle="tooltip" data-placement="bottom" 
             title="Clique para adicionar uma linha"
             class="cursor-pointer"
-          >{{register.hour}}</th>
+          >
+            {{register.hour}}
+            <button type="button" @click="openCalendar('#edit_day'+register.id)" class="btn text-primary"  v-if="register.editable && register.id >0">
+              <i class="fas fa-pencil-alt"></i>
+            </button>
+            <datetime
+              :input-id="'edit_day'+register.id"
+              value-zone="America/Sao_Paulo"
+              input-class="invisible large-10"
+              type="datetime"
+              :minute-step="30"
+              v-model="register.dateHour">
+            </datetime>
+          </th>
 
           <td>
             <div id="name">{{ register.client.name }}</div>
@@ -208,10 +221,14 @@ export default {
     };
   },
   methods: {
+    openCalendar(id){
+      $(id).click();
+    },
     url: function(id) {
       return laroute.route('pdv.index', {id: id});
     },
     plus: function(hour) {
+      if(hour.editable) return;
       var register = Object.assign({}, hour);
       register.id = null;
       register.client = {};
@@ -294,7 +311,14 @@ export default {
           register.status = data.status;
           register.cssRowBackground = data.cssRowBackground;
           register.editable = false;
-          
+          register.hour = data.hour;
+            
+          if(this.date == moment(register.dateHour).format('YYYY-MM-DD')){
+            let scheduleCanceled = this.data.filter(function(schedule){
+              return schedule.id == register.id;
+            });
+            this.data.splice(this.data.indexOf(scheduleCanceled[0]), 1);
+          }
           let group = 'alert-status';
           let title = 'Horário Agendado!';
           let text = '';
@@ -354,8 +378,8 @@ export default {
     buildData: function(register) {
       return {
         id: register.id,
-        date: this.date,
-        hour: register.hour,
+        date: register.dateHour.length > 19 ? moment(register.dateHour).format('YYYY-MM-DD HH:mm:ss') : this.date,
+        hour: register.dateHour.length > 19 ? moment(register.dateHour).format('HH:mm:ss') : register.hour,
         client: register.client.id,
         servicePet: register.servicePet ? register.servicePet.id : null,
         serviceVet: register.serviceVet ? register.serviceVet.id : null,
@@ -382,6 +406,7 @@ export default {
         .sort(function(current, previous) {
           if (current.hour > previous.hour) return 1;
           if (current.hour < previous.hour) return -1;
+          if (current.id > 0) return -1;
           return 0;
         });
     },

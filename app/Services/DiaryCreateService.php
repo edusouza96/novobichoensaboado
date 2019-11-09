@@ -52,21 +52,23 @@ class DiaryCreateService
         $observation = $attributes['observation'];
 
         // Se for pacote
-        if(isset($attributes['package'])){
-            return $this->createPackage(
-                $attributes['package'], 
-                $userLogged, 
-                $store, 
-                $client, 
-                $servicePet, 
-                $valuePet,
-                $serviceVet, 
-                $valueVet, 
-                $fetch, 
-                $deliveryFee, 
-                $gross, 
-                $observation
-            );
+        if(empty($attributes['id'])){
+            if(isset($attributes['package'])){
+                return $this->createPackage(
+                    $attributes['package'], 
+                    $userLogged, 
+                    $store, 
+                    $client, 
+                    $servicePet, 
+                    $valuePet,
+                    $serviceVet, 
+                    $valueVet, 
+                    $fetch, 
+                    $deliveryFee, 
+                    $gross, 
+                    $observation
+                );
+            }
         }
 
         $companion = 0;

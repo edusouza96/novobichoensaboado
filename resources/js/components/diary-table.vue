@@ -5,7 +5,7 @@
     <modal-services-pet :date="date" :register="registerCurrent" @servicePetSelected="servicePetSelected" @packageSelected="packageSelected"></modal-services-pet>
     <modal-services-vet :register="registerCurrent" @serviceVetSelected="serviceVetSelected"></modal-services-vet>
     <modal-observation :default="observationCurrent" :editable="editableCurrent" @setObservation="setObservation"></modal-observation>
-    <modal-pets-by-owner :register="registerCurrent" @petSelected="petSelected"></modal-pets-by-owner>
+    <modal-pets-by-owner :register="registerCurrent" @petSelected="petSelected" :key="reloadComponent"></modal-pets-by-owner>
 
     <table class="table">
       <thead class="thead-primary">
@@ -154,7 +154,7 @@
                 <i class="fas fa-save"></i> Agendar
               </button>
 
-              <button @click="refreshRegisterCurrent(index)" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-list-pets-by-owner" v-if="register.status == statusType.scheduled">
+              <button @click="reloadComponentMyPets();refreshRegisterCurrent(index)" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-list-pets-by-owner" v-if="register.status == statusType.scheduled">
                 <i class="fas fa-paw"></i><small>Irmão</small>
               </button>
             
@@ -217,10 +217,14 @@ export default {
         { id:null, hour:"17:30", client:{}, servicePet:{}, petValue: 0, serviceVet:{}, vetValue: 0, gross:"", status: null, cssRowBackground: "table-row-background-status-empty", editable: true, observation:"" }
       ],
       indexCurrent: null,
-      registerCurrent: {}
+      registerCurrent: {},
+      reloadComponent: '1',
     };
   },
   methods: {
+    reloadComponentMyPets(){
+      this.reloadComponent = Math.floor(Math.random() * 101);
+    },
     openCalendar(id){
       $(id).click();
     },
@@ -283,6 +287,7 @@ export default {
     refreshRegisterCurrent: function(index) {
       this.indexCurrent = index;
       this.registerCurrent = this.schedules[this.indexCurrent];
+      reloadComponent
     },
     calcGross: function() {
       let registerCurrent = this.schedules[this.indexCurrent];

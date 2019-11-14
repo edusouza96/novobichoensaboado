@@ -48,7 +48,10 @@ class SaleCreateService
             $store
         );
 
-        $this->attachDiary($sale, $attributes['diaryId']);
+        $diariesId = isset($attributes['diariesId']) ? $attributes['diariesId'] : [];
+        foreach ($diariesId as $diaryId) {
+            $this->attachDiary($sale, $diaryId);
+        }
 
         $products = collect($attributes['products']);
         $this->attachProduct($sale, $products);

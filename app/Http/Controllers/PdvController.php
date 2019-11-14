@@ -4,6 +4,7 @@ namespace BichoEnsaboado\Http\Controllers;
 
 use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Requests;
+use BichoEnsaboado\Services\BuySearchService;
 use BichoEnsaboado\Services\SaleCreateService;
 use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Presenters\InvoicePresenter;
@@ -21,6 +22,9 @@ class PdvController extends Controller
 
     /** @var SaleCreateService */
     private $saleCreateService;
+    
+    /** @var BuySearchService */
+    private $buySearchService;
 
     /** @var UserRepository */
     private $userRepository;
@@ -31,12 +35,14 @@ class PdvController extends Controller
         DiaryRepository $diaryRepository, 
         SaleRepository $saleRepository,
         SaleCreateService $saleCreateService, 
+        BuySearchService $buySearchService, 
         UserRepository $userRepository
     )
     {
         $this->diaryRepository = $diaryRepository;
         $this->saleRepository = $saleRepository;
         $this->saleCreateService = $saleCreateService;
+        $this->buySearchService = $buySearchService;
         $this->userRepository = $userRepository;
         $this->user = $this->userRepository->find(1);
     }
@@ -44,22 +50,42 @@ class PdvController extends Controller
     public function index($id = null)
     {
         try {
-            $diary = is_null($id) ? null : $this->diaryRepository->find($id);
+            $ids = null;
 
-            $jsonPet = $diary ? $diary->toJsonPet() : null;
-            $jsonVet = $diary ? $diary->toJsonVet() : null;
-            $jsonDeliveryFee = $diary ? $diary->toJsonDeliveryFee() : null;
-            
-            return view('pdv.index', compact('jsonPet', 'jsonVet', 'jsonDeliveryFee', 'id'));
+            if($id){
+                $diary = $this->diaryRepository->find($id);
+                $diaries = $this->buySearchService->getDiariesSameOwner($diary);
+                $ids = $diaries->pluck('id');
+            }
+
+            return view('pdv.index', compact('ids'));
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', '');
         }
     }
 
+    public function getBuys($ids)
+    {
+        try {
+            $buys = $this->buySearchService->getBuys(explode(',', $ids));
+            return response()->json($buys);
+        } catch (\Exception $ex) {
+            dd($ex->getMessage());
+        }
+    }
+
     public function registerPayment(Request $request)
     {
-        $id = $this->saleCreateService->create($request->all(), $this->user, $this->store);
-        return response(['id'=> $id], 201);
+        try {
+            $id = $this->saleCreateService->create($request->all(), $this->user, $this->store);
+            
+            if($request->get('diariesId'))
+                $this->diaryRepository->paid($request->get('diariesId'));
+                
+            return response(['id'=> $id], 201);
+        } catch (\Exception $ex) {
+            dd($ex->getMessage());
+        }
     }
 
     public function invoice($id)

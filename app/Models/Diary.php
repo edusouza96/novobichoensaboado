@@ -145,37 +145,37 @@ class Diary extends Model
         ];
     }
 
-    public function toJsonPet()
+    public function toArrayPet()
     {
         if (is_null($this->getServicePet())) return null;
-        return json_encode([
+        return [
             "units" => 1,
-            "description" => $this->getServicePet()->getName(),
+            "description" => $this->getServicePet()->getName().' - '.$this->getClient()->getName(),
             "unitaryValue" => $this->getServicePetValue(),
             "amount" => $this->getServicePetValue(),
             "type" => ServicesType::PET,
-        ]);
+        ];
     }
-    public function toJsonVet()
+    public function toArrayVet()
     {
         if (is_null($this->getServiceVet())) return null;
-        return json_encode([
+        return [
             "units" => 1,
-            "description" => $this->getServiceVet()->getName(),
+            "description" => $this->getServiceVet()->getName().' - '.$this->getClient()->getName(),
             "unitaryValue" => $this->getServiceVetValue(),
             "amount" => $this->getServiceVetValue(),
             "type" => ServicesType::VET,
-        ]);
+        ];
     }
-    public function toJsonDeliveryFee()
+    public function toArrayDeliveryFee()
     {
         if ($this->getFetch() == 0) return null;
-        return json_encode([
+        return [
             "units" => 1,
-            "description" => 'Serviço de Busca',
+            "description" => 'Serviço de Busca - '.$this->getClient()->getName(),
             "unitaryValue" => $this->getDeliveryFee(),
             "amount" => $this->getDeliveryFee(),
             "type" => ServicesType::DELIVERY_FEE,
-        ]);
+        ];
     }
 }

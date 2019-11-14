@@ -2,6 +2,7 @@
 namespace BichoEnsaboado\Presenters;
 
 use BichoEnsaboado\Models\Sale;
+use BichoEnsaboado\Enums\PaymentMethodsType;
 
 class InvoicePresenter
 {
@@ -11,20 +12,35 @@ class InvoicePresenter
     public function __construct(Sale $sale)
     {
         $this->sale = $sale;
-        $this->diary = $sale->getDiary()->first();
+        $this->diaries = $sale->getDiary();
     }
 
     public function getOwnerName()
     {
-        return $this->diary ? $this->diary->getClient()->getOwnerName() : '';
+        if($this->diaries->isEmpty()) return '';
+
+        return $this->diaries->first()->getClient()->getOwnerName();
     }  
     public function getPetName()
     {
-        return $this->diary ? $this->diary->getClient()->getName() : '';
+        if($this->diaries->isEmpty()) return '';
+
+        $petNames = '';
+        foreach($this->diaries as $diary){
+            $petNames .= " <i class='fas fa-paw'></i> ".$diary->getClient()->getName();
+        }
+        return $petNames;
     }  
     public function getBreedName()
     {
-        return $this->diary ? $this->diary->getClient()->getBreed()->getName() : '';
+        if($this->diaries->isEmpty()) return '';
+
+        $breedNames = '';
+        foreach($this->diaries as $diary){
+            $breedNames .= " <i class='fas fa-paw'></i> ".$diary->getClient()->getBreed()->getName();
+        }
+
+        return $breedNames;
     }  
 
     public function getDate()
@@ -99,6 +115,26 @@ class InvoicePresenter
     public function getTotal()
     {
         return number_format($this->getSaleItems()->sum('amountValue'), 2, ',', '');
+    }
+
+    public function getValueReceived()
+    {
+        return number_format($this->sale->getValueReceived(), 2, ',', '');
+    }
+    public function getLeftover()
+    {
+        return number_format($this->sale->getLeftover(), 2, ',', '');
+    }
+    public function getDescriptivePaymentMethod()
+    {
+        switch ($this->sale->getPaymentMethodId()) {
+            case PaymentMethodsType::CASH:
+                return PaymentMethodsType::getName($this->sale->getPaymentMethodId());
+            case PaymentMethodsType::DEBIT_CARD:
+                return PaymentMethodsType::getName($this->sale->getPaymentMethodId());
+            case PaymentMethodsType::CREDIT_CARD:
+                return PaymentMethodsType::getName($this->sale->getPaymentMethodId())." - ".$this->sale->getPlots()." parcela(s)";
+        }
     }
         
 }

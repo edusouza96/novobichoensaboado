@@ -49,9 +49,9 @@ Vue.component("modal-services-vet", require("./components/ModalServicesVet.vue")
 
 Vue.component("modal-observation", require("./components/ModalObservation.vue").default);
 
-Vue.component("modal-pets-by-owner", require("./components/ModalPetsByOwner.vue").default);
+Vue.component("modal-pets-by-owner", require("./components/modal-pets-by-owner.vue").default);
 
-Vue.component("modal-finish-pay", require("./components/ModalFinishPay.vue").default);
+Vue.component("modal-finish-pay", require("./components/modal-finish-pay.vue").default);
 
 Vue.component("modal-open-cashdesk", require("./components/ModalOpenCashdesk.vue").default);
 

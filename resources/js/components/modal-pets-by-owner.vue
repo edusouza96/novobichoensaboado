@@ -36,7 +36,12 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removePet()">Remover</button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-dismiss="modal"
+            @click="removePet()"
+          >Remover</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
         </div>
       </div>
@@ -52,27 +57,26 @@ export default {
     };
   },
   props: ["register"],
-  watch: {
-    register: function() {
-        let owner = this.register.client.owner_id;
-
-        if (owner > 0) {
-            $.get(laroute.route("owner.myPets", { id: owner })).done(
-                function(data) {
-                    this.listPets = data;                
-                }.bind(this)
-            );
-        } else {
-            this.listPets = [];
-        }
-    }
-  },
   computed: {
     hasPets: function() {
-        return this.listPets == null ? false : this.listPets.length > 0;
+      return this.listPets == null ? false : this.listPets.length > 0;
     }
   },
   methods: {
+    searchMyPets() {
+      if(!this.register.hasOwnProperty('client')) return false;
+      let owner = this.register.client.owner_id;
+
+      if (owner > 0) {
+        $.get(laroute.route("owner.myPets", { id: owner })).done(
+          function(data) {
+            this.listPets = data;
+          }.bind(this)
+        );
+      } else {
+        this.listPets = [];
+      }
+    },
     removePet: function() {
       this.$emit("petSelected", {});
       this.$forceUpdate();
@@ -82,6 +86,9 @@ export default {
       this.$forceUpdate();
       $("#modal-list-pets-by-owner").modal("hide");
     }
+  },
+  created(){
+    this.searchMyPets();
   }
 };
 </script>

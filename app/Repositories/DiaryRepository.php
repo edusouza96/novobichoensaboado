@@ -51,6 +51,11 @@ class DiaryRepository
         return $this->diary->find($id);   
     }
     
+    public function findInId(array $ids)
+    {
+        return $this->diary->whereIn('id', $ids)->get();   
+    }
+    
     public function findOrNew($id = null)
     {
         return $id ? $this->find($id) : $this->newEmptyInstance();   
@@ -64,6 +69,11 @@ class DiaryRepository
         $diary->save();
 
         return $diary;
+    }
+    public function paid(array $ids)
+    {
+        $this->diary->whereIn('id', $ids)
+            ->update(['status' => StatusType::FINISHED]);
     }
 
     public function newEmptyInstance()

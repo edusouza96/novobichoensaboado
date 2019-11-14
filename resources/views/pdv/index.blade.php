@@ -3,7 +3,7 @@
 
 @section('content')
 <div id="pdv" class="container" v-cloak>
-    <modal-finish-pay :products="products" :amount-sale="amountSale" :diary-id="diaryId"></modal-finish-pay>
+    <modal-finish-pay :products="products" :amount-sale="amountSale" :diaries-id="diariesId"></modal-finish-pay>
     <div class="pdv-content row">
         <div class="col-md-7 col-xs-12" style="">
             <div class="row">
@@ -109,7 +109,7 @@
     new Vue({
         el: '#pdv',
         data: {
-            diaryId: '{!! $id !!}',
+            diariesId: '{!! $ids !!}' == "" ? [] : JSON.parse('{!! $ids !!}'),
             query: '',
             selectedProduct: null,
             units: 1,
@@ -179,22 +179,12 @@
             }
         },
         created(){
-            try{
-                this.products.push(JSON.parse('{!! $jsonPet !!}'));
-            }catch(e){
+            if(this.diariesId.length > 0){
+                $.get(laroute.route("pdv.getBuys", {ids:this.diariesId}))
+                .done(function(data) {
+                    this.products = data;
+                }.bind(this));
             }
-
-            try{
-                this.products.push(JSON.parse('{!! $jsonVet !!}'));
-            }catch(e){
-            }
-
-            try{
-                this.products.push(JSON.parse('{!! $jsonDeliveryFee !!}'));
-            }catch(e){
-            }
-
-            
         }
 
     });

@@ -35,13 +35,13 @@
         <div class="row invoice-pet">
             <div class="col-12 pt-4">
                 <strong>Pet: </strong>
-                {{ $sale->getPetName() }}
+                {!! $sale->getPetName() !!}
             </div>
         </div>
         <div class="row invoice-breed">
             <div class="col-12 pt-4">
                 <strong>Raça: </strong>
-                {{ $sale->getBreedName() }}
+                {!! $sale->getBreedName() !!}
             </div>
         </div>
     </div>
@@ -69,6 +69,27 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+
+    <div class="container invoice-payment">
+        <div class="row">
+            <div class="col-12 pt-4">
+                <strong>Valor Recebido: </strong>
+                {{ $sale->getValueReceived() }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 pt-4">
+                <strong>Troco: </strong>
+                {!! $sale->getLeftover() !!}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 pt-4">
+                <strong>Método de Pagamento: </strong>
+                {!! $sale->getDescriptivePaymentMethod() !!}
+            </div>
+        </div>
     </div>
 
     <div class="row justify-content-end invoice-total">

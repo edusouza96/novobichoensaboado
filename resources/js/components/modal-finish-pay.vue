@@ -70,7 +70,7 @@
               <div class="col-4">
                 <div class="form-group">
                   <label for="valueReceived">Valor Recebido</label>
-                  <input type="text" name="valueReceived" class="form-control" v-model="valueReceived" v-money="money">
+                  <input type="text" name="valueReceived" class="form-control" v-model="valueReceived" v-money="money" :disabled="showFieldCardMachine">
                   
                 </div>
               </div>
@@ -108,7 +108,7 @@
 
 <script>
 export default {
-  props: ['products', 'amountSale', 'diaryId'],
+  props: ['products', 'amountSale', 'diariesId'],
   data: function() {
     return {
       rebates: [],
@@ -117,7 +117,7 @@ export default {
       paymentMethods: window.paymentMethodsType,
       paymentMethod: 1,
       cardMachines: window.cardMachinesType,
-      cardMachine: '',
+      cardMachine: 3,
       valueReceived: '',
       plots: 1,
       leftoverClass: '',
@@ -142,7 +142,7 @@ export default {
         valueReceived: this.convertToUsPattern(this.valueReceived),
         leftover: this.convertToUsPattern(this.leftover),
         amountSale: this.convertToUsPattern(this.amountSale),
-        diaryId: this.diaryId,
+        diariesId: this.diariesId,
         cardMachine: this.cardMachine,
       }).done((result)=> {
         window.location.href = laroute.route("pdv.invoice", result);
@@ -178,6 +178,11 @@ export default {
       .done(function(data) {
         this.rebates = data;
       }.bind(this));
+    },
+    setValueReceived(){
+      if(this.paymentMethod != this.paymentMethods.CASH.id){
+        this.valueReceived = this.totalPayable;
+      }
     }
   },
   watch: {
@@ -188,9 +193,13 @@ export default {
       }else{
         this.promotionValue = '0,00';
       }
+      this.setValueReceived();
     },
     leftover(){
       this.leftoverClass = this.isOwing() ? 'text-red' : '';
+    },
+    paymentMethod(){
+      this.setValueReceived();
     }
   },
   computed:{

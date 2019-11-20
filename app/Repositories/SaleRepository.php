@@ -2,6 +2,7 @@
 
 namespace BichoEnsaboado\Repositories;
 
+use Carbon\Carbon;
 use BichoEnsaboado\Models\Sale;
 use BichoEnsaboado\Models\Diary;
 use BichoEnsaboado\Models\Product;
@@ -31,6 +32,37 @@ class SaleRepository
             ->where('store_id', $store)
             ->where('created_at', 'like', $date->format('Y-m-d%'))
             ->get();
+    }
+
+    public function findByFilter(array $attributes, $paginate=false)
+    {
+        $search = $this->sale->newQuery();
+
+        if(isset($attributes['store'])){
+            $search = $search->where('store_id', $attributes['store']);
+        }
+        if(isset($attributes['created_at'])){
+            $search = $search->where('created_at', 'like', $attributes['created_at'].'%');
+        }
+        if(isset($attributes['name_pet'])){
+            $search = $search->whereHas('diary', function($query) use ($attributes){
+                $query->whereHas('client', function($query) use ($attributes){
+                    $query->where('name', 'like', '%'.$attributes['name_pet'].'%');
+                });
+            });
+        }
+        if(isset($attributes['name_product'])){
+            $search = $search->whereHas('products', function($query) use ($attributes){
+                $query->where('name', 'like', '%'.$attributes['name_product'].'%');
+            });
+        }
+
+        if(empty($attributes)){
+            $search = $search->where('created_at', 'like', Carbon::now()->format('Y-m-d').'%');
+        }
+
+        $search->orderBy('id', 'desc');
+        return $paginate ? $search->paginate(15) : $search->get();
     }
     
     public function save($valueReceived, $leftover, $amountSale, $paymentMethod, $plots, $promotionValue, $userLogged, $store)

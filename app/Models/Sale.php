@@ -82,7 +82,19 @@ class Sale extends Model
 
     public function getDescription()
     {
-        return 'tesre';
+
+        $description = '';
+        foreach ($this->getDiary() as $diary) {
+            $description .= $diary->getClient()->getName().'<br>';
+        }
+        foreach ($this->getProducts() as $product) {
+            $description .= $product->getName().'<br>';
+        }
+        return $description;
+    }
+    public function getStore()
+    {
+        return $this->store_id;
     }
 
     public function toArray()

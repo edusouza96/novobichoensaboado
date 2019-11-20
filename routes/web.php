@@ -30,6 +30,10 @@ Route::group(['prefix' => 'agenda'], function () {
     Route::post('cancelar', ['as' => 'diary.destroy', 'uses' => 'DiaryController@destroy']);
 });
 
+Route::group(['prefix' => 'vendas'], function () {
+    Route::get('do-dia/{date?}', ['as' => 'sales.ofDay', 'uses' => 'SaleController@ofDay']);
+});
+
 Route::group(['prefix' => 'pdv'], function () {
     Route::get('{id?}', ['as' => 'pdv.index', 'uses' => 'PdvController@index']);
     Route::post('registrar-pagamento', ['as' => 'pdv.registerPayment', 'uses' => 'PdvController@registerPayment']);

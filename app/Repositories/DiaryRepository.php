@@ -114,7 +114,7 @@ class DiaryRepository
             ->join('clients', 'diaries.client_id', '=', 'clients.id')
             ->whereDoesntHave('sales')
             ->whereDate('date_hour', '<=', Carbon::now()->startOfDay())
-            ->groupBy('date_hour')
+            ->groupBy(DB::raw("DATE_FORMAT(date_hour, '%Y-%m-%d')"))
             ->groupBy('clients.owner_id')
             ->get();
     }

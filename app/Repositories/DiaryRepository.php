@@ -8,6 +8,7 @@ use BichoEnsaboado\Models\Diary;
 use BichoEnsaboado\Models\Owner;
 use BichoEnsaboado\Models\Client;
 use BichoEnsaboado\Models\Service;
+use Illuminate\Support\Facades\DB;
 use BichoEnsaboado\Enums\StatusType;
 
 class DiaryRepository
@@ -103,5 +104,18 @@ class DiaryRepository
         $diary->package()->associate($package);
         $diary->save();
         return $diary;
+    }
+
+    public function blacklist()
+    {
+        $diary = $this->diary->newQuery();
+
+        return $diary->select(DB::raw('max(diaries.id) as id, max(`client_id`) as client_id, max(`date_hour`) as date_hour, sum(`gross`) as gross'))
+            ->join('clients', 'diaries.client_id', '=', 'clients.id')
+            ->whereDoesntHave('sales')
+            ->whereDate('date_hour', '<=', Carbon::now()->startOfDay())
+            ->groupBy('date_hour')
+            ->groupBy('clients.owner_id')
+            ->get();
     }
 }

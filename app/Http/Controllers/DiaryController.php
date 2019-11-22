@@ -8,6 +8,7 @@ use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Services\DiaryCreateService;
 use BichoEnsaboado\Repositories\DiaryRepository;
+use BichoEnsaboado\Presenters\BlacklistPresenter;
 
 class DiaryController extends Controller
 {
@@ -70,9 +71,14 @@ class DiaryController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function blacklist()
     {
-        //
+        $diary = $this->diaryRepository->blacklist();
+        $diary = $diary->map(function($item){
+           $debitor = new BlacklistPresenter($item);
+           return $debitor->toArray();
+        });
+        return response()->json($diary);
     }
 
     public function destroy(Request $request)

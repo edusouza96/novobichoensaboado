@@ -71,6 +71,7 @@ Route::group(['prefix' => 'financeiro'], function () {
 
     Route::get('extrato-do-dia', ['as' => 'cashdesk.extractOfDay', 'uses' => 'CashdeskController@extractOfDay']);
     Route::post('transferencia', ['as' => 'cashdesk.moneyTransfer', 'uses' => 'CashdeskController@moneyTransfer']);
+    Route::get('blacklist', ['as' => 'cashdesk.blacklist', 'uses' => 'DiaryController@blacklist']);
 });
 Route::group(['prefix' => 'caixa'], function () {
     Route::post('aporte', ['as' => 'cashdesk.contribute', 'uses' => 'CashdeskController@contribute']);

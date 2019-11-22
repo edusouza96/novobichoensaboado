@@ -2,6 +2,7 @@
 
 namespace BichoEnsaboado\Models;
 
+use BichoEnsaboado\Models\Sale;
 use BichoEnsaboado\Models\User;
 use BichoEnsaboado\Models\Client;
 use BichoEnsaboado\Models\Package;
@@ -17,6 +18,10 @@ class Diary extends Model
     protected $dates = ['date_hour'];
     protected $fillable = ['gross'];
 
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class, 'sales_diaries', 'diary_id', 'sale_id');
+    }
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');

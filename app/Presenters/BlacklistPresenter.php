@@ -2,8 +2,10 @@
 namespace BichoEnsaboado\Presenters;
 
 use BichoEnsaboado\Models\Diary;
-
-class BlacklistPresenter
+use JsonSerializable;
+use Illuminate\Contracts\Support\Arrayable;
+ 
+class BlacklistPresenter implements Arrayable, JsonSerializable
 {
     private $diary;
 
@@ -24,4 +26,9 @@ class BlacklistPresenter
         ];
     }
         
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
 }

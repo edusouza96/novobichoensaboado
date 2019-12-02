@@ -61,6 +61,7 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-primary">
                         <tr>
+                            <th scope="col">#</th>
                             <th scope="col">Descrição</th>
                             <th scope="col">Valor</th>
                             <th scope="col">Data</th>
@@ -71,6 +72,7 @@
                     <tbody>
                         @foreach ($sales as $sale)
                             <tr>
+                                <td>{!! str_pad($sale->getId(), 6, '0', STR_PAD_LEFT) !!}</td>
                                 <td>{!! $sale->getDescription() !!}</td>
                                 <td>R$ {{ number_format($sale->getTotal(), 2, ',', '.') }}</td>
                                 <td>{{ $sale->getCreatedAt()->format('d/m/Y') }}</td>
@@ -89,7 +91,7 @@
                             <td colspan="4">R$ {{ number_format($debitCard, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
-                            <td>Total Crédiro</td>
+                            <td>Total Crédito</td>
                             <td colspan="4">R$ {{ number_format($creditCard, 2, ',', '.') }}</td>
                         </tr>
                         <tr>

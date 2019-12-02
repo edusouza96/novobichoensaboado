@@ -98,6 +98,11 @@ class Diary extends Model
     {
         return $this->status;
     }
+    
+    public function getStore()
+    {
+        return $this->store_id;
+    }
 
     public function getPackage()
     {

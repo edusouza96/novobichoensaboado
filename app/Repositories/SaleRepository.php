@@ -62,7 +62,7 @@ class SaleRepository
         }
 
         $search->orderBy('id', 'desc');
-        return $paginate ? $search->paginate(15) : $search->get();
+        return $paginate ? $search->paginate(10) : $search->get();
     }
     
     public function save($valueReceived, $leftover, $amountSale, $paymentMethod, $plots, $promotionValue, $userLogged, $store)
@@ -101,5 +101,5 @@ class SaleRepository
         $sale->save();
         return $sale;
     }
-
+    
 }

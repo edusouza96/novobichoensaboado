@@ -61,6 +61,7 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-primary">
                         <tr>
+                            <th scope="col">#</th>
                             <th scope="col">Descrição</th>
                             <th scope="col">Valor</th>
                             <th scope="col">Data</th>
@@ -71,9 +72,10 @@
                     <tbody>
                         @foreach ($sales as $sale)
                             <tr>
-                                <td>{!! $sale->getDescription() !!}</td>
-                                <td>R$ {{ number_format($sale->getTotal(), 2, ',', '.') }}</td>
-                                <td>{{ $sale->getCreatedAt()->format('d/m/Y') }}</td>
+                                <td>{!! str_pad($sale->getIdSale(), 6, '0', STR_PAD_LEFT) !!}</td>
+                                <td>{!! $sale->getName() !!}</td>
+                                <td>R$ {{ number_format($sale->getValue(), 2, ',', '.') }}</td>
+                                <td>{{ $sale->getDate()->format('d/m/Y') }}</td>
                                 <td>{{ $sale->getStore() }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-danger">
@@ -85,18 +87,22 @@
                     </tbody>
                     <tfoot class="table-dark">
                         <tr>
+                            <td></td>
                             <td>Total Débito</td>
                             <td colspan="4">R$ {{ number_format($debitCard, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
-                            <td>Total Crédiro</td>
+                            <td></td>
+                            <td>Total Crédito</td>
                             <td colspan="4">R$ {{ number_format($creditCard, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td>Total Dinheiro</td>
                             <td colspan="4">R$ {{ number_format($cash, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td>Total</td>
                             <td colspan="4">R$ {{ number_format($total, 2, ',', '.') }}</td>
                         </tr>

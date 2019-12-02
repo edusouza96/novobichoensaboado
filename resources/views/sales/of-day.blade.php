@@ -78,7 +78,7 @@
                                 <td>{{ $sale->getCreatedAt()->format('d/m/Y') }}</td>
                                 <td>{{ $sale->getStore() }}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-danger">
+                                    <button class="btn btn-danger btn-sm">
                                         <i class="fas fa-hand-holding-usd"></i> Estorno
                                     </button>
                                 </td>
@@ -87,18 +87,22 @@
                     </tbody>
                     <tfoot class="table-dark">
                         <tr>
+                            <td></td>
                             <td>Total Débito</td>
                             <td colspan="4">R$ {{ number_format($debitCard, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td>Total Crédito</td>
                             <td colspan="4">R$ {{ number_format($creditCard, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td>Total Dinheiro</td>
                             <td colspan="4">R$ {{ number_format($cash, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td>Total</td>
                             <td colspan="4">R$ {{ number_format($total, 2, ',', '.') }}</td>
                         </tr>

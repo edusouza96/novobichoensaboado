@@ -3,6 +3,7 @@
  
 @section('content') 
     <div id="sales_of_day" class="container">
+        <preview-invoice :id="idSale"></preview-invoice>
         <div class="filter">
             <form method="GET">
                 <div class="card">
@@ -62,7 +63,6 @@
                     <thead class="thead-primary">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Descrição</th>
                             <th scope="col">Valor</th>
                             <th scope="col">Data</th>
                             <th scope="col">Loja</th>
@@ -73,13 +73,12 @@
                         @foreach ($sales as $sale)
                             <tr>
                                 <td>{!! str_pad($sale->getId(), 6, '0', STR_PAD_LEFT) !!}</td>
-                                <td>{!! $sale->getDescription() !!}</td>
                                 <td>R$ {{ number_format($sale->getTotal(), 2, ',', '.') }}</td>
                                 <td>{{ $sale->getCreatedAt()->format('d/m/Y') }}</td>
                                 <td>{{ $sale->getStore() }}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fas fa-hand-holding-usd"></i> Estorno
+                                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-preview-invoice" @click="setIdSale({{$sale->getId()}})">
+                                        <i class="fas fa-eye"></i> Visualizar
                                     </button>
                                 </td>
                             </tr>
@@ -87,22 +86,18 @@
                     </tbody>
                     <tfoot class="table-dark">
                         <tr>
-                            <td></td>
                             <td>Total Débito</td>
                             <td colspan="4">R$ {{ number_format($debitCard, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
-                            <td></td>
                             <td>Total Crédito</td>
                             <td colspan="4">R$ {{ number_format($creditCard, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
-                            <td></td>
                             <td>Total Dinheiro</td>
                             <td colspan="4">R$ {{ number_format($cash, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
-                            <td></td>
                             <td>Total</td>
                             <td colspan="4">R$ {{ number_format($total, 2, ',', '.') }}</td>
                         </tr>
@@ -124,8 +119,12 @@
         new Vue({
             el: '#sales_of_day',
             data: {
+                idSale: null,
             },
             methods:{
+                setIdSale(id){
+                    this.idSale = id;
+                }
             },
         });
     </script>

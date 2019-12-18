@@ -70,3 +70,5 @@ Vue.component("modal-money-transfer", require("./components/modal-money-transfer
 Vue.component("table-outlay-to-pay", require("./components/table-outlay-to-pay.vue").default);
 
 Vue.component("modal-pay-outlay", require("./components/modal-pay-outlay.vue").default);
+
+Vue.component("preview-invoice", require("./components/preview-invoice.vue").default);

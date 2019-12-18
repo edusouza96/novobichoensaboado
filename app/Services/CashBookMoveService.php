@@ -24,11 +24,18 @@ class CashBookMoveService
         $this->cashBookMoveRepository = $cashBookMoveRepository;
     }
 
-    public function generateMovement($value, $name, $store, $source, $userLogged)
+    public function generateMovementEntry($value, $name, $store, $source, $userLogged)
     {
         $treasure = $this->treasureRepository->addValue($value, $name, $store);
         $cashBook = $this->cashBookRepository->getLast($store);
         $moves = $this->cashBookMoveRepository->save($value, $source, TypeMovesType::ENTRY, $cashBook, $userLogged);
-
+    }
+ 
+    public function generateMovementOut($value, $name, $store, $source, $userLogged)
+    {
+        $treasure = $this->treasureRepository->subValue($value, $name, $store);
+        $cashBook = $this->cashBookRepository->getLast($store);
+        $moves = $this->cashBookMoveRepository->save($value, $source, TypeMovesType::OUT, $cashBook, $userLogged);
+        return $moves;
     }
 }

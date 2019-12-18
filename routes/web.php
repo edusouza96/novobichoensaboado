@@ -31,7 +31,9 @@ Route::group(['prefix' => 'agenda'], function () {
 });
 
 Route::group(['prefix' => 'vendas'], function () {
+    Route::get('estorno', ['as' => 'sales.chargeback', 'uses' => 'SaleController@chargeback']);
     Route::get('do-dia/{date?}', ['as' => 'sales.ofDay', 'uses' => 'SaleController@ofDay']);
+    Route::get('itens-por-venda/{id}', ['as' => 'sales.itemsBySale', 'uses' => 'SaleController@itemsBySale']);
 });
 
 Route::group(['prefix' => 'pdv'], function () {

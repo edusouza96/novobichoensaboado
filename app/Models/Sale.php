@@ -15,12 +15,12 @@ class Sale extends Model
 
     public function diary()
     {
-        return $this->belongsToMany(Diary::class, 'sales_diaries', 'sale_id', 'diary_id')->withTimestamps();
+        return $this->belongsToMany(Diary::class, 'sales_diaries', 'sale_id', 'diary_id')->withTimestamps()->withPivot('id');
     }
     
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'sales_products', 'sale_id', 'product_id')->withTimestamps()->withPivot('quantity', 'unitary_value');
+        return $this->belongsToMany(Product::class, 'sales_products', 'sale_id', 'product_id')->withTimestamps()->withPivot('id', 'quantity', 'unitary_value');
     }
 
     public function createdBy()

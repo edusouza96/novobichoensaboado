@@ -58,7 +58,7 @@ class SaleCreateService
         
         $source = $this->defineSource($attributes['paymentMethod'], $attributes['cardMachine']);
         $sourceName = SourceType::getName($source);
-        $this->cashBookMoveService->generateMovement($attributes['amountSale'], $sourceName, $store, $source, $userLogged);
+        $this->cashBookMoveService->generateMovementEntry($attributes['amountSale'], $sourceName, $store, $source, $userLogged);
         return $sale->getId();
 
     }

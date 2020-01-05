@@ -48,7 +48,8 @@
               input-class="invisible large-10"
               type="datetime"
               :minute-step="30"
-              v-model="register.dateHour">
+              v-model="register.dateHour"
+              v-if="register.editable && register.id >0">
             </datetime>
           </th>
 
@@ -274,7 +275,6 @@ export default {
     },
     servicePetSelected: function(data) {
       this.schedules[this.indexCurrent].servicePet = data;
-      console.log(data);
       this.schedules[this.indexCurrent].petValue = data.hasOwnProperty('value') ? data.value : 0;
     },
     serviceVetSelected: function(data) {
@@ -287,7 +287,6 @@ export default {
     refreshRegisterCurrent: function(index) {
       this.indexCurrent = index;
       this.registerCurrent = this.schedules[this.indexCurrent];
-      reloadComponent
     },
     calcGross: function() {
       let registerCurrent = this.schedules[this.indexCurrent];

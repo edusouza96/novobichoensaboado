@@ -2714,6 +2714,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["data", "date"],
   data: function data() {
@@ -3047,7 +3048,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     servicePetSelected: function servicePetSelected(data) {
       this.schedules[this.indexCurrent].servicePet = data;
-      console.log(data);
       this.schedules[this.indexCurrent].petValue = data.hasOwnProperty('value') ? data.value : 0;
     },
     serviceVetSelected: function serviceVetSelected(data) {
@@ -3060,7 +3060,6 @@ __webpack_require__.r(__webpack_exports__);
     refreshRegisterCurrent: function refreshRegisterCurrent(index) {
       this.indexCurrent = index;
       this.registerCurrent = this.schedules[this.indexCurrent];
-      reloadComponent;
     },
     calcGross: function calcGross() {
       var registerCurrent = this.schedules[this.indexCurrent];
@@ -70053,22 +70052,24 @@ var render = function() {
                         )
                       : _vm._e(),
                     _vm._v(" "),
-                    _c("datetime", {
-                      attrs: {
-                        "input-id": "edit_day" + register.id,
-                        "value-zone": "America/Sao_Paulo",
-                        "input-class": "invisible large-10",
-                        type: "datetime",
-                        "minute-step": 30
-                      },
-                      model: {
-                        value: register.dateHour,
-                        callback: function($$v) {
-                          _vm.$set(register, "dateHour", $$v)
-                        },
-                        expression: "register.dateHour"
-                      }
-                    })
+                    register.editable && register.id > 0
+                      ? _c("datetime", {
+                          attrs: {
+                            "input-id": "edit_day" + register.id,
+                            "value-zone": "America/Sao_Paulo",
+                            "input-class": "invisible large-10",
+                            type: "datetime",
+                            "minute-step": 30
+                          },
+                          model: {
+                            value: register.dateHour,
+                            callback: function($$v) {
+                              _vm.$set(register, "dateHour", $$v)
+                            },
+                            expression: "register.dateHour"
+                          }
+                        })
+                      : _vm._e()
                   ],
                   1
                 ),

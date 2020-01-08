@@ -12,6 +12,7 @@ class Neighborhood extends Model
      * @var string
      */
     protected $table = 'neighborhoods';
+    protected $fillable = ['name', 'value'];
 
     public function getId()
     {

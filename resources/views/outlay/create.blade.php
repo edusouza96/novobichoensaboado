@@ -1,7 +1,7 @@
 @extends('layout.page') 
 @section('title') Cadastrar @endsection
  
-@section('content') 
+@section('form') 
 <form method="POST" action="{{route('outlay.store')}}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="card">

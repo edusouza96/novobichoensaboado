@@ -8,6 +8,9 @@
     @endif
 
     @yield('content')
+    <div class="container">
+        @yield('form')
+    </div>
 </div>
 
 @include('layout.footer')

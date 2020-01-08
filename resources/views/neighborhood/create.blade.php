@@ -1,16 +1,16 @@
 @extends('layout.page') 
-@section('title') Editar @endsection
+@section('title') Cadastrar @endsection
  
 @section('form') 
-<form method="POST" action="{{route('outlay.update', $outlay->getId())}}">
+<form method="POST" action="{{route('neighborhood.store')}}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="card">
-        <div class="card-header filter-header">Editar</div>
+        <div class="card-header filter-header">Cadastrar</div>
             <div class="card-body">
-                @include('outlay.form')
+                @include('neighborhood.form')
             </div>
         <div class="card-footer filter-footer">
-            <a href="{{route('outlay.index')}}" class="btn btn-secondary">
+            <a href="{{route('neighborhood.index')}}" class="btn btn-secondary">
                 <i class="fa fa-reply"></i> Voltar
             </a>
 

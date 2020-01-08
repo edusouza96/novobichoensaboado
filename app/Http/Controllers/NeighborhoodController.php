@@ -4,6 +4,7 @@ namespace BichoEnsaboado\Http\Controllers;
 
 use Illuminate\Http\Request;
 use BichoEnsaboado\Repositories\NeighborhoodRepository;
+use BichoEnsaboado\Http\Requests\NeighborhoodCreateRequest;
 
 class NeighborhoodController extends Controller
 {
@@ -22,12 +23,18 @@ class NeighborhoodController extends Controller
 
     public function create()
     {
-        //
+        $neighborhood = $this->neighborhoodRepository->newInstance();
+        return view('neighborhood.create', compact('neighborhood'));
     }
 
-    public function store(Request $request)
+    public function store(NeighborhoodCreateRequest $request)
     {
-        //
+        try {
+            $this->neighborhoodRepository->create($request->only('name', 'value'));
+            return redirect()->route('neighborhood.index')->with('alertType', 'success')->with('message', 'Bairro Cadastrado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
     }
 
     public function show($id)

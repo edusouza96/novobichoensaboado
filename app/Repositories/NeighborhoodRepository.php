@@ -32,6 +32,12 @@ class NeighborhoodRepository
 
     }
 
+    public function create(array $attributes)
+    {
+        $attributes['value'] = str_replace(',', '.', $attributes['value']);
+        return $this->neighborhood->create($attributes);
+    }
+
     public function update()
     {
         // 
@@ -40,5 +46,10 @@ class NeighborhoodRepository
     public function delete()
     {
         // 
+    }
+
+    public function newInstance()
+    {
+        return $this->neighborhood->newInstance();
     }
 }

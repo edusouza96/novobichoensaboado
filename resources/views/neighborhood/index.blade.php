@@ -57,7 +57,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{route('neighborhood.destroy', $neighborhood->getId())}}" class="btn btn-danger btn-sm">
+                                    <a v-confirm="confirmDestroy" href="{{route('neighborhood.destroy', $neighborhood->getId())}}" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -82,10 +82,17 @@
         new Vue({
             el: '#neighborhood',
             data: {
+                confirmDestroy: {
+                    message:{
+                        title: 'Atenção',
+                        body: 'Deseja realmente remover este bairro do sistema?'
+                    }
+                }
             },
             methods:{
             },
             created(){
+               
             }
         });
     </script>

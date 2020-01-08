@@ -50,9 +50,9 @@ class NeighborhoodRepository
                                   ->update($attributes);
     }
 
-    public function delete()
+    public function destroy($id)
     {
-        // 
+        return $this->neighborhood->destroy($id);
     }
 
     public function newInstance()

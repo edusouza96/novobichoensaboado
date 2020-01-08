@@ -55,6 +55,11 @@ class NeighborhoodController extends Controller
 
     public function destroy($id)
     {
-        //
+        try {
+            $this->neighborhoodRepository->destroy($id);
+            return redirect()->route('neighborhood.index')->with('alertType', 'success')->with('message', 'Bairro Deletado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        } 
     }
 }

@@ -106,7 +106,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{route('outlay.destroy', $outlay->getId())}}" class="btn btn-danger btn-sm">
+                                    <a v-confirm="confirmDestroy" href="{{route('outlay.destroy', $outlay->getId())}}" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -134,6 +134,12 @@
                 id: null,
                 sources: [],
                 costCenters: [],
+                confirmDestroy: {
+                    message:{
+                        title: 'Atenção',
+                        body: 'Deseja realmente remover este registro do sistema?'
+                    }
+                }
             },
             methods:{
                 getSources(){

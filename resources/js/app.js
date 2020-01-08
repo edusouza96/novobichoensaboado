@@ -37,7 +37,13 @@ Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead);
 
 import VuejsDialog from 'vuejs-dialog';
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
-Vue.use(VuejsDialog);
+Vue.use(VuejsDialog, {
+    html: true,
+    loader: true,
+    okText: 'Sim',
+    cancelText: 'Não',
+    animation: 'zoom'
+  });
 
 Vue.component("diary-table", require("./components/diary-table.vue").default);
 

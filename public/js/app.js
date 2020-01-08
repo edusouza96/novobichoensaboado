@@ -85986,7 +85986,13 @@ Vue.use(v_money__WEBPACK_IMPORTED_MODULE_3___default.a, {
 Vue.component('vue-bootstrap-typeahead', vue_bootstrap_typeahead__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
 
-Vue.use(vuejs_dialog__WEBPACK_IMPORTED_MODULE_5___default.a);
+Vue.use(vuejs_dialog__WEBPACK_IMPORTED_MODULE_5___default.a, {
+  html: true,
+  loader: true,
+  okText: 'Sim',
+  cancelText: 'Não',
+  animation: 'zoom'
+});
 Vue.component("diary-table", __webpack_require__(/*! ./components/diary-table.vue */ "./resources/js/components/diary-table.vue")["default"]);
 Vue.component("modal-clients", __webpack_require__(/*! ./components/ModalClients.vue */ "./resources/js/components/ModalClients.vue")["default"]);
 Vue.component("modal-services-pet", __webpack_require__(/*! ./components/ModalServicesPet.vue */ "./resources/js/components/ModalServicesPet.vue")["default"]);

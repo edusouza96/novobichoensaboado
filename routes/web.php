@@ -106,6 +106,13 @@ Route::group(['prefix' => 'desconto'], function () {
     Route::get('', ['as' => 'rebate.findAll', 'uses' => 'RebateController@findAll']);
 });
 
+Route::group(['prefix' => 'bairro'], function(){
+    Route::get('', ['as' => 'neighborhood.index', 'uses' => 'NeighborhoodController@index']);
+    Route::get('cadastrar', ['as' => 'neighborhood.create', 'uses' => 'NeighborhoodController@create']);
+    Route::get('editar/{id}', ['as' => 'neighborhood.edit', 'uses' => 'NeighborhoodController@edit']);
+    Route::get('deletar/{id}', ['as' => 'neighborhood.destroy', 'uses' => 'NeighborhoodController@destroy']);
+});
+
 Route::get('/info', function () {
     dd(phpinfo());
 });

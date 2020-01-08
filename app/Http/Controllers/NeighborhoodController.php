@@ -37,19 +37,20 @@ class NeighborhoodController extends Controller
         }
     }
 
-    public function show($id)
-    {
-        //
-    }
-
     public function edit($id)
     {
-        //
+        $neighborhood = $this->neighborhoodRepository->find($id);
+        return view('neighborhood.edit', compact('neighborhood'));
     }
 
-    public function update(Request $request, $id)
+    public function update(NeighborhoodCreateRequest $request, $id)
     {
-        //
+        try {
+            $this->neighborhoodRepository->update($id, $request->only('name', 'value'));
+            return redirect()->route('neighborhood.index')->with('alertType', 'success')->with('message', 'Bairro Atualizado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
     }
 
     public function destroy($id)

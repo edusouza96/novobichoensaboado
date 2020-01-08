@@ -112,6 +112,7 @@ Route::group(['prefix' => 'bairro'], function(){
     Route::get('editar/{id}', ['as' => 'neighborhood.edit', 'uses' => 'NeighborhoodController@edit']);
     Route::get('deletar/{id}', ['as' => 'neighborhood.destroy', 'uses' => 'NeighborhoodController@destroy']);
     Route::post('cadastrar', ['as' => 'neighborhood.store', 'uses' => 'NeighborhoodController@store']);
+    Route::post('editar/{id}', ['as' => 'neighborhood.update', 'uses' => 'NeighborhoodController@update']);
 });
 
 Route::get('/info', function () {

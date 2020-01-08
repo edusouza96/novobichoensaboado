@@ -13,6 +13,11 @@ class NeighborhoodRepository
         $this->neighborhood = $neighborhood;
     }
 
+    public function find($id)
+    {
+        return $this->neighborhood->find($id);   
+    }
+
     public function all()
     {
         return $this->neighborhood->all();   
@@ -38,9 +43,11 @@ class NeighborhoodRepository
         return $this->neighborhood->create($attributes);
     }
 
-    public function update()
+    public function update($id, array $attributes)
     {
-        // 
+        $attributes['value'] = str_replace(',', '.', $attributes['value']);
+        return $this->neighborhood->whereId($id)
+                                  ->update($attributes);
     }
 
     public function delete()

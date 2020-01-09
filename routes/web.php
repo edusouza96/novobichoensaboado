@@ -115,6 +115,15 @@ Route::group(['prefix' => 'bairro'], function(){
     Route::post('editar/{id}', ['as' => 'neighborhood.update', 'uses' => 'NeighborhoodController@update']);
 });
 
+Route::group(['prefix' => 'racas'], function(){
+    Route::get('', ['as' => 'breed.index', 'uses' => 'BreedController@index']);
+    Route::get('cadastrar', ['as' => 'breed.create', 'uses' => 'BreedController@create']);
+    Route::get('editar/{id}', ['as' => 'breed.edit', 'uses' => 'BreedController@edit']);
+    Route::get('deletar/{id}', ['as' => 'breed.destroy', 'uses' => 'BreedController@destroy']);
+    Route::post('cadastrar', ['as' => 'breed.store', 'uses' => 'BreedController@store']);
+    Route::post('editar/{id}', ['as' => 'breed.update', 'uses' => 'BreedController@update']);
+});
+
 Route::get('/info', function () {
     dd(phpinfo());
 });

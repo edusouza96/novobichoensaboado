@@ -12,6 +12,7 @@ class Breed extends Model
      * @var string
      */
     protected $table = 'breeds';
+    protected $fillable = ['name'];
 
     public function getId()
     {

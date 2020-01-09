@@ -38,16 +38,15 @@
                     <a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a>
                 </li>
                
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('outlay.index') }}">Despesas</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('neighborhood.index') }}">Bairros</a>
-                </li>
-               
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('breed.index') }}">Raças</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Cadastros   <i class="fas fa-caret-down"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('neighborhood.index') }}">Bairros</a>
+                        <a class="dropdown-item" href="{{ route('outlay.index') }}">Despesas</a>
+                        <a class="dropdown-item" href="{{ route('breed.index') }}">Raças</a>
+                    </div>
                 </li>
 
                 <li class="nav-item">

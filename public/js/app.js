@@ -3605,7 +3605,7 @@ __webpack_require__.r(__webpack_exports__);
       }.bind(this));
     },
     getRebates: function getRebates() {
-      $.get(laroute.route("rebate.findAll")).done(function (data) {
+      $.get(laroute.route("rebate.findActive")).done(function (data) {
         this.rebates = data;
       }.bind(this));
     },

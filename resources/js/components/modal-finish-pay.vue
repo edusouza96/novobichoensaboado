@@ -174,7 +174,7 @@ export default {
         }.bind(this));
     },
     getRebates(){
-      $.get(laroute.route("rebate.findAll"))
+      $.get(laroute.route("rebate.findActive"))
       .done(function(data) {
         this.rebates = data;
       }.bind(this));

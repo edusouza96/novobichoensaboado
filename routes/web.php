@@ -102,10 +102,6 @@ Route::group(['prefix' => 'produto'], function () {
     Route::get('localizar-por-nome/{name}', ['as' => 'product.findByName', 'uses' => 'ProductController@findByName']);
 });
 
-Route::group(['prefix' => 'desconto'], function () {
-    Route::get('', ['as' => 'rebate.findAll', 'uses' => 'RebateController@findAll']);
-});
-
 Route::group(['prefix' => 'bairro'], function(){
     Route::get('', ['as' => 'neighborhood.index', 'uses' => 'NeighborhoodController@index']);
     Route::get('cadastrar', ['as' => 'neighborhood.create', 'uses' => 'NeighborhoodController@create']);
@@ -122,6 +118,17 @@ Route::group(['prefix' => 'racas'], function(){
     Route::get('deletar/{id}', ['as' => 'breed.destroy', 'uses' => 'BreedController@destroy']);
     Route::post('cadastrar', ['as' => 'breed.store', 'uses' => 'BreedController@store']);
     Route::post('editar/{id}', ['as' => 'breed.update', 'uses' => 'BreedController@update']);
+});
+
+Route::group(['prefix' => 'promocao'], function(){
+    Route::get('todos-ativos', ['as' => 'rebate.findActive', 'uses' => 'RebateController@findActive']);
+    Route::get('', ['as' => 'rebate.index', 'uses' => 'RebateController@index']);
+    Route::get('cadastrar', ['as' => 'rebate.create', 'uses' => 'RebateController@create']);
+    Route::get('editar/{id}', ['as' => 'rebate.edit', 'uses' => 'RebateController@edit']);
+    Route::post('cadastrar', ['as' => 'rebate.store', 'uses' => 'RebateController@store']);
+    Route::post('editar/{id}', ['as' => 'rebate.update', 'uses' => 'RebateController@update']);
+    Route::get('ativar/{id}', ['as' => 'rebate.active', 'uses' => 'RebateController@active']);
+    Route::get('inativar/{id}', ['as' => 'rebate.inactive', 'uses' => 'RebateController@inactive']);
 });
 
 Route::get('/info', function () {

@@ -8,6 +8,7 @@ use BichoEnsaboado\Models\CostCenterCategory;
 class CostCenter extends Model
 {
     protected $table = 'cost_center';
+    protected $fillable = ['name', 'cost_center_category_id'];
 
     public function category()
     {

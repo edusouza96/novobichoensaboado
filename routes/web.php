@@ -48,10 +48,6 @@ Route::group(['prefix' => 'fonte'], function () {
     Route::get('lista-maquinas-cartoes/{id}', ['as' => 'treasure.findOptionsCardMachineByStore', 'uses' => 'TreasureController@findOptionsCardMachineByStore']);
 });
 
-Route::group(['prefix' => 'centro-custo'], function () {
-    Route::get('opcoes', ['as' => 'costCenter.allOptions', 'uses' => 'CostCenterController@allOptions']);
-});
-
 Route::group(['prefix' => 'financeiro'], function () {
     Route::group(['prefix' => 'despesas'], function () {
         Route::get('/', ['as' => 'outlay.index', 'uses' => 'OutlayController@index']);
@@ -118,6 +114,20 @@ Route::group(['prefix' => 'racas'], function(){
     Route::get('deletar/{id}', ['as' => 'breed.destroy', 'uses' => 'BreedController@destroy']);
     Route::post('cadastrar', ['as' => 'breed.store', 'uses' => 'BreedController@store']);
     Route::post('editar/{id}', ['as' => 'breed.update', 'uses' => 'BreedController@update']);
+});
+
+Route::group(['prefix' => 'centro-custo'], function(){
+    Route::get('', ['as' => 'costCenter.index', 'uses' => 'CostCenterController@index']);
+    Route::get('cadastrar', ['as' => 'costCenter.create', 'uses' => 'CostCenterController@create']);
+    Route::get('editar/{id}', ['as' => 'costCenter.edit', 'uses' => 'CostCenterController@edit']);
+    Route::get('deletar/{id}', ['as' => 'costCenter.destroy', 'uses' => 'CostCenterController@destroy']);
+    Route::post('cadastrar', ['as' => 'costCenter.store', 'uses' => 'CostCenterController@store']);
+    Route::post('editar/{id}', ['as' => 'costCenter.update', 'uses' => 'CostCenterController@update']);
+    Route::get('opcoes', ['as' => 'costCenter.allOptions', 'uses' => 'CostCenterController@allOptions']);
+    
+    Route::group(['prefix' => 'categoria'], function(){
+        Route::get('opcoes', ['as' => 'costCenter.category.allOptions', 'uses' => 'CostCenterCategoryController@allOptions']);
+    });
 });
 
 Route::group(['prefix' => 'promocao'], function(){

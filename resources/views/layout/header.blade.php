@@ -45,6 +45,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('neighborhood.index') }}">Bairros</a>
                         <a class="dropdown-item" href="{{ route('costCenter.index') }}">Centro de Custo</a>
+                        <a class="dropdown-item" href="{{ route('owner.index') }}">Clientes</a>
                         <a class="dropdown-item" href="{{ route('outlay.index') }}">Despesas</a>
                         <a class="dropdown-item" href="{{ route('rebate.index') }}">Promoções</a>
                         <a class="dropdown-item" href="{{ route('breed.index') }}">Raças</a>

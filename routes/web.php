@@ -82,7 +82,13 @@ Route::group(['prefix' => 'caixa'], function () {
 });
 
 Route::group(['prefix' => 'proprietario'], function () {
+    Route::get('', ['as' => 'owner.index', 'uses' => 'OwnerController@index']);
     Route::get('meus-pets/{id}', ['as' => 'owner.myPets', 'uses' => 'OwnerController@myPets']);
+    Route::get('cadastrar', ['as' => 'owner.create', 'uses' => 'OwnerController@create']);
+    Route::post('cadastrar', ['as' => 'owner.store', 'uses' => 'OwnerController@store']);
+    Route::get('editar/{id}', ['as' => 'owner.edit', 'uses' => 'OwnerController@edit']);
+    Route::post('editar/{id}', ['as' => 'owner.update', 'uses' => 'OwnerController@update']);
+    Route::get('deletar/{id}', ['as' => 'owner.destroy', 'uses' => 'OwnerController@destroy']);
 });
 
 Route::group(['prefix' => 'cliente'], function () {

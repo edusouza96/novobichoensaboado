@@ -43,7 +43,10 @@ Vue.use(VuejsDialog, {
     okText: 'Sim',
     cancelText: 'Não',
     animation: 'zoom'
-  });
+});
+
+import VueTheMask from 'vue-the-mask';
+Vue.use(VueTheMask);
 
 Vue.component("diary-table", require("./components/diary-table.vue").default);
 

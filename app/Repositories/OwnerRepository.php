@@ -28,13 +28,43 @@ class OwnerRepository
         return $this->owner->find($id);
     }
 
-    public function update()
+    public function findByFilter(array $attributes, $paginate=false)
     {
-        //
+        $search = $this->owner->newQuery();
+
+        if(isset($attributes['owner_name'])){
+            $search = $search->where('name', 'like', "%{$attributes['owner_name']}%");
+        }
+       
+        if(isset($attributes['cpf'])){
+            $search = $search->where('cpf', 'like', "%{$attributes['cpf']}%");
+        }
+
+        $search->orderBy('name', 'asc');
+
+        return $paginate ? $search->paginate(15) : $search->get();
+
     }
 
-    public function delete()
+    public function newInstance()
     {
-        //
+        return $this->owner->newInstance();
     }
+
+    public function create(array $attributes)
+    {
+        return $this->owner->create($attributes);
+    }
+    
+    public function update($id, array $attributes)
+    {
+        return $this->owner->whereId($id)
+                           ->update($attributes);
+    }
+
+    public function destroy($id)
+    {
+        return $this->owner->destroy($id);
+    }
+
 }

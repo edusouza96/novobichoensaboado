@@ -7,12 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Owner extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'owners';
+    protected $fillable = ['name', 'cpf', 'email'];
 
     public function myPets()
     {
@@ -26,6 +22,14 @@ class Owner extends Model
     public function getName()
     {
         return $this->name;
+    }
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+    public function getEmail()
+    {
+        return $this->email;
     }
     public function getMyPets()
     {

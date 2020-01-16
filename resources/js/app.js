@@ -48,6 +48,9 @@ Vue.use(VuejsDialog, {
 import VueTheMask from 'vue-the-mask';
 Vue.use(VueTheMask);
 
+import VTooltip from 'v-tooltip';
+Vue.use(VTooltip);
+
 Vue.component("diary-table", require("./components/diary-table.vue").default);
 
 Vue.component("modal-clients", require("./components/ModalClients.vue").default);
@@ -81,3 +84,5 @@ Vue.component("table-outlay-to-pay", require("./components/table-outlay-to-pay.v
 Vue.component("modal-pay-outlay", require("./components/modal-pay-outlay.vue").default);
 
 Vue.component("preview-invoice", require("./components/preview-invoice.vue").default);
+
+Vue.component("modal-details-pet", require("./components/modal-details-pet.vue").default);

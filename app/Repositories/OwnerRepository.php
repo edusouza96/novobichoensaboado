@@ -32,6 +32,18 @@ class OwnerRepository
     {
         $search = $this->owner->newQuery();
 
+        if(isset($attributes['pet_name'])){
+            $search = $search->whereHas('myPets', function($search) use($attributes){
+                $search->where('name', 'like', "%{$attributes['pet_name']}%");
+            });
+        }
+
+        if(isset($attributes['breed_name'])){
+            $search = $search->whereHas('myPets.breed', function($search) use($attributes){
+                $search->where('name', 'like', "%{$attributes['breed_name']}%");
+            });
+        }
+       
         if(isset($attributes['owner_name'])){
             $search = $search->where('name', 'like', "%{$attributes['owner_name']}%");
         }

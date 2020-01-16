@@ -3,6 +3,7 @@
  
 @section('content') 
     <div id="client" class="container">
+        <modal-details-pet :pet="pet"></modal-details-pet>
         <div class="text-right mb-3">
             <a href="{{route('owner.create')}}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Cadastrar
@@ -29,6 +30,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="pet_name">Nome do Pet</label>
+                                    <input type="text" name="pet_name" class="form-control">
+                                </div>
+                            </div>
+                            
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="breed_name">Raça</label>
+                                    <input type="text" name="breed_name" class="form-control">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer filter-footer">
                         <a href="{{route('owner.index')}}" class="btn btn-secondary">
@@ -48,29 +64,41 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-primary">
                         <tr>
-                            <th scope="col">Nome</th>
+                            <th scope="col">Pet</th>
+                            <th scope="col">Proprietario</th>
                             <th scope="col">CPF</th>
                             <th scope="col">Email</th>
-                            <th scope="col" colspan="2" class="text-center" width="5%">Ações</th>
+                            <th scope="col" colspan="3" class="text-center" width="8%">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($owners as $owner)
                             <tr>
-                                <td>{{ $owner->getName() }}</td>
-                                <td>{{ $owner->getCpf() }}</td>
-                                <td>{{ $owner->getEmail() }}</td>
-                                <td>
-                                    <a href="{{route('owner.edit', $owner->getId())}}" class="btn btn-primary btn-sm">
+                                <td class="align-middle">
+                                    @foreach ($owner->getMyPets() as $pet)
+                                        <div><a data-toggle="modal" href="#modal-details-pet" @click="setPet({{$pet}})">{{$pet->getName()}}</a></div>
+                                    @endforeach     
+                                </td>
+                                <td class="align-middle">{{ $owner->getName() }}</td>
+                                <td class="align-middle">{{ $owner->getCpf() }}</td>
+                                <td class="align-middle">{{ $owner->getEmail() }}</td>
+                                <td class="align-middle">
+                                    <a href="{{route('owner.edit', $owner->getId())}}" class="btn btn-success btn-sm" v-tooltip.top-center="'Adicionar Pet'">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="{{route('owner.edit', $owner->getId())}}" class="btn btn-primary btn-sm" v-tooltip.top-center="'Editar Proprietario'">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </td>
-                                <td>
-                                    <a v-confirm="confirmDestroyOwner" href="{{route('owner.destroy', $owner->getId())}}" class="btn btn-danger btn-sm">
+                                <td class="align-middle">
+                                    <a v-confirm="confirmDestroyOwner" href="{{route('owner.destroy', $owner->getId())}}" class="btn btn-danger btn-sm" v-tooltip.top-center="'Excluir Proprietario'">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>
+                           
                         @endforeach
                     </tbody>
                 </table>
@@ -97,8 +125,14 @@
                         title: 'Atenção',
                         body: 'Deseja realmente remover este cliente e seus pets do sistema?'
                     }
-                }
+                },
+                pet: null,
             },
+            methods:{
+                setPet(pet){
+                    this.pet = pet;
+                }
+            }
         });
     </script>
 @endpush

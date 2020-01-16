@@ -33,8 +33,19 @@ class ClientRepository
 
     }
 
-    public function delete()
+    public function destroy($id)
     {
-
+        return $this->client->destroy($id);
     }
+
+    public function newInstance()
+    {
+        return $this->client->newInstance();
+    }
+
+    public function create(array $attributes)
+    {
+        return $this->client->create($attributes);
+    }
+    
 }

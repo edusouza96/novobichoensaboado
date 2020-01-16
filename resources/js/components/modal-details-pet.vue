@@ -43,7 +43,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a v-confirm="confirmDestroy" href="" class="btn btn-danger btn-sm" v-tooltip.top-center="'Excluir Pet'">
+                                        <a v-confirm="confirmDestroy" :href="hrefDestroyPet()" class="btn btn-danger btn-sm text-white" v-tooltip.top-center="'Excluir Pet'">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>
@@ -78,7 +78,9 @@ export default {
         };
     },
     methods: {
-   
+        hrefDestroyPet(){
+            return laroute.route('client.destroy', {id: this.pet.id});
+        },
     },
 };
 </script>

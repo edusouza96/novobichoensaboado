@@ -3505,7 +3505,13 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  methods: {}
+  methods: {
+    hrefDestroyPet: function hrefDestroyPet() {
+      return laroute.route('client.destroy', {
+        id: this.pet.id
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -75546,8 +75552,8 @@ var render = function() {
                                     modifiers: { "top-center": true }
                                   }
                                 ],
-                                staticClass: "btn btn-danger btn-sm",
-                                attrs: { href: "" }
+                                staticClass: "btn btn-danger btn-sm text-white",
+                                attrs: { href: _vm.hrefDestroyPet() }
                               },
                               [_c("i", { staticClass: "fas fa-trash-alt" })]
                             )

@@ -91,8 +91,11 @@ Route::group(['prefix' => 'proprietario'], function () {
     Route::get('deletar/{id}', ['as' => 'owner.destroy', 'uses' => 'OwnerController@destroy']);
 });
 
-Route::group(['prefix' => 'cliente'], function () {
+Route::group(['prefix' => 'pet'], function () {
     Route::get('localizar-por-nome/{name}', ['as' => 'client.findByName', 'uses' => 'ClientController@findByName']);
+    Route::get('deletar/{id}', ['as' => 'client.destroy', 'uses' => 'ClientController@destroy']);
+    Route::get('cadastrar', ['as' => 'client.create', 'uses' => 'ClientController@create']);
+    Route::post('cadastrar', ['as' => 'client.store', 'uses' => 'ClientController@store']);
 });
 
 Route::group(['prefix' => 'servico'], function () {

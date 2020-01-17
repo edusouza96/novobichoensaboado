@@ -83,7 +83,7 @@
                                 <td class="align-middle">{{ $owner->getCpf() }}</td>
                                 <td class="align-middle">{{ $owner->getEmail() }}</td>
                                 <td class="align-middle">
-                                    <a href="{{route('client.create')}}" class="btn btn-success btn-sm" v-tooltip.top-center="'Adicionar Pet'">
+                                    <a href="{{route('client.create', $owner->getId())}}" class="btn btn-success btn-sm" v-tooltip.top-center="'Adicionar Pet'">
                                         <i class="fas fa-plus"></i>
                                     </a>
                                 </td>

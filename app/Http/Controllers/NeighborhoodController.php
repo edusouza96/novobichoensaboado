@@ -62,4 +62,13 @@ class NeighborhoodController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         } 
     }
+
+    public function allOptions()
+    {
+        try {
+            $neighborhoods = $this->neighborhoodRepository->all();
+            return response()->json($neighborhoods);
+        } catch (\InvalidArgumentException $e) {
+        }
+    }
 }

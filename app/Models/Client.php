@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     protected $table = 'clients';
-    protected $fillable = ['name'];
+    protected $fillable = ['owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2', 'email'];
     
     public function breed()
     {

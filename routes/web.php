@@ -94,7 +94,7 @@ Route::group(['prefix' => 'proprietario'], function () {
 Route::group(['prefix' => 'pet'], function () {
     Route::get('localizar-por-nome/{name}', ['as' => 'client.findByName', 'uses' => 'ClientController@findByName']);
     Route::get('deletar/{id}', ['as' => 'client.destroy', 'uses' => 'ClientController@destroy']);
-    Route::get('cadastrar', ['as' => 'client.create', 'uses' => 'ClientController@create']);
+    Route::get('cadastrar/{id}', ['as' => 'client.create', 'uses' => 'ClientController@create']);
     Route::post('cadastrar', ['as' => 'client.store', 'uses' => 'ClientController@store']);
 });
 
@@ -114,6 +114,7 @@ Route::group(['prefix' => 'bairro'], function(){
     Route::get('deletar/{id}', ['as' => 'neighborhood.destroy', 'uses' => 'NeighborhoodController@destroy']);
     Route::post('cadastrar', ['as' => 'neighborhood.store', 'uses' => 'NeighborhoodController@store']);
     Route::post('editar/{id}', ['as' => 'neighborhood.update', 'uses' => 'NeighborhoodController@update']);
+    Route::get('opcoes', ['as' => 'neighborhood.allOptions', 'uses' => 'NeighborhoodController@allOptions']);
 });
 
 Route::group(['prefix' => 'racas'], function(){
@@ -123,6 +124,7 @@ Route::group(['prefix' => 'racas'], function(){
     Route::get('deletar/{id}', ['as' => 'breed.destroy', 'uses' => 'BreedController@destroy']);
     Route::post('cadastrar', ['as' => 'breed.store', 'uses' => 'BreedController@store']);
     Route::post('editar/{id}', ['as' => 'breed.update', 'uses' => 'BreedController@update']);
+    Route::get('opcoes', ['as' => 'breed.allOptions', 'uses' => 'BreedController@allOptions']);
 });
 
 Route::group(['prefix' => 'centro-custo'], function(){

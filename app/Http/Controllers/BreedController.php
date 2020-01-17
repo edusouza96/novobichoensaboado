@@ -21,6 +21,15 @@ class BreedController extends Controller
         return view('breed.index', compact('breeds'));
     }
 
+    public function allOptions()
+    {
+        try {
+            $breeds = $this->breedRepository->all();
+            return response()->json($breeds);
+        } catch (\InvalidArgumentException $e) {
+        }
+    }
+
     public function create()
     {
         $breed = $this->breedRepository->newInstance();

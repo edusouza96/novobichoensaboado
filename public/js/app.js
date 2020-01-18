@@ -3510,6 +3510,11 @@ __webpack_require__.r(__webpack_exports__);
       return laroute.route('client.destroy', {
         id: this.pet.id
       });
+    },
+    hrefEditPet: function hrefEditPet() {
+      return laroute.route('client.edit', {
+        id: this.pet.id
+      });
     }
   }
 });
@@ -75526,8 +75531,9 @@ var render = function() {
                                     modifiers: { "top-center": true }
                                   }
                                 ],
-                                staticClass: "btn btn-primary btn-sm",
-                                attrs: { href: "" }
+                                staticClass:
+                                  "btn btn-primary btn-sm text-white",
+                                attrs: { href: _vm.hrefEditPet() }
                               },
                               [_c("i", { staticClass: "fas fa-pencil-alt" })]
                             )

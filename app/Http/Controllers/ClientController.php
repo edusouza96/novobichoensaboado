@@ -44,45 +44,27 @@ class ClientController extends Controller
     public function store(ClientCreateRequest $request)
     {
         try {
-            $this->clientRepository->create($request->only('owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2', 'email'));
+            $this->clientRepository->create($request->only('owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2'));
             return redirect()->route('owner.index')->with('alertType', 'success')->with('message', 'Pet Cadastrado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $client = $this->clientRepository->find($id);
+        return view('client.edit', compact('client'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(ClientCreateRequest $request, $id)
     {
-        //
+        try {
+            $this->clientRepository->update($id, $request->only('owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2'));
+            return redirect()->route('owner.index')->with('alertType', 'success')->with('message', 'Pet Atualizado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
     }
 
     public function destroy($id)

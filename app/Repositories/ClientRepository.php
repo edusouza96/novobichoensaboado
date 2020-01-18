@@ -28,9 +28,10 @@ class ClientRepository
         return $this->client->find($id);   
     }
 
-    public function update()
+    public function update($id, array $attributes)
     {
-
+        return $this->client->whereId($id)
+                           ->update($attributes);
     }
 
     public function destroy($id)

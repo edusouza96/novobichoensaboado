@@ -60,14 +60,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" name="email" class="form-control" value="{{old('email', $client->getEmail())}}">
-            </div>
-        </div>
-    </div>
 </div> 
 
 @push('js-end')

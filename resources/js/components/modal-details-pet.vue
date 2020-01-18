@@ -38,7 +38,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-primary btn-sm" v-tooltip.top-center="'Editar Pet'">
+                                        <a :href="hrefEditPet()" class="btn btn-primary btn-sm text-white" v-tooltip.top-center="'Editar Pet'">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
                                     </td>
@@ -80,6 +80,9 @@ export default {
     methods: {
         hrefDestroyPet(){
             return laroute.route('client.destroy', {id: this.pet.id});
+        },
+        hrefEditPet(){
+            return laroute.route('client.edit', {id: this.pet.id});
         },
     },
 };

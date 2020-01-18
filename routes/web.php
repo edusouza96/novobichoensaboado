@@ -96,6 +96,8 @@ Route::group(['prefix' => 'pet'], function () {
     Route::get('deletar/{id}', ['as' => 'client.destroy', 'uses' => 'ClientController@destroy']);
     Route::get('cadastrar/{id}', ['as' => 'client.create', 'uses' => 'ClientController@create']);
     Route::post('cadastrar', ['as' => 'client.store', 'uses' => 'ClientController@store']);
+    Route::get('editar/{id}', ['as' => 'client.edit', 'uses' => 'ClientController@edit']);
+    Route::post('editar/{id}', ['as' => 'client.update', 'uses' => 'ClientController@update']);
 });
 
 Route::group(['prefix' => 'servico'], function () {

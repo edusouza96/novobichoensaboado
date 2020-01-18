@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     protected $table = 'clients';
-    protected $fillable = ['owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2', 'email'];
+    protected $fillable = ['owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2'];
     
     public function breed()
     {
@@ -65,11 +65,7 @@ class Client extends Model
     {
         return $this->phone2;
     }
-    public function getEmail()
-    {
-        return $this->email;
-    }
-    
+        
     public function toArray()
     {
         return [
@@ -85,7 +81,7 @@ class Client extends Model
             'phone1'        => $this->getPhone1(),
             'phone2'        => $this->getPhone2(),
             'phones'        => $this->getPhone1().'<br>'.$this->getPhone2(),
-            'email'         => $this->getEmail(),
+            'email'         => $this->getOwner()->getEmail(),
         ];
     }
 }

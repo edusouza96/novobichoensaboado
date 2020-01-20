@@ -76856,6 +76856,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.list.length > 0,
+          expression: "list.length > 0"
+        }
+      ]
+    },
     [
       _c("modal-pay-outlay", { key: _vm.id, attrs: { id: _vm.id } }),
       _vm._v(" "),

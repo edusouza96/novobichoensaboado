@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="list.length > 0">
     <modal-pay-outlay :id="id" :key="id"></modal-pay-outlay>
     <table class="table">
       <thead>

@@ -10,6 +10,7 @@
                 </div>
 
                 <div class="modal-body">
+                    <modal-timeline-historic-pet></modal-timeline-historic-pet>
                     <div class="row">
                         <table class="table">
                             <thead>
@@ -33,7 +34,7 @@
                                         <div>{{pet.phone2}}</div>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-dark btn-sm" v-tooltip.top-center="'Histórico do Pet'">
+                                        <a :href="hrefViewHistoric()"  class="btn btn-dark btn-sm text-white" v-tooltip.top-center="'Histórico do Pet'">
                                             <i class="fas fa-history"></i>
                                         </a>
                                     </td>
@@ -83,6 +84,9 @@ export default {
         },
         hrefEditPet(){
             return laroute.route('client.edit', {id: this.pet.id});
+        },
+        hrefViewHistoric(){
+            return laroute.route('client.historic', {client_id: this.pet.id});
         },
     },
 };

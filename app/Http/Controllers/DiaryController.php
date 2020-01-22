@@ -90,4 +90,18 @@ class DiaryController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }
+
+    public function historic(Request $request, $client_id)
+    {
+        $attributes = $request->all();
+        $attributes['client_id'] = $client_id;
+        $historic = $this->diaryRepository->findByFilter($attributes, true);
+        return view('client.historic', compact('historic', 'client_id'));
+    }
+
+    // public function index(Request $request)
+    // {
+    //     $costCenters = $this->costCenterRepository->findByFilter($request->all(), true);
+    //     return view('costCenter.index', compact('costCenters'));
+    // }
 }

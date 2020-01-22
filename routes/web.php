@@ -98,6 +98,7 @@ Route::group(['prefix' => 'pet'], function () {
     Route::post('cadastrar', ['as' => 'client.store', 'uses' => 'ClientController@store']);
     Route::get('editar/{id}', ['as' => 'client.edit', 'uses' => 'ClientController@edit']);
     Route::post('editar/{id}', ['as' => 'client.update', 'uses' => 'ClientController@update']);
+    Route::get('historico/{client_id}', ['as' => 'client.historic', 'uses' => 'DiaryController@historic']);
 });
 
 Route::group(['prefix' => 'servico'], function () {

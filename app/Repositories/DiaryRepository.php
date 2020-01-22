@@ -44,7 +44,10 @@ class DiaryRepository
 
     public function findByDate(Carbon $date)
     {
-        return $this->diary->whereBetween('date_hour', [$date->startOfDay()->toDateTimeString(), $date->endOfDay()->toDateTimeString()])->get();
+        return $this->diary->whereBetween('date_hour', [
+            $date->startOfDay()->toDateTimeString(), 
+            $date->endOfDay()->toDateTimeString()
+        ])->get();
     }
 
     public function find($id)
@@ -97,6 +100,27 @@ class DiaryRepository
                 $query->Where('id', $owner->getId());
             });
         })->whereBetween('date_hour', [clone $date->startOfDay(), clone $date->endOfDay()])->get();
+    }
+
+    public function findByFilter($attributes, $paginate=false)
+    {
+        $search = $this->diary->newQuery();
+
+        if(isset($attributes['start'])){
+            $search = $search->whereDate('date_hour', '>=', $attributes['start']." 00:00:00");
+        }
+
+        if(isset($attributes['end'])){
+            $search = $search->whereDate('date_hour', '<=', $attributes['end']." 23:59:59");
+        }
+
+        if(isset($attributes['client_id'])){
+            $search = $search->where('client_id', $attributes['client_id']);
+        }
+        
+        $search->orderBy('date_hour', 'desc');
+// dd(str_replace_array('s?', $search->getBindings(), $search->toSql()));
+        return $paginate ? $search->paginate(15) : $search->get();
     }
 
     public function attachPackage($diary, $package)

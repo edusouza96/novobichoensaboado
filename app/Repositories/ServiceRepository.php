@@ -73,8 +73,8 @@ class ServiceRepository
         //
     }
 
-    public function delete()
+    public function destroy($id)
     {
-        //
+        return $this->service->destroy($id);
     }
 }

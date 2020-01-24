@@ -96,14 +96,13 @@ class ServiceController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        try {
+            $this->serviceRepository->destroy($id);
+            return redirect()->route('service.index')->with('alertType', 'success')->with('message', 'Serviço Deletado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        } 
     }
 }

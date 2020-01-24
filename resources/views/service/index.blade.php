@@ -108,7 +108,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a v-confirm="confirmDestroy" href="{{--route('service.destroy', $service->getId())--}}" class="btn btn-danger btn-sm">
+                                    <a v-confirm="confirmDestroy" href="{{route('service.destroy', $service->getId())}}" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>

@@ -105,6 +105,7 @@ Route::group(['prefix' => 'servico'], function () {
     Route::get('localizar-por-raca/{id}', ['as' => 'service.findByBreed', 'uses' => 'ServiceController@findByBreed']);
     Route::get('veterinario', ['as' => 'service.allVet', 'uses' => 'ServiceController@allVet']);
     Route::get('', ['as' => 'service.index', 'uses' => 'ServiceController@index']);
+    Route::get('deletar/{id}', ['as' => 'service.destroy', 'uses' => 'ServiceController@destroy']);
 });
 
 Route::group(['prefix' => 'produto'], function () {

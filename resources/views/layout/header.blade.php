@@ -49,6 +49,7 @@
                         <a class="dropdown-item" href="{{ route('outlay.index') }}">Despesas</a>
                         <a class="dropdown-item" href="{{ route('rebate.index') }}">Promoções</a>
                         <a class="dropdown-item" href="{{ route('breed.index') }}">Raças</a>
+                        <a class="dropdown-item" href="{{ route('service.index') }}">Serviços</a>
                     </div>
                 </li>
 

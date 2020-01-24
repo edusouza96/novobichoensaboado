@@ -34,14 +34,11 @@ class ServiceController extends Controller
         }catch(\InvalidArgumentException  $e){
         }
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    
+    public function index(Request $request)
     {
-        //
+        $services = $this->serviceRepository->findByFilter($request->all(), true);
+        return view('service.index', compact('services'));
     }
 
     /**

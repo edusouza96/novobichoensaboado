@@ -35,11 +35,31 @@ class Service extends Model
     {
         return $this->breed;
     }
+
+    public function isPet()
+    {
+        return $this->pet;
+    }
+
+    public function isVet()
+    {
+        return $this->vet;
+    }
+
     public function getPackageType()
     {
         // #1 - unico
         // #2 - 15 dias
         // #3 - 30 dias
         return $this->package_type_id;
+    }
+
+    public function details()
+    {
+        switch ($this->package_type_id) {
+            case '1': return '';
+            case '2': return 'Pacote 15 dias';
+            case '3': return 'Pacote 30 dias';
+        }
     }
 }

@@ -106,6 +106,8 @@ Route::group(['prefix' => 'servico'], function () {
     Route::get('veterinario', ['as' => 'service.allVet', 'uses' => 'ServiceController@allVet']);
     Route::get('', ['as' => 'service.index', 'uses' => 'ServiceController@index']);
     Route::get('deletar/{id}', ['as' => 'service.destroy', 'uses' => 'ServiceController@destroy']);
+    Route::get('cadastrar', ['as' => 'service.create', 'uses' => 'ServiceController@create']);
+    Route::post('cadastrar', ['as' => 'service.store', 'uses' => 'ServiceController@store']);
 });
 
 Route::group(['prefix' => 'produto'], function () {

@@ -4,7 +4,7 @@
 @section('content') 
     <div id="service" class="container">
         <div class="text-right mb-3">
-            <a href="{{--route('service.create')--}}" class="btn btn-primary">
+            <a href="{{route('service.create')}}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Cadastrar
             </a>
         </div>

@@ -7,12 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
+    
     protected $table = 'services';
+    protected $fillable = ['name', 'value','breed_id', 'package_type_id', 'pet', 'vet'];
 
     public function breed()
     {

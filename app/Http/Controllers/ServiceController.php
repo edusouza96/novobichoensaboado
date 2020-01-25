@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Requests;
 use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Repositories\ServiceRepository;
+use BichoEnsaboado\Http\Requests\ServiceCreateRequest;
 
 class ServiceController extends Controller
 {
@@ -41,36 +42,20 @@ class ServiceController extends Controller
         return view('service.index', compact('services'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $service = $this->serviceRepository->newInstance();
+        return view('service.create', compact('service'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ServiceCreateRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        try {
+            $this->serviceRepository->create($request->only('name', 'value','breed_id', 'package_type_id', 'pet', 'vet'));
+            return redirect()->route('service.index')->with('alertType', 'success')->with('message', 'Serviço Cadastrado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
     }
 
     /**

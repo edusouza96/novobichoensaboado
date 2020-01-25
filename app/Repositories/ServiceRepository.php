@@ -77,4 +77,15 @@ class ServiceRepository
     {
         return $this->service->destroy($id);
     }
+
+    public function newInstance()
+    {
+        return $this->service->newInstance();
+    }
+
+    public function create(array $attributes)
+    {
+        $attributes['value'] = str_replace(',', '.', $attributes['value']);
+        return $this->service->create($attributes);
+    }
 }

@@ -10,8 +10,8 @@
         <div class="col-6">
             <div class="form-group">
                 <label for="breed_id">Raça</label>
-                <select name="breed_id" id="breed_id" class="form-control">
-                    <option value>Todas</option>
+                <select name="breed_id" id="breed_id" class="form-control" v-model="breed_id">
+                    <option value="0">Todas</option>
                     <option v-for="breed in breeds" :value="breed.id" :key="breed.id">@{{ breed.name }}</option>
                 </select>
             </div>
@@ -28,10 +28,8 @@
         <div class="col-6">
             <div class="form-group">
                 <label for="package_type_id">Pacote</label>
-                <select name="package_type_id" id="package_type_id" class="form-control">
-                    <option value="1">Selecione</option>
-                    <option value="2">15 Dias</option>
-                    <option value="3">30 Dias</option>
+                <select name="package_type_id" id="package_type_id" class="form-control" v-model="package_type_id">
+                    <option v-for="package_type in package_types" :value="package_type.id" :key="package_type.id">@{{ package_type.name }}</option>
                 </select>
             </div>
         </div>
@@ -41,7 +39,7 @@
         <div class="col-2">
             <div class="form-group">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="pet" name="pet" value="1">
+                    <input type="checkbox" class="form-check-input" id="pet" name="pet" value="1" {{$service->isPet() ? 'checked': ''}}>
                     <label class="form-check-label" for="pet">Pet-shop</label>
                 </div>
                
@@ -50,7 +48,7 @@
         <div class="col-2">
             <div class="form-group">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="vet" name="vet" value="1">
+                    <input type="checkbox" class="form-check-input" id="vet" name="vet" value="1" {{$service->isVet() ? 'checked': ''}}>
                     <label class="form-check-label" for="vet">Veterinário</label>
                 </div>
                
@@ -69,7 +67,10 @@
                     thousands: "",
                     precision: 2
                 },
-                breeds:[]
+                package_types:[{id:1, name:'Selecione'}, {id:2, name:'15 Dias'}, {id:3, name:'30 Dias'}],
+                package_type_id: "{{$service->package_type_id}}",
+                breeds:[],
+                breed_id: "{{$service->breed_id}}",
             },
             methods:{
                 getBreeds(){

@@ -103,7 +103,7 @@
                                 <td>{{ $service->details() }}</td>
                                 <td>R$ {{ number_format($service->getValue(), 2, ',', '.') }}</td>
                                 <td>
-                                    <a href="{{--route('service.edit', $service->getId())--}}" class="btn btn-primary btn-sm">
+                                    <a href="{{route('service.edit', $service->getId())}}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </td>

@@ -67,12 +67,12 @@ class ServiceRepository
 
     }
 
-
-    public function update()
+    public function update($id, array $attributes)
     {
-        //
+        $attributes['value'] = str_replace(',', '.', $attributes['value']);
+        return $this->service->whereId($id)
+                           ->update($attributes);
     }
-
     public function destroy($id)
     {
         return $this->service->destroy($id);

@@ -58,27 +58,20 @@ class ServiceController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $service = $this->serviceRepository->find($id);
+        return view('service.edit', compact('service'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(ServiceCreateRequest $request, $id)
     {
-        //
+        try {
+            $this->serviceRepository->update($id ,$request->only('name', 'value','breed_id', 'package_type_id', 'pet', 'vet'));
+            return redirect()->route('service.index')->with('alertType', 'success')->with('message', 'Serviço Atualizado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
     }
 
     public function destroy($id)

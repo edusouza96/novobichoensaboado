@@ -50,4 +50,16 @@ class ProductRepository
     {
         return $this->product->destroy($id);
     }
+
+    public function newInstance()
+    {
+        return $this->product->newInstance();
+    }
+
+    public function create(array $attributes)
+    {
+        $attributes['value_sales'] = str_replace(',', '.', $attributes['value_sales']);
+        $attributes['value_buy'] = str_replace(',', '.', $attributes['value_buy']);
+        return $this->product->create($attributes);
+    }
 }

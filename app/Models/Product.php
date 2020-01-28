@@ -9,12 +9,8 @@ class Product extends Model
 {
     use SoftDeletes;
     
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'products';
+    protected $fillable = ['barcode', 'name','value_sales', 'value_buy', 'quantity'];
 
     public function getId()
     {

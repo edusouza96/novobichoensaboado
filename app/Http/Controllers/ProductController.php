@@ -5,6 +5,7 @@ namespace BichoEnsaboado\Http\Controllers;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Repositories\ProductRepository;
+use BichoEnsaboado\Http\Requests\ProductCreateRequest;
 
 class ProductController extends Controller
 {
@@ -39,5 +40,21 @@ class ProductController extends Controller
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         } 
+    }
+
+    public function create()
+    {
+        $product = $this->productRepository->newInstance();
+        return view('product.create', compact('product'));
+    }
+
+    public function store(ProductCreateRequest $request)
+    {
+        try {
+            $this->productRepository->create($request->only('barcode', 'name','value_sales', 'value_buy', 'quantity'));
+            return redirect()->route('product.index')->with('alertType', 'success')->with('message', 'Produto Cadastrado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
     }
 }

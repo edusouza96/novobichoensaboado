@@ -6,11 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rebate extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
+   
     protected $table = 'rebates';
     protected $fillable = ['name', 'value', 'pet', 'vet', 'product'];
 

@@ -25,4 +25,19 @@ class ProductController extends Controller
         }
     }
 
+    public function index(Request $request)
+    {
+        $products = $this->productRepository->findByFilter($request->all(), true);
+        return view('product.index', compact('products'));
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $this->productRepository->destroy($id);
+            return redirect()->route('product.index')->with('alertType', 'success')->with('message', 'Produto Deletado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        } 
+    }
 }

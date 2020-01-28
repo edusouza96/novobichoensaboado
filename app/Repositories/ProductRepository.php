@@ -28,4 +28,26 @@ class ProductRepository
         return $this->product->find($id);   
     }
 
+    public function findByFilter(array $attributes, $paginate=false)
+    {
+        $search = $this->product->newQuery();
+
+        if(isset($attributes['name'])){
+            $search = $search->where('name', 'like', "%{$attributes['name']}%");
+        }
+        
+        if(isset($attributes['barcode'])){
+            $search = $search->where('barcode', $attributes['barcode']);
+        }
+
+        $search->orderBy('name', 'asc');
+
+        return $paginate ? $search->paginate(15) : $search->get();
+
+    }
+
+    public function destroy($id)
+    {
+        return $this->product->destroy($id);
+    }
 }

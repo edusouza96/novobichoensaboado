@@ -64,12 +64,12 @@
                                 <td>R$ {{ number_format($product->getValueSales(), 2, ',', '.') }}</td>
                                 <td>{{ $product->getQuantity() }}</td>
                                 <td>
-                                    <a href="{{--route('product.print', $product->getId())--}}" class="btn btn-success btn-sm">
+                                    <a href="{{--route('product.print', $product->getId())--}}" class="btn btn-dark btn-sm">
                                         <i class="fas fa-print"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{--route('product.edit', $product->getId())--}}" class="btn btn-primary btn-sm">
+                                    <a href="{{route('product.edit', $product->getId())}}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </td>

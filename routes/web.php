@@ -118,6 +118,8 @@ Route::group(['prefix' => 'produto'], function () {
     Route::get('deletar/{id}', ['as' => 'product.destroy', 'uses' => 'ProductController@destroy']);
     Route::get('cadastrar', ['as' => 'product.create', 'uses' => 'ProductController@create']);
     Route::post('cadastrar', ['as' => 'product.store', 'uses' => 'ProductController@store']);
+    Route::get('editar/{id}', ['as' => 'product.edit', 'uses' => 'ProductController@edit']);
+    Route::post('editar/{id}', ['as' => 'product.update', 'uses' => 'ProductController@update']);
 });
 
 Route::group(['prefix' => 'bairro'], function(){

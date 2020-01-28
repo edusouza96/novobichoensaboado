@@ -9,7 +9,7 @@
         <div class="col-4">
             <div class="form-group">
                 <label for="barcode">Código de Barras</label>
-                <input type="text" name="barcode" class="form-control" required value="{{$product->getBarcode()}}">
+                <input type="text" name="barcode" class="form-control" readonly value="{{$product->getBarcode()}}">
             </div>
         </div>
     </div>

@@ -5,16 +5,21 @@ namespace BichoEnsaboado\Http\Controllers;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Repositories\ProductRepository;
+use BichoEnsaboado\Services\GenerateBarcodeService;
 use BichoEnsaboado\Http\Requests\ProductCreateRequest;
 
 class ProductController extends Controller
 {
     /** @var ProductRepository */
     private $productRepository;
+    
+    /** @var GenerateBarcodeService */
+    private $generateBarcodeService;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $productRepository, GenerateBarcodeService $generateBarcodeService)
     {
         $this->productRepository = $productRepository;
+        $this->generateBarcodeService = $generateBarcodeService;
     }
 
     public function findByName($name)
@@ -44,7 +49,9 @@ class ProductController extends Controller
 
     public function create()
     {
+        $barcode = $this->generateBarcodeService->generate();
         $product = $this->productRepository->newInstance();
+        $product->setBarcode($barcode);
         return view('product.create', compact('product'));
     }
 
@@ -53,6 +60,22 @@ class ProductController extends Controller
         try {
             $this->productRepository->create($request->only('barcode', 'name','value_sales', 'value_buy', 'quantity'));
             return redirect()->route('product.index')->with('alertType', 'success')->with('message', 'Produto Cadastrado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
+    }
+
+    public function edit($id)
+    {
+        $product = $this->productRepository->find($id);
+        return view('product.edit', compact('product'));
+    }
+
+    public function update(ProductCreateRequest $request, $id)
+    {
+        try {
+            $this->productRepository->update($id ,$request->only('barcode', 'name','value_sales', 'value_buy', 'quantity'));
+            return redirect()->route('product.index')->with('alertType', 'success')->with('message', 'Produto Atualizado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }

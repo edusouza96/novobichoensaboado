@@ -13,6 +13,11 @@ class ProductRepository
         $this->product = $product;
     }
 
+    public function last()
+    {
+        return $this->product->latest('barcode')->first();   
+    }
+
     public function all()
     {
         return $this->product->all();   
@@ -61,5 +66,13 @@ class ProductRepository
         $attributes['value_sales'] = str_replace(',', '.', $attributes['value_sales']);
         $attributes['value_buy'] = str_replace(',', '.', $attributes['value_buy']);
         return $this->product->create($attributes);
+    }
+
+    public function update($id, array $attributes)
+    {
+        $attributes['value_sales'] = str_replace(',', '.', $attributes['value_sales']);
+        $attributes['value_buy'] = str_replace(',', '.', $attributes['value_buy']);
+        return $this->product->whereId($id)
+                           ->update($attributes);
     }
 }

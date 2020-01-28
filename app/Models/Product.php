@@ -36,6 +36,10 @@ class Product extends Model
     {
         return $this->barcode;
     }
+    public function setBarcode($barcode)
+    {
+        $this->barcode = $barcode;
+    }
 
     public function getDataToSaveSale()
     {

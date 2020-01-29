@@ -120,6 +120,7 @@ Route::group(['prefix' => 'produto'], function () {
     Route::post('cadastrar', ['as' => 'product.store', 'uses' => 'ProductController@store']);
     Route::get('editar/{id}', ['as' => 'product.edit', 'uses' => 'ProductController@edit']);
     Route::post('editar/{id}', ['as' => 'product.update', 'uses' => 'ProductController@update']);
+    Route::get('codigo-barras/{id}/{count?}', ['as' => 'product.barcode', 'uses' => 'ProductController@barcode']);
 });
 
 Route::group(['prefix' => 'bairro'], function(){

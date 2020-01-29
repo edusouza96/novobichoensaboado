@@ -16774,3 +16774,9 @@ legend {
   width: 10px;
 }
 
+@media print {
+  .noprint {
+    display: none;
+  }
+}
+

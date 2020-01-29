@@ -165,6 +165,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Lord\Laroute\LarouteServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -174,8 +176,6 @@ return [
         // BichoEnsaboado\Providers\BroadcastServiceProvider::class,
         BichoEnsaboado\Providers\EventServiceProvider::class,
         BichoEnsaboado\Providers\RouteServiceProvider::class,
-        Lord\Laroute\LarouteServiceProvider::class,
-
     ],
 
     /*
@@ -226,7 +226,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
 
 ];

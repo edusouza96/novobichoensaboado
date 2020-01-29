@@ -2,6 +2,8 @@
 
 namespace BichoEnsaboado\Http\Controllers;
 
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Repositories\ProductRepository;
@@ -69,6 +71,12 @@ class ProductController extends Controller
     {
         $product = $this->productRepository->find($id);
         return view('product.edit', compact('product'));
+    }
+    
+    public function barcode($id, $count = 1)
+    {
+        $product = $this->productRepository->find($id);
+        return view('product.barcode', compact('product', 'count'));
     }
 
     public function update(ProductCreateRequest $request, $id)

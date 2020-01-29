@@ -64,9 +64,9 @@
                                 <td>R$ {{ number_format($product->getValueSales(), 2, ',', '.') }}</td>
                                 <td>{{ $product->getQuantity() }}</td>
                                 <td>
-                                    <a href="{{--route('product.print', $product->getId())--}}" class="btn btn-dark btn-sm">
+                                    <button class="btn btn-dark btn-sm text-white" @click="printBarcode({{$product->getId()}})">
                                         <i class="fas fa-print"></i>
-                                    </a>
+                                    </button>
                                 </td>
                                 <td>
                                     <a href="{{route('product.edit', $product->getId())}}" class="btn btn-primary btn-sm">
@@ -106,6 +106,29 @@
                     }
                 }
             },
+            methods:{
+                printBarcode(id){
+                    this.$dialog
+                        .prompt({
+                            title: "Gerar tela de impressão do código de barras",
+                        },{
+                            promptHelp: "Quantos códigos deseja imprimir ?",
+                            okText: 'Imprimir',
+                            cancelText: 'Cancelar',
+                        })
+                        .then(dialog => {
+                            let count = parseInt(dialog.data);
+                            if(!Number.isInteger(count)){
+                                count = 1;
+                            }
+                            let url = laroute.route('product.barcode', {id: id, count: count});
+                            location.href = url;
+                        })
+                        .catch(() => {
+                            console.log('Contate ao Dev, ou tente novamente');
+                        });
+                }
+            }
         });
     </script>
 @endpush

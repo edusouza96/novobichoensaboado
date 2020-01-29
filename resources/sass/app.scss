@@ -199,3 +199,7 @@ legend {
 .large-10{
     width: 10px;
 }
+
+@media print {
+    .noprint { display:none; } 
+}

@@ -4,7 +4,7 @@ namespace BichoEnsaboado\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RebateCreateRequest extends FormRequest
+class StoreCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,6 @@ class RebateCreateRequest extends FormRequest
     {
         return [
             "name" => "required",
-            "value" => "required",
         ];
     }
 
@@ -33,7 +32,6 @@ class RebateCreateRequest extends FormRequest
     {
         return [
             "name.required" => "O campo Nome da promoção/desconto é obrigatório.",
-            "value.required" => "O campo Valor em % do desconto é obrigatório.",
         ];
     }
 }

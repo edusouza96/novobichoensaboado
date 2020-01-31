@@ -168,6 +168,11 @@ Route::group(['prefix' => 'promocao'], function(){
     Route::get('inativar/{id}', ['as' => 'rebate.inactive', 'uses' => 'RebateController@inactive']);
 });
 
+Route::group(['prefix' => 'loja'], function(){
+    Route::get('cadastrar', ['as' => 'store.create', 'uses' => 'StoreController@create']);
+    Route::post('cadastrar', ['as' => 'store.store', 'uses' => 'StoreController@store']);
+});
+
 Route::get('/info', function () {
     dd(phpinfo());
 });

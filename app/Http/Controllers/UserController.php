@@ -22,5 +22,14 @@ class UserController extends Controller
         return view('user.index', compact('users'));
     }
 
+    public function destroy($id)
+    {
+        try {
+            $this->userRepository->destroy($id);
+            return redirect()->route('user.index')->with('alertType', 'success')->with('message', 'Usuário Deletado.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        } 
+    }
    
 }

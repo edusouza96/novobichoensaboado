@@ -40,4 +40,8 @@ class UserRepository
         return $paginate ? $search->paginate(15) : $search->get();
     }
     
+    public function destroy($id)
+    {
+        return $this->user->destroy($id);
+    }
 }

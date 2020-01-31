@@ -57,7 +57,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a v-confirm="confirmDestroy" href="{{--route('user.destroy', $user->getId())--}}" class="btn btn-danger btn-sm">
+                                    <a v-confirm="confirmDestroy" href="{{route('user.destroy', $user->getId())}}" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -80,12 +80,12 @@
 @push('js-end')
     <script>
         new Vue({
-            el: 'user',
+            el: '#user',
             data: {
                 confirmDestroy: {
                     message:{
                         title: 'Atenção',
-                        body: 'Deseja realmente remover este Usuário do sistema?'
+                        body: 'Deseja realmente remover este usuário do sistema?'
                     }
                 }
             }

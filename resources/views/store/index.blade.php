@@ -86,7 +86,7 @@
 @push('js-end')
     <script>
         new Vue({
-            el: 'store',
+            el: '#store',
             data: {
                 confirmDestroy: {
                     message:{

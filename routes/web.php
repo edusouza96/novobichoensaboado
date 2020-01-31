@@ -179,6 +179,7 @@ Route::group(['prefix' => 'loja'], function(){
 
 Route::group(['prefix' => 'usuario'], function(){
     Route::get('', ['as' => 'user.index', 'uses' => 'UserController@index']);
+    Route::get('deletar/{id}', ['as' => 'user.destroy', 'uses' => 'UserController@destroy']);
 });
 
 Route::get('/info', function () {

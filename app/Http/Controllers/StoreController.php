@@ -48,4 +48,14 @@ class StoreController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+            $this->storeRepository->destroy($id);
+            return redirect()->route('store.index')->with('alertType', 'success')->with('message', 'Loja Deletada.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        } 
+    }
 }

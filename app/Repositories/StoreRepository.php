@@ -52,4 +52,9 @@ class StoreRepository
                            ->update($attributes);
     }
 
+    public function destroy($id)
+    {
+        return $this->store->destroy($id);
+    }
+
 }

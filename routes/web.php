@@ -173,6 +173,7 @@ Route::group(['prefix' => 'loja'], function(){
     Route::post('cadastrar', ['as' => 'store.store', 'uses' => 'StoreController@store']);
     Route::get('editar/{id}', ['as' => 'store.edit', 'uses' => 'StoreController@edit']);
     Route::post('editar/{id}', ['as' => 'store.update', 'uses' => 'StoreController@update']);
+    Route::get('deletar/{id}', ['as' => 'store.destroy', 'uses' => 'StoreController@destroy']);
 });
 
 Route::get('/info', function () {

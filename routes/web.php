@@ -180,6 +180,10 @@ Route::group(['prefix' => 'loja'], function(){
 Route::group(['prefix' => 'usuario'], function(){
     Route::get('', ['as' => 'user.index', 'uses' => 'UserController@index']);
     Route::get('deletar/{id}', ['as' => 'user.destroy', 'uses' => 'UserController@destroy']);
+    Route::get('cadastrar', ['as' => 'user.create', 'uses' => 'UserController@create']);
+    Route::post('cadastrar', ['as' => 'user.store', 'uses' => 'UserController@store']);
+    Route::get('editar/{id}', ['as' => 'user.edit', 'uses' => 'UserController@edit']);
+    Route::post('editar/{id}', ['as' => 'user.update', 'uses' => 'UserController@update']);
 });
 
 Route::get('/info', function () {

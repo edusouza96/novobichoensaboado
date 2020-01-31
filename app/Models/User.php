@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-   
+    protected $fillable = ['name', 'nickname', 'password'];
     protected $table = 'users';
 
     public function getId()

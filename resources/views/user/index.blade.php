@@ -4,7 +4,7 @@
 @section('content') 
     <div id="user" class="container">
         <div class="text-right mb-3">
-            <a href="{{--route('user.create')--}}" class="btn btn-primary">
+            <a href="{{route('user.create')}}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Cadastrar
             </a>
         </div>
@@ -52,7 +52,7 @@
                                 <td>{{ $user->getNickname() }}</td>
                                 <td>{{ $user->getName() }}</td>
                                 <td>
-                                    <a href="{{--route('user.edit', $user->getId())--}}" class="btn btn-primary btn-sm">
+                                    <a href="{{route('user.edit', $user->getId())}}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </td>

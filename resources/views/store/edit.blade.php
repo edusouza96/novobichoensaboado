@@ -1,11 +1,11 @@
 @extends('layout.page') 
-@section('title') Cadastrar @endsection
+@section('title') Editar @endsection
  
 @section('form') 
-<form method="POST" action="{{route('store.store')}}">
+<form method="POST" action="{{route('store.update', $store->getId())}}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="card">
-        <div class="card-header filter-header">Cadastrar</div>
+        <div class="card-header filter-header">Editar</div>
             <div class="card-body">
                 @include('store.form')
             </div>

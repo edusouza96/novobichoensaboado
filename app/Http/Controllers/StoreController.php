@@ -32,4 +32,20 @@ class StoreController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }
+
+    public function edit($id)
+    {
+        $store = $this->storeRepository->find($id);
+        return view('store.edit', compact('store'));
+    }
+
+    public function update(StoreCreateRequest $request, $id)
+    {
+        try {
+            $this->storeRepository->update($id, $request->only('name', 'phone', 'email', 'address', 'inauguration_date'));
+            return redirect()->route('store.index')->with('alertType', 'success')->with('message', 'Loja Atualizada.');
+        } catch (Exception $ex) {
+            return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
+        }
+    }
 }

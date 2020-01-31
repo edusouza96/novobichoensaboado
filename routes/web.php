@@ -171,6 +171,8 @@ Route::group(['prefix' => 'promocao'], function(){
 Route::group(['prefix' => 'loja'], function(){
     Route::get('cadastrar', ['as' => 'store.create', 'uses' => 'StoreController@create']);
     Route::post('cadastrar', ['as' => 'store.store', 'uses' => 'StoreController@store']);
+    Route::get('editar/{id}', ['as' => 'store.edit', 'uses' => 'StoreController@edit']);
+    Route::post('editar/{id}', ['as' => 'store.update', 'uses' => 'StoreController@update']);
 });
 
 Route::get('/info', function () {

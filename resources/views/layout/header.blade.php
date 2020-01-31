@@ -52,6 +52,7 @@
                         <a class="dropdown-item" href="{{ route('rebate.index') }}">Promoções</a>
                         <a class="dropdown-item" href="{{ route('breed.index') }}">Raças</a>
                         <a class="dropdown-item" href="{{ route('service.index') }}">Serviços</a>
+                        <a class="dropdown-item" href="{{ route('user.index') }}">Usuarios</a>
                     </div>
                 </li>
 

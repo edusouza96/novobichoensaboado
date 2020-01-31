@@ -23,5 +23,21 @@ class UserRepository
         return $this->user->find($id);
     }
 
+    public function findByFilter(array $attributes, $paginate=false)
+    {
+        $search = $this->user->newQuery();
+
+        if(isset($attributes['name'])){
+            $search = $search->where('name', 'like', "%{$attributes['name']}%");
+        }
+       
+        if(isset($attributes['nickname'])){
+            $search = $search->where('nickname', 'like', "%{$attributes['nickname']}%");
+        }
+
+        $search->orderBy('name', 'asc');
+
+        return $paginate ? $search->paginate(15) : $search->get();
+    }
     
 }

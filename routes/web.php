@@ -177,6 +177,10 @@ Route::group(['prefix' => 'loja'], function(){
     Route::get('', ['as' => 'store.index', 'uses' => 'StoreController@index']);
 });
 
+Route::group(['prefix' => 'usuario'], function(){
+    Route::get('', ['as' => 'user.index', 'uses' => 'UserController@index']);
+});
+
 Route::get('/info', function () {
     dd(phpinfo());
 });

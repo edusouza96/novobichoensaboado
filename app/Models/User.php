@@ -6,11 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
+   
     protected $table = 'users';
 
     public function getId()
@@ -20,6 +16,14 @@ class User extends Model
     public function getName()
     {
         return $this->name;
+    }
+    public function getNickname()
+    {
+        return $this->nickname;
+    }
+    public function getPassword()
+    {
+        return $this->password;
     }
    
 }

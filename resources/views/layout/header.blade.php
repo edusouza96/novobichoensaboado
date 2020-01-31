@@ -47,7 +47,7 @@
                         <a class="dropdown-item" href="{{ route('costCenter.index') }}">Centro de Custo</a>
                         <a class="dropdown-item" href="{{ route('owner.index') }}">Clientes</a>
                         <a class="dropdown-item" href="{{ route('outlay.index') }}">Despesas</a>
-                        <a class="dropdown-item" href="{{ route('store.create') }}">Lojas</a>
+                        <a class="dropdown-item" href="{{ route('store.index') }}">Lojas</a>
                         <a class="dropdown-item" href="{{ route('product.index') }}">Produtos</a>
                         <a class="dropdown-item" href="{{ route('rebate.index') }}">Promoções</a>
                         <a class="dropdown-item" href="{{ route('breed.index') }}">Raças</a>

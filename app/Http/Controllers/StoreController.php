@@ -17,6 +17,12 @@ class StoreController extends Controller
         $this->storeRepository = $storeRepository;
     }
 
+    public function index(Request $request)
+    {
+        $stores = $this->storeRepository->findByFilter($request->all(), true);
+        return view('store.index', compact('stores'));
+    }
+
     public function create()
     {
         $store = $this->storeRepository->newInstance();

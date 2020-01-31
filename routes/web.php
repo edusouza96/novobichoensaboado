@@ -174,6 +174,7 @@ Route::group(['prefix' => 'loja'], function(){
     Route::get('editar/{id}', ['as' => 'store.edit', 'uses' => 'StoreController@edit']);
     Route::post('editar/{id}', ['as' => 'store.update', 'uses' => 'StoreController@update']);
     Route::get('deletar/{id}', ['as' => 'store.destroy', 'uses' => 'StoreController@destroy']);
+    Route::get('', ['as' => 'store.index', 'uses' => 'StoreController@index']);
 });
 
 Route::get('/info', function () {

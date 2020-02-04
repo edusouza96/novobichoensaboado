@@ -149,7 +149,7 @@ export default {
       });
     },
     convertToBrPattern(value){
-      return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2});
+      return parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
     },
     convertToUsPattern(value){
       return value == undefined ? 0.00 : parseFloat(value.replace(",", "."));
@@ -188,11 +188,16 @@ export default {
   watch: {
     rebate(){
       let rebate = this.getRebate(this.rebate);
+      this.promotionValue = 0;
+
       if(this.rebate > 0){
-        this.promotionValue = this.convertToBrPattern((rebate.value / 100) * this.totalServicePet);
-      }else{
-        this.promotionValue = '0,00';
+        this.promotionValue += rebate.pet ? ((rebate.value / 100) * this.totalServicePet) : 0;
+        this.promotionValue += rebate.vet ? ((rebate.value / 100) * this.totalServiceVet) : 0;
+        this.promotionValue += rebate.product ? ((rebate.value / 100) * this.totalProduct) : 0;
       }
+      
+      this.promotionValue = this.convertToBrPattern(this.promotionValue);
+
       this.setValueReceived();
     },
     leftover(){
@@ -213,6 +218,40 @@ export default {
   
       if(productsPet.length > 0){
         return productsPet.reduce((accumulator, product) => {
+          return {
+            amount: parseFloat(accumulator.amount) + parseFloat(product.amount)
+          }
+        }).amount;
+      }else{
+        return 0.00;
+      }
+    },
+    totalServiceVet(){   
+      let productsVet = this.products.filter((product)=>{
+        if(product.type == window.servicesType.VET){
+          return product;
+        }
+      });
+  
+      if(productsVet.length > 0){
+        return productsVet.reduce((accumulator, product) => {
+          return {
+            amount: parseFloat(accumulator.amount) + parseFloat(product.amount)
+          }
+        }).amount;
+      }else{
+        return 0.00;
+      }
+    },
+    totalProduct(){   
+      let products = this.products.filter((product)=>{
+        if(product.type == window.servicesType.PRODUCTS){
+          return product;
+        }
+      });
+  
+      if(products.length > 0){
+        return products.reduce((accumulator, product) => {
           return {
             amount: parseFloat(accumulator.amount) + parseFloat(product.amount)
           }

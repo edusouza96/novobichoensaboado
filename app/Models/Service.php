@@ -4,9 +4,11 @@ namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\Breed;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Service extends Model
 {
+    use SoftDeletes;
     
     protected $table = 'services';
     protected $fillable = ['name', 'value','breed_id', 'package_type_id', 'pet', 'vet'];

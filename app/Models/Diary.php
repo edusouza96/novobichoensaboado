@@ -10,9 +10,11 @@ use BichoEnsaboado\Models\Service;
 use BichoEnsaboado\Enums\StatusType;
 use BichoEnsaboado\Enums\ServicesType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Diary extends Model
 {
+    use SoftDeletes;
     
     protected $table = 'diaries';
     protected $dates = ['date_hour'];

@@ -3,14 +3,12 @@
 namespace BichoEnsaboado\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Neighborhood extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
+    use SoftDeletes;
+    
     protected $table = 'neighborhoods';
     protected $fillable = ['name', 'value'];
 

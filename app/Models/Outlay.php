@@ -7,9 +7,12 @@ use BichoEnsaboado\Models\Treasure;
 use BichoEnsaboado\Models\CostCenter;
 use BichoEnsaboado\Models\CashBookMove;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Outlay extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'outlays';
     protected $dates = ['date_pay'];
 

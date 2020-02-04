@@ -6,9 +6,12 @@ use BichoEnsaboado\Models\Breed;
 use BichoEnsaboado\Models\Owner;
 use BichoEnsaboado\Models\Neighborhood;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'clients';
     protected $fillable = ['owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2'];
     

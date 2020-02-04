@@ -4,9 +4,11 @@ namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\CostCenter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CostCenterCategory extends Model
 {
+    use SoftDeletes;
     protected $table = 'cost_center_category';
 
     public function costCenter()

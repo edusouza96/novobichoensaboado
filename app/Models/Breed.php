@@ -3,14 +3,12 @@
 namespace BichoEnsaboado\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Breed extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
+    use SoftDeletes;
+    
     protected $table = 'breeds';
     protected $fillable = ['name'];
 

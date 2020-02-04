@@ -3,10 +3,13 @@
 namespace BichoEnsaboado\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Rebate extends Model
 {
    
+    use SoftDeletes;
+    
     protected $table = 'rebates';
     protected $fillable = ['name', 'value', 'pet', 'vet', 'product'];
 

@@ -1,5 +1,7 @@
 <?php
 
+use BichoEnsaboado\Http\Middleware\CashdeskStatus;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,7 +39,7 @@ Route::group(['prefix' => 'vendas'], function () {
 });
 
 Route::group(['prefix' => 'pdv'], function () {
-    Route::get('{id?}', ['as' => 'pdv.index', 'uses' => 'PdvController@index']);
+    Route::get('{id?}', ['as' => 'pdv.index', 'uses' => 'PdvController@index'])->middleware(CashdeskStatus::class);
     Route::post('registrar-pagamento', ['as' => 'pdv.registerPayment', 'uses' => 'PdvController@registerPayment']);
     Route::get('nota-fiscal/{id}', ['as' => 'pdv.invoice', 'uses' => 'PdvController@invoice']);
     Route::get('compras/{ids}', ['as' => 'pdv.getBuys', 'uses' => 'PdvController@getBuys']);

@@ -2325,9 +2325,9 @@ __webpack_require__.r(__webpack_exports__);
       this.serviceSelected = service;
       var dateMarked = moment(this.dateHour);
 
-      if (service.package_type_id == 3) {
+      if (service.package_type_id == window.packageType.PACKAGE_15_DAYS.id) {
         this.package15Days(dateMarked);
-      } else if (service.package_type_id == 2) {
+      } else if (service.package_type_id == window.packageType.PACKAGE_30_DAYS.id) {
         this.package30Days(dateMarked);
       } else {
         this.closeModal();
@@ -92280,6 +92280,20 @@ window.paymentMethodsType = {
   DEBIT_CARD: {
     id: 3,
     label: 'Cartão de Débito'
+  }
+};
+window.packageType = {
+  NOT_PACKAGE: {
+    id: 1,
+    label: ''
+  },
+  PACKAGE_15_DAYS: {
+    id: 2,
+    label: 'Pacote 15 dias'
+  },
+  PACKAGE_30_DAYS: {
+    id: 3,
+    label: 'Pacote 30 dias'
   }
 };
 

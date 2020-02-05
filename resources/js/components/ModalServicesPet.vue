@@ -107,9 +107,9 @@ export default {
 
       let dateMarked = moment(this.dateHour);
       
-      if(service.package_type_id == 3){
+      if(service.package_type_id == window.packageType.PACKAGE_15_DAYS.id){
         this.package15Days(dateMarked);
-      }else if(service.package_type_id == 2){
+      }else if(service.package_type_id == window.packageType.PACKAGE_30_DAYS.id){
         this.package30Days(dateMarked);
       }else {
         this.closeModal();

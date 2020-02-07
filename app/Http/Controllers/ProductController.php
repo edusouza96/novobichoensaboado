@@ -88,4 +88,14 @@ class ProductController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }
     }
+
+    public function lowQuantity()
+    {
+        try{
+            $products = $this->productRepository->quantityLessThan();
+            return response()->json($products);
+        }catch(\InvalidArgumentException $e){
+            dd($e->getMessage());
+        }
+    }
 }

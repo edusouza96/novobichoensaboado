@@ -49,4 +49,8 @@ class Product extends Model
         ];
     }
    
+    public function subtract($quantity)
+    {
+        $this->quantity -= $quantity;
+    }
 }

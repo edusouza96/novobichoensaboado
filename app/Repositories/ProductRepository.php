@@ -25,7 +25,9 @@ class ProductRepository
     
     public function findByName($name)
     {
-        return $this->product->where('name', 'like', "%$name%")->get();   
+        return $this->product->where('name', 'like', "%$name%")
+            ->where('quantity', '>', 0)
+            ->get();   
     }
     
     public function find($id)
@@ -49,6 +51,11 @@ class ProductRepository
 
         return $paginate ? $search->paginate(15) : $search->get();
 
+    }
+
+    public function quantityLessThan()
+    {
+        return $this->product->where('quantity', '<', 5)->get();
     }
 
     public function destroy($id)
@@ -75,4 +82,14 @@ class ProductRepository
         return $this->product->whereId($id)
                            ->update($attributes);
     }
+
+    public function writeOffInventory($id, $quantity)
+    {
+        $product = $this->find($id);
+        $product->subtract($quantity);
+        $product->save();
+
+        return $product;
+    }
+
 }

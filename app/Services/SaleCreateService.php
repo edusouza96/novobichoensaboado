@@ -79,6 +79,7 @@ class SaleCreateService
             $product = $this->productRepository->find($productAttributes['id']);
             $product->quantity = $productAttributes['units'];
             $this->saleRepository->attachProduct($sale, $product);
+            $this->productRepository->writeOffInventory($productAttributes['id'], $productAttributes['units']);
         }
     }
 

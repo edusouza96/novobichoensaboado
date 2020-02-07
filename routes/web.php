@@ -116,6 +116,7 @@ Route::group(['prefix' => 'servico'], function () {
 
 Route::group(['prefix' => 'produto'], function () {
     Route::get('localizar-por-nome/{name}', ['as' => 'product.findByName', 'uses' => 'ProductController@findByName']);
+    Route::get('aviso-baixa-quantidade', ['as' => 'product.lowQuantity', 'uses' => 'ProductController@lowQuantity']);
     Route::get('', ['as' => 'product.index', 'uses' => 'ProductController@index']);
     Route::get('deletar/{id}', ['as' => 'product.destroy', 'uses' => 'ProductController@destroy']);
     Route::get('cadastrar', ['as' => 'product.create', 'uses' => 'ProductController@create']);

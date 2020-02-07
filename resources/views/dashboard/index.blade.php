@@ -100,6 +100,14 @@
                    
                 </div>
             </div>
+            <div class="card mb-3">
+                <div class="card-header text-center text-white bg-primary">
+                    Poucos Produtos
+                </div>
+                <div>
+                    <table-low-quantity></table-low-quantity>
+                </div>
+            </div>
         </div>
 
         <div class="col-md-8 col-xs-12">

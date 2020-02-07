@@ -86,3 +86,5 @@ Vue.component("modal-pay-outlay", require("./components/modal-pay-outlay.vue").d
 Vue.component("preview-invoice", require("./components/preview-invoice.vue").default);
 
 Vue.component("modal-details-pet", require("./components/modal-details-pet.vue").default);
+
+Vue.component("table-low-quantity", require("./components/table-low-quantity.vue").default);

@@ -21,4 +21,41 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="role_id">Perfil</label>
+                <select name="role_id" class="form-control" v-model="role_id">
+                    <option value=''>Selecione</option>
+                    <option v-for="role in roles" :value="role.id" :key="role.id">@{{ role.display_name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
 </div> 
+
+
+@push('js-end')
+    <script>
+        new Vue({
+            el: '#form',
+            data: {
+               
+                roles:[],
+                role_id: "{{$user->getRole() ? $user->getRole()->getId(): ''}}",
+            },
+            methods:{
+                getRoles(){
+                    $.get(laroute.route("role.allOptions"))
+                    .done(function(data) {
+                        this.roles = data;
+                    }.bind(this));
+                },
+            },
+            created(){
+                this.getRoles();
+            }
+        });
+    </script>
+@endpush

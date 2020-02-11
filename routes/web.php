@@ -189,6 +189,10 @@ Route::group(['prefix' => 'usuario'], function(){
     Route::post('editar/{id}', ['as' => 'user.update', 'uses' => 'UserController@update']);
 });
 
+Route::group(['prefix' => 'perfil'], function () {
+    Route::get('opcoes', ['as' => 'role.allOptions', 'uses' => 'RoleController@allOptions']);
+});
+
 Route::get('/info', function () {
     dd(phpinfo());
 });

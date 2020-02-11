@@ -1,5 +1,6 @@
 <?php
 
+use RolesTableSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TreasuresTableSeeder::class);
         $this->call(CostCenterCategoryTableSeeder::class);
         $this->call(CostCenterTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
 
     }
 }

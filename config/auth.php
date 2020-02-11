@@ -68,7 +68,8 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => BichoEnsaboado\User::class,
+            'model' => BichoEnsaboado\Models\User::class,
+            'table' => 'users',
         ],
 
         // 'users' => [

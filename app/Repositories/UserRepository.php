@@ -35,6 +35,12 @@ class UserRepository
         if(isset($attributes['nickname'])){
             $search = $search->where('nickname', 'like', "%{$attributes['nickname']}%");
         }
+        
+        if(isset($attributes['role_id'])){
+            $search = $search->whereHas('roles', function($query) use($attributes){
+                return $query->where('role_id', $attributes['role_id']);
+            });
+        }
 
         $search->orderBy('name', 'asc');
 
@@ -54,14 +60,24 @@ class UserRepository
     public function create(array $attributes)
     {
         $attributes['password'] = bcrypt($attributes['password']);
-        return $this->user->create($attributes);
+        $user = $this->user->create($attributes);
+        $user->roles()->attach($attributes['role_id']);
+        $user->save();
+
+        return $user;
     }
 
     public function update($id, array $attributes)
     {
-        $attributes['password'] = $this->checkNewPassword($id, $attributes['password']);
-        return $this->user->whereId($id)
-                           ->update($attributes);
+        $user = $this->find($id);
+        $user->name = $attributes['name'];
+        $user->nickname = $attributes['nickname'];
+        $user->password = $this->checkNewPassword($id, $attributes['password']);
+        $user->roles()->detach();
+        $user->roles()->attach($attributes['role_id']);
+        $user->save();
+
+        return $user;
     }
 
     private function checkNewPassword($id, $password)

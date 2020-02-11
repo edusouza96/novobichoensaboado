@@ -15,10 +15,19 @@
                     <div class="card-header filter-header">Filtrar</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-8">
                                 <div class="form-group">
                                     <label for="name">Nome</label>
                                     <input type="text" name="name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="role_id">Perfil</label>
+                                    <select name="role_id" class="form-control" v-model="role_id">
+                                        <option value=''>Selecione</option>
+                                        <option v-for="role in roles" :value="role.id" :key="role.id">@{{ role.display_name }}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -41,16 +50,18 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-primary">
                         <tr>
-                            <th scope="col">Usuário</th>
                             <th scope="col">Nome completo</th>
+                            <th scope="col">Usuário</th>
+                            <th scope="col">Perfil</th>
                             <th scope="col" colspan="2" class="text-center" width="5%">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
                             <tr>
-                                <td>{{ $user->getNickname() }}</td>
                                 <td>{{ $user->getName() }}</td>
+                                <td>{{ $user->getNickname() }}</td>
+                                <td>{{ $user->getRole()->getDisplayName() }}</td>
                                 <td>
                                     <a href="{{route('user.edit', $user->getId())}}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-pencil-alt"></i>
@@ -82,12 +93,25 @@
         new Vue({
             el: '#user',
             data: {
+                roles:[],
+                role_id: '{!!request()->role_id!!}',
                 confirmDestroy: {
                     message:{
                         title: 'Atenção',
                         body: 'Deseja realmente remover este usuário do sistema?'
                     }
                 }
+            },
+            methods:{
+                getRoles(){
+                    $.get(laroute.route("role.allOptions"))
+                    .done(function(data) {
+                        this.roles = data;
+                    }.bind(this));
+                },
+            },
+            created(){
+                this.getRoles();
             }
         });
     </script>

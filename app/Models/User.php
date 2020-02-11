@@ -2,15 +2,22 @@
 
 namespace BichoEnsaboado\Models;
 
+use BichoEnsaboado\Models\Role;
 use Illuminate\Database\Eloquent\Model;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Model
 {
-    use SoftDeletes;
-    
+    use EntrustUserTrait;
+
     protected $fillable = ['name', 'nickname', 'password'];
     protected $table = 'users';
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 
     public function getId()
     {
@@ -27,6 +34,11 @@ class User extends Model
     public function getPassword()
     {
         return $this->password;
+    }
+
+    public function getRole()
+    {
+        return $this->roles->first();
     }
    
 }

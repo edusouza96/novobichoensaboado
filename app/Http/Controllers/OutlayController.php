@@ -68,7 +68,7 @@ class OutlayController extends Controller
             }else if($type == 'tomorrow'){
                 $attributes['date_pay'] = Carbon::tomorrow()->format('Y-m-d');
             }else{
-                $attributes['date_pay_last'] = Carbon::tomorrow()->endOfDay()->format('Y-m-d H:i:s');
+                $attributes['date_pay_yesterday'] = Carbon::now()->startOfDay()->format('Y-m-d H:i:s');
             }
             $outlay = $this->outlayRepository->findByFilter($attributes, false);
             return response()->json($outlay);

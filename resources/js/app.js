@@ -88,3 +88,11 @@ Vue.component("preview-invoice", require("./components/preview-invoice.vue").def
 Vue.component("modal-details-pet", require("./components/modal-details-pet.vue").default);
 
 Vue.component("table-low-quantity", require("./components/table-low-quantity.vue").default);
+
+Vue.component("table-blacklist", require("./components/table-blacklist.vue").default);
+
+Vue.component("show-outlay-to-pay", require("./components/show-outlay-to-pay.vue").default);
+
+Vue.component("inconsistency-unfinished-cashdesk", require("./components/inconsistency-unfinished-cashdesk.vue").default);
+
+Vue.component("show-value-cashdesk", require("./components/show-value-cashdesk.vue").default);

@@ -1,5 +1,5 @@
 <template>
-  <div id="modal-pay-outlay" class="modal fade" tabindex="-1" role="dialog">
+  <div :id="modal_id" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -63,7 +63,7 @@ export default {
       datePay: moment().format("YYYY-MM-DD"),
     }
   },
-  props: ['id'],
+  props: ['id', 'modal_id'],
   computed: {
     disabledConfirm() {
       return (this.source == "" || this.valueContribute == "0,00" || this.datePay == "");

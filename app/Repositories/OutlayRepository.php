@@ -77,12 +77,12 @@ class OutlayRepository
             $search = $search->where('date_pay', 'like', $attributes['date_pay'].'%');
         }
         
-        if(isset($attributes['date_pay_last'])){
-            $search = $search->where('date_pay', '>', "'".$attributes['date_pay_last']."'");
+        if(isset($attributes['date_pay_yesterday'])){
+            $search = $search->whereDate('date_pay', '<', $attributes['date_pay_yesterday']);
         }
 
         $search->orderBy('date_pay', 'desc');
-        $sql_with_bindings = str_replace_array('?', $search->getBindings(), $search->toSql());
+
         return $paginate ? $search->paginate(15) : $search->get();
     }
     

@@ -18,7 +18,7 @@ class CostCenterController extends Controller
     public function allOptions()
     {
         try {
-            $costCenter = $this->costCenterRepository->all();
+            $costCenter = $this->costCenterRepository->all(true);
             return response()->json($costCenter);
         } catch (\InvalidArgumentException $e) {
         }

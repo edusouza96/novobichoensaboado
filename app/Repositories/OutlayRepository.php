@@ -53,6 +53,10 @@ class OutlayRepository
     {
         $search = $this->outlay->newQuery();
 
+        $search = $search->whereHas('costCenter', function($query){
+            return $query->where('cost_center_category_id', '<>', CostCenterSystemType::CATEGORY_SISTEMA);
+        });
+
         if(isset($attributes['paid'])){
             $search = $search->where('paid', $attributes['paid']);
         }

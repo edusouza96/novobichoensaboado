@@ -3,6 +3,7 @@
 namespace BichoEnsaboado\Repositories;
 
 use BichoEnsaboado\Models\CostCenter;
+use BichoEnsaboado\Enums\CostCenterSystemType;
 
 class CostCenterRepository
 {
@@ -13,9 +14,11 @@ class CostCenterRepository
         $this->costCenter = $costCenter;
     }
 
-    public function all()
+    public function all($excludeSystem = false)
     {
-        return $this->costCenter->all();   
+        return $excludeSystem 
+            ? $this->costCenter->where('cost_center_category_id', '<>', CostCenterSystemType::CATEGORY_SISTEMA)->get()
+            : $this->costCenter->all();   
     }
 
     public function find($id)

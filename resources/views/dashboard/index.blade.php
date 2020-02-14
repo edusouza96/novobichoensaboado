@@ -6,7 +6,7 @@
     <modal-contribute @failed="alertError" @contributed="contributed"></modal-contribute>
     <modal-bleed @failed="alertError" @bleeded="bleeded"></modal-bleed>
     <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value"></modal-open-cashdesk>
-    <modal-close-cashdesk @failed="alertError" @closed="closed"></modal-close-cashdesk>
+    <modal-close-cashdesk @failed="alertError" @closed="closed" :closing-date="closingDate"></modal-close-cashdesk>
     <modal-extract-day :key="reloadComponent"></modal-extract-day>
     <modal-money-transfer></modal-money-transfer>
     <alert-message :title="titleAlertMessage" text="" :type="typeAlertMessage" :active="showAlert" @active="showAlert=$event"></alert-message>
@@ -28,7 +28,7 @@
 
             <div class="row mt-2">
                 <div class="col-md-12">
-                    <button class="btn btn-danger btn-action-dashboard" data-toggle="modal" data-target="#modal-close-cashdesk" v-if="isOpen">Fechar Caixa</button>
+                    <button class="btn btn-danger btn-action-dashboard" data-toggle="modal" data-target="#modal-close-cashdesk" v-if="isOpen" @click="setDateCurrent()">Fechar Caixa</button>
                 </div>
             </div>
         
@@ -59,7 +59,7 @@
         </div>
 
         <div class="col-md-4 col-xs-12">
-            <inconsistency-unfinished-cashdesk></inconsistency-unfinished-cashdesk>
+            <inconsistency-unfinished-cashdesk @close="closingDate = $event" :key="reloadComponent"></inconsistency-unfinished-cashdesk>
         </div>
     </div>
  
@@ -99,8 +99,12 @@
             showAlert: false,
             titleAlertMessage: "",
             typeAlertMessage: "",
+            closingDate:null,
         },
         methods:{
+            setDateCurrent(){
+                this.closingDate = moment().format("YYYY-MM-DD");
+            },
             opened(data){
                 this.value = this.convertToBrPattern(data.value);
                 this.isOpen = true;
@@ -119,8 +123,9 @@
             },
             closed(data){
                 this.value = this.convertToBrPattern(data.value);
-                this.isOpen = false;
+                if(data.ofDay) this.isOpen = false;
                 this.alertSucess('Caixa Fechado!');
+                this.reload();
             },
             contributed(data){
                 this.value = this.convertToBrPattern(data.value);

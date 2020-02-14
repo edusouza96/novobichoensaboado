@@ -67,7 +67,7 @@ Vue.component("modal-finish-pay", require("./components/modal-finish-pay.vue").d
 
 Vue.component("modal-open-cashdesk", require("./components/ModalOpenCashdesk.vue").default);
 
-Vue.component("modal-close-cashdesk", require("./components/ModalCloseCashdesk.vue").default);
+Vue.component("modal-close-cashdesk", require("./components/modal-close-cashdesk.vue").default);
 
 Vue.component("modal-extract-day", require("./components/ModalExtractDay.vue").default);
 

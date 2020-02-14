@@ -11,6 +11,7 @@
 							<th>Data</th>
 							<th>Valor Inicial</th>
 							<th>Loja</th>
+							<th></th>
 						</tr>
 					</thead>
 
@@ -19,6 +20,15 @@
 							<td>{{showDateBr(inconsistency.date_hour)}}</td>
 							<td>R$ {{convertToBrPattern(inconsistency.value_start)}}</td>
 							<td>{{inconsistency.store_id}}</td>
+							<td>
+								<button
+									class="btn btn-dark btn-sm"
+									type="button"
+									data-toggle="modal"
+									data-target="#modal-close-cashdesk"
+									@click="close(inconsistency.date_hour)"
+								>Fechar Caixa</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -51,7 +61,10 @@ export default {
 					this.inconsistencyUnfinishedCashdesk = data;
 				}.bind(this)
 			);
-		}
+		},
+		close(date){
+			this.$emit('close',  moment(date, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD"));
+		} 
 	},
 	computed: {
 		hasInconsistencyUnfinishedCashdesk() {

@@ -15,7 +15,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="value">Valor</label>
-                <input type="text" name="value" id="value" class="form-control" v-money="money" v-model="value" />
+                <input type="text" name="value" class="form-control" v-money="money" v-model="value" />
               </div>
             </div>
 

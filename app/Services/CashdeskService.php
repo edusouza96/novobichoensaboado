@@ -52,7 +52,7 @@ class CashdeskService
         $source = $attributes['source'];
         $cashBook = $this->cashBookRepository->save($valueStart+$treasure->getValue(), null, $dateHour, $userLogged, $store);
         $moves = $this->cashBookMoveRepository->save($valueStart, SourceType::CASH_DRAWER, TypeMovesType::ENTRY, $cashBook, $userLogged);
-        $outlay = $this->outlayRepository->save('Aporte - caixa inicial', $valueStart, $dateHour, $source, CostCenterSystemType::COST_CENTER_APORTE, $paid=true, $userLogged, $store);
+        $outlay = $this->outlayRepository->save('Aporte - caixa inicial', $valueStart, $dateHour, $source, CostCenterSystemType::COST_CENTER_APORTE, $moves, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->subValue($valueStart, SourceType::getName($source), $store);
         return $this->treasureRepository->addValue($valueStart, SourceType::CASH_DRAWER_NAME, $store);
     }

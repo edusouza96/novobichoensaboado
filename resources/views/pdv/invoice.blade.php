@@ -71,26 +71,34 @@
         </table>
     </div>
 
-    <div class="container invoice-payment">
-        <div class="row">
-            <div class="col-12 pt-4">
-                <strong>Valor Recebido: </strong>
-                {{ $sale->getValueReceived() }}
+    @for ($i = 0; $i < $sale->countPaymentMethods(); $i++)
+        
+        <div class="container invoice-payment">
+            <div class="row">
+                <div class="col-12 pt-4">
+                    <strong>Método de Pagamento: </strong>
+                    {!! $sale->getDescriptivePaymentMethod($i) !!}
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12 pt-4">
-                <strong>Troco: </strong>
-                {!! $sale->getLeftover() !!}
+            <div class="row">
+                <div class="col-12 pt-4">
+                    <strong>Valor Recebido: </strong>
+                    {{ $sale->getValueReceived($i) }}
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12 pt-4">
-                <strong>Método de Pagamento: </strong>
-                {!! $sale->getDescriptivePaymentMethod() !!}
+            <div class="row">
+                <div class="col-12 pt-4">
+                    @if($sale->getLeftover($i) >= 0)
+                        <strong>Troco: </strong>
+                        {!! $sale->getLeftover($i) !!}
+                    @else
+                        <strong>Saldo devedor: </strong>
+                        {!! $sale->getLeftover($i) !!}
+                    @endif
+                </div>
             </div>
-        </div>
-    </div>
+        </div><br>
+    @endfor
 
     <div class="row justify-content-end invoice-total">
         <div class="col-12 text-right"><strong>Total R$ {{ $sale->getTotal() }}</strong></div>

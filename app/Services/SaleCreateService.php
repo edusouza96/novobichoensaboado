@@ -12,6 +12,7 @@ use BichoEnsaboado\Repositories\SaleRepository;
 use BichoEnsaboado\Repositories\DiaryRepository;
 use BichoEnsaboado\Services\CashBookMoveService;
 use BichoEnsaboado\Repositories\ProductRepository;
+use BichoEnsaboado\Repositories\SalePaymentMethodRepository;
 
 class SaleCreateService
 {
@@ -20,9 +21,11 @@ class SaleCreateService
     private $diaryRepository;
     private $productRepository;
     private $cashBookMoveService;
+    private $salePaymentMethodRepository;
 
     public function __construct(
         SaleRepository $saleRepository, 
+        SalePaymentMethodRepository $salePaymentMethodRepository,
         DiaryRepository $diaryRepository, 
         ProductRepository $productRepository,
         CashBookMoveService $cashBookMoveService
@@ -32,17 +35,16 @@ class SaleCreateService
         $this->diaryRepository = $diaryRepository;
         $this->productRepository = $productRepository;
         $this->cashBookMoveService = $cashBookMoveService;
+        $this->salePaymentMethodRepository = $salePaymentMethodRepository;
 
     }
 
     public function create(array $attributes, User $userLogged, $store)
     {
+        $hasSecondMethod = filter_var($attributes['hasSecondMethod'],FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
+
         $sale = $this->saleRepository->save(
-            $attributes['valueReceived'],
-            $attributes['leftover'],
             $attributes['amountSale'],
-            $attributes['paymentMethod'],
-            $attributes['plots'],
             $attributes['promotionValue'],
             $userLogged, 
             $store
@@ -55,10 +57,34 @@ class SaleCreateService
 
         $products = collect($attributes['products']);
         $this->attachProduct($sale, $products);
-        
+
+        $this->salePaymentMethodRepository->save(
+            $sale, 
+            $attributes['valueReceived'],
+            $attributes['leftover'],
+            $attributes['paymentMethod'],
+            $attributes['plots'],
+        );
+
         $source = $this->defineSource($attributes['paymentMethod'], $attributes['cardMachine']);
         $sourceName = SourceType::getName($source);
-        $this->cashBookMoveService->generateMovementEntry($attributes['amountSale'], $sourceName, $store, $source, $userLogged);
+        $value = $hasSecondMethod ? $attributes['valueReceived'] : $attributes['amountSale'];
+        $this->cashBookMoveService->generateMovementEntry($value, $sourceName, $store, $source, $userLogged);
+
+        if($hasSecondMethod){
+            $this->salePaymentMethodRepository->save(
+                $sale, 
+                $attributes['valueReceived2'],
+                $attributes['leftover2'],
+                $attributes['paymentMethod2'],
+                $attributes['plots2'],
+            );
+
+            $source = $this->defineSource($attributes['paymentMethod2'], $attributes['cardMachine2']);
+            $sourceName = SourceType::getName($source);
+            $this->cashBookMoveService->generateMovementEntry($attributes['leftover'], $sourceName, $store, $source, $userLogged);
+        }
+
         return $sale->getId();
 
     }

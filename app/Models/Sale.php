@@ -5,6 +5,7 @@ namespace BichoEnsaboado\Models;
 use BichoEnsaboado\Models\User;
 use BichoEnsaboado\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use BichoEnsaboado\Models\SalePaymentMethod;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sale extends Model
@@ -32,6 +33,15 @@ class Sale extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function salePaymentMethod()
+    {
+        return $this->hasMany(SalePaymentMethod::class)->orderBy('id');
+    }
+
+    public function getSalePaymentMethod()
+    {
+        return $this->salePaymentMethod;
+    }
     public function getId()
     {
         return $this->id;

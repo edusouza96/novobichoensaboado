@@ -69,18 +69,19 @@ class SaleRepository
         return $paginate ? $search->paginate(10) : $search->get();
     }
     
-    public function save($valueReceived, $leftover, $amountSale, $paymentMethod, $plots, $promotionValue, $userLogged, $store)
+    public function save($amountSale, $promotionValue, $userLogged, $store)
     {
         $sale = $this->newInstance();
-        $sale->value_received = $valueReceived;
-        $sale->leftover = $leftover;
         $sale->total = $amountSale;
-        $sale->payment_method_id = $paymentMethod;
-        $sale->plots = $plots;
         $sale->rebate = $promotionValue;
         $sale->store_id = $store;
         $sale->createdBy()->associate($userLogged);
         $sale->updatedBy()->associate($userLogged);
+        
+        $sale->value_received = 0;
+        $sale->leftover = 0;
+        $sale->payment_method_id = 0;
+        $sale->plots = 0;
 
         $sale->save();
 

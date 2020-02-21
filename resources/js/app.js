@@ -65,6 +65,10 @@ Vue.component("modal-pets-by-owner", require("./components/modal-pets-by-owner.v
 
 Vue.component("modal-finish-pay", require("./components/modal-finish-pay.vue").default);
 
+Vue.component("payment-method", require("./components/payment-method.vue").default);
+
+Vue.component("pay", require("./components/pay.vue").default);
+
 Vue.component("modal-open-cashdesk", require("./components/ModalOpenCashdesk.vue").default);
 
 Vue.component("modal-close-cashdesk", require("./components/modal-close-cashdesk.vue").default);

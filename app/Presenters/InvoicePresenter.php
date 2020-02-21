@@ -117,24 +117,32 @@ class InvoicePresenter
         return number_format($this->getSaleItems()->sum('amountValue'), 2, ',', '');
     }
 
-    public function getValueReceived()
+    public function getValueReceived($i)
     {
-        return number_format($this->sale->getValueReceived(), 2, ',', '');
+        $salePaymentMethod = $this->sale->getSalePaymentMethod()->get($i);
+        return number_format($salePaymentMethod->getValueReceived(), 2, ',', '');
     }
-    public function getLeftover()
+    public function getLeftover($i)
     {
-        return number_format($this->sale->getLeftover(), 2, ',', '');
+        $salePaymentMethod = $this->sale->getSalePaymentMethod()->get($i);
+        return number_format($salePaymentMethod->getLeftover(), 2, ',', '');
     }
-    public function getDescriptivePaymentMethod()
+    public function getDescriptivePaymentMethod($i)
     {
-        switch ($this->sale->getPaymentMethodId()) {
+        $salePaymentMethod = $this->sale->getSalePaymentMethod()->get($i);
+        switch ($salePaymentMethod->getPaymentMethodId()) {
             case PaymentMethodsType::CASH:
-                return PaymentMethodsType::getName($this->sale->getPaymentMethodId());
+                return PaymentMethodsType::getName($salePaymentMethod->getPaymentMethodId());
             case PaymentMethodsType::DEBIT_CARD:
-                return PaymentMethodsType::getName($this->sale->getPaymentMethodId());
+                return PaymentMethodsType::getName($salePaymentMethod->getPaymentMethodId());
             case PaymentMethodsType::CREDIT_CARD:
-                return PaymentMethodsType::getName($this->sale->getPaymentMethodId())." - ".$this->sale->getPlots()." parcela(s)";
+                return PaymentMethodsType::getName($salePaymentMethod->getPaymentMethodId())." - ".$salePaymentMethod->getPlots()." parcela(s)";
         }
+    }
+
+    public function countPaymentMethods()
+    {
+        return $this->sale->getSalePaymentMethod()->count();
     }
         
 }

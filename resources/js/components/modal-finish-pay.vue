@@ -155,7 +155,9 @@ export default {
 			});
 		},
 		isOwing() {
-			return this.convertToUsPattern(this.leftover2) < 0;
+			return this.hasSecondMethod
+				? this.convertToUsPattern(this.leftover2) < 0
+				: this.convertToUsPattern(this.leftover) < 0;
 		},
 		getRebates() {
 			$.get(laroute.route("rebate.findActive")).done(

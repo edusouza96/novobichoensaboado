@@ -77,12 +77,6 @@ class SaleRepository
         $sale->store_id = $store;
         $sale->createdBy()->associate($userLogged);
         $sale->updatedBy()->associate($userLogged);
-        
-        $sale->value_received = 0;
-        $sale->leftover = 0;
-        $sale->payment_method_id = 0;
-        $sale->plots = 0;
-
         $sale->save();
 
         return $sale;
@@ -177,8 +171,11 @@ class SaleRepository
         $oldTotal = $sale->total;
 
         $sale->total = $newTotal;
-        $sale->leftover += ($oldTotal - $newTotal);
-
+        
+        $salePaymentMethod = $sale->getSalePaymentMethod()->last;
+        $salePaymentMethod->leftover += ($oldTotal - $newTotal);
+        $salePaymentMethod->save();
+        
         $sale->save();
     }
     

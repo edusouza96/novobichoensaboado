@@ -46,25 +46,9 @@ class Sale extends Model
     {
         return $this->id;
     }
-    public function getValueReceived()
-    {
-        return $this->value_received;
-    }
-    public function getLeftover()
-    {
-        return $this->leftover;
-    }
     public function getTotal()
     {
         return $this->total;
-    }
-    public function getPaymentMethodId()
-    {
-        return $this->payment_method_id;
-    }
-    public function getPlots()
-    {
-        return $this->plots;
     }
     public function getRebate()
     {
@@ -113,7 +97,6 @@ class Sale extends Model
             'id' => $this->getId(),
             'value' => $this->getCalcValueTotal(),
             'description' => $this->getDescription(),
-            'teste' => $this->getProducts()
         ];
     }
 }

@@ -10,7 +10,6 @@
                 </div>
 
                 <div class="modal-body">
-                    <modal-timeline-historic-pet></modal-timeline-historic-pet>
                     <div class="row">
                         <table class="table">
                             <thead>

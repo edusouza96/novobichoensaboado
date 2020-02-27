@@ -15,12 +15,7 @@ class ClientsTableSeeder extends Seeder
         DB::table('clients')->insert([
             'name' => 'Bidu',
             'breed_id' => 1,
-            'neighborhood_id' => 1,
             'owner_id' => 1,
-            'owner_name' => 'Eduardo ',
-            'address' => 'Rua Begônia 85',
-            'phone1' => '981882850',
-            'phone2' => '34928419',
         ]);
     }
 }

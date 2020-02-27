@@ -44,7 +44,7 @@ class ClientController extends Controller
     public function store(ClientCreateRequest $request)
     {
         try {
-            $this->clientRepository->create($request->only('owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2'));
+            $this->clientRepository->create($request->only('owner_id', 'name', 'breed_id'));
             return redirect()->route('owner.index')->with('alertType', 'success')->with('message', 'Pet Cadastrado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -60,7 +60,7 @@ class ClientController extends Controller
     public function update(ClientCreateRequest $request, $id)
     {
         try {
-            $this->clientRepository->update($id, $request->only('owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2'));
+            $this->clientRepository->update($id, $request->only('owner_id', 'name', 'breed_id'));
             return redirect()->route('owner.index')->with('alertType', 'success')->with('message', 'Pet Atualizado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

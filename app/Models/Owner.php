@@ -11,7 +11,12 @@ class Owner extends Model
     use SoftDeletes;
     
     protected $table = 'owners';
-    protected $fillable = ['name', 'cpf', 'email'];
+    protected $fillable = ['name', 'cpf', 'email', 'neighborhood_id', 'address', 'phone1', 'phone2'];
+
+    public function neighborhood()
+    {
+        return $this->belongsTo(Neighborhood::class, 'neighborhood_id');
+    }
 
     public function myPets()
     {
@@ -37,6 +42,22 @@ class Owner extends Model
     public function getMyPets()
     {
         return $this->myPets;
+    }
+    public function getNeighborhood()
+    {
+        return $this->neighborhood;
+    }
+    public function getAddress()
+    {
+        return $this->address;
+    }
+    public function getPhone1()
+    {
+        return $this->phone1;
+    }
+    public function getPhone2()
+    {
+        return $this->phone2;
     }
     
 }

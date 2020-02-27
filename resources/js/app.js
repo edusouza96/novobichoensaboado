@@ -53,7 +53,7 @@ Vue.use(VTooltip);
 
 Vue.component("diary-table", require("./components/diary-table.vue").default);
 
-Vue.component("modal-clients", require("./components/ModalClients.vue").default);
+Vue.component("modal-clients", require("./components/modal-clients.vue").default);
 
 Vue.component("modal-services-pet", require("./components/ModalServicesPet.vue").default);
 

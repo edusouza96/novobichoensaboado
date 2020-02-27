@@ -41,7 +41,7 @@ class OwnerController extends Controller
     public function store(OwnerCreateRequest $request)
     {
         try {
-            $this->ownerRepository->create($request->only('name', 'cpf', 'email'));
+            $this->ownerRepository->create($request->only('name', 'cpf', 'email', 'neighborhood_id', 'address', 'phone1', 'phone2'));
             return redirect()->route('owner.index')->with('alertType', 'success')->with('message', 'Cliente Cadastrado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -57,7 +57,7 @@ class OwnerController extends Controller
     public function update(OwnerCreateRequest $request, $id)
     {
         try {
-            $this->ownerRepository->update($id, $request->only('name', 'cpf', 'email'));
+            $this->ownerRepository->update($id, $request->only('name', 'cpf', 'email', 'neighborhood_id', 'address', 'phone1', 'phone2'));
             return redirect()->route('owner.index')->with('alertType', 'success')->with('message', 'Cliente Atualizado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

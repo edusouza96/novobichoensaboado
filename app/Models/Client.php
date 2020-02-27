@@ -13,15 +13,11 @@ class Client extends Model
     use SoftDeletes;
     
     protected $table = 'clients';
-    protected $fillable = ['owner_name', 'owner_id', 'name', 'breed_id', 'neighborhood_id', 'address', 'phone1', 'phone2'];
+    protected $fillable = ['owner_id', 'name', 'breed_id'];
     
     public function breed()
     {
         return $this->belongsTo(Breed::class, 'breed_id');
-    }
-    public function neighborhood()
-    {
-        return $this->belongsTo(Neighborhood::class, 'neighborhood_id');
     }
     public function owner()
     {
@@ -38,11 +34,11 @@ class Client extends Model
     }
     public function getNeighborhood()
     {
-        return $this->neighborhood;
+        return $this->getOwner()->getNeighborhood();
     }
     public function getOwnerName()
     {
-        return $this->owner_name;
+        return $this->getOwner()->getName();
     }
     public function getOwner()
     {
@@ -50,7 +46,7 @@ class Client extends Model
     }
     public function getOwnerId()
     {
-        return $this->owner_id;
+        return $this->getOwner()->getId();
     }
     public function getName()
     {
@@ -58,15 +54,15 @@ class Client extends Model
     }
     public function getAddress()
     {
-        return $this->address;
+        return $this->getOwner()->getAddress();
     }
     public function getPhone1()
     {
-        return $this->phone1;
+        return $this->getOwner()->getPhone1();
     }
     public function getPhone2()
     {
-        return $this->phone2;
+        return $this->getOwner()->getPhone2();
     }
         
     public function toArray()

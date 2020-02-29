@@ -43,9 +43,9 @@ class ProductCreateRequest extends FormRequest
             "value_sales.required" => "O campo Valor de Venda é obrigatório.",
             "value_buy.required" => "O campo Valor de Compra é obrigatório.",
             "quantity.required" => "O campo Quantidade é obrigatório.",
-            "value_outlay" => "O campo Valor da despesa é obrigatório.",
-            "source" => "O campo Fonte é obrigatório.",
-            "cost_center" => "O campo Centro de Custo é obrigatório.",
+            "value_outlay.required_with" => "O campo Valor da despesa é obrigatório.",
+            "source.required_with" => "O campo Fonte é obrigatório.",
+            "cost_center.required_with" => "O campo Centro de Custo é obrigatório.",
         ];
     }
 }

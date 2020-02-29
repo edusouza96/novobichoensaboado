@@ -6,6 +6,8 @@ use Milon\Barcode\DNS1D;
 use Milon\Barcode\DNS2D;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Controllers\Controller;
+use BichoEnsaboado\Repositories\UserRepository;
+use BichoEnsaboado\Services\OutlayCreateService;
 use BichoEnsaboado\Repositories\ProductRepository;
 use BichoEnsaboado\Services\GenerateBarcodeService;
 use BichoEnsaboado\Http\Requests\ProductCreateRequest;
@@ -17,11 +19,22 @@ class ProductController extends Controller
     
     /** @var GenerateBarcodeService */
     private $generateBarcodeService;
+    
+    /** @var OutlayCreateService */
+    private $outlayCreateService;
 
-    public function __construct(ProductRepository $productRepository, GenerateBarcodeService $generateBarcodeService)
+    private $userRepository;
+    private $user;
+    private $store = 1;
+
+    public function __construct(ProductRepository $productRepository, GenerateBarcodeService $generateBarcodeService, OutlayCreateService $outlayCreateService, UserRepository $userRepository)
     {
         $this->productRepository = $productRepository;
         $this->generateBarcodeService = $generateBarcodeService;
+        $this->outlayCreateService = $outlayCreateService;
+
+        $this->userRepository = $userRepository;
+        $this->user = $this->userRepository->find(1);
     }
 
     public function findByName($name)
@@ -61,6 +74,10 @@ class ProductController extends Controller
     {
         try {
             $this->productRepository->create($request->only('barcode', 'name','value_sales', 'value_buy', 'quantity'));
+            
+            if($request->has('has_outlay')) 
+                $this->generateOulay($request->all());
+
             return redirect()->route('product.index')->with('alertType', 'success')->with('message', 'Produto Cadastrado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -83,6 +100,10 @@ class ProductController extends Controller
     {
         try {
             $this->productRepository->update($id ,$request->only('barcode', 'name','value_sales', 'value_buy', 'quantity'));
+
+            if($request->has('has_outlay')) 
+                $this->generateOulay($request->all());
+
             return redirect()->route('product.index')->with('alertType', 'success')->with('message', 'Produto Atualizado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -97,5 +118,19 @@ class ProductController extends Controller
         }catch(\InvalidArgumentException $e){
             dd($e->getMessage());
         }
+    }
+
+    private function generateOulay(array $attributesRequest)
+    {
+        $attributes = array(
+            'date_pay' => date('Y-m-d'),
+            'value' => $attributesRequest['value_outlay'],
+            'paid' => true,
+            'source' => $attributesRequest['source'],
+            'description' => "Produto adicionado: ".$attributesRequest['name'],
+            'cost_center' => $attributesRequest['cost_center'],
+        );
+
+        $this->outlayCreateService->create($attributes, $this->user, $this->store);
     }
 }

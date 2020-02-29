@@ -3,7 +3,7 @@
         <div class="col-6">
             <div class="form-group">
                 <label for="name">Nome do Serviço</label>
-                <input type="text" name="name" class="form-control" required value="{{$service->getName()}}">
+                <input type="text" name="name" class="form-control" required value="{{old('name', $service->getName())}}">
             </div>
         </div>
 
@@ -21,7 +21,7 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="value">Valor</label>
-                <input type="text" name="value" id="value" class="form-control" v-money="money" value="{{$service->getValue()}}">
+                <input type="text" name="value" id="value" class="form-control" v-money="money" value="{{old('value', $service->getValue()) }}">
             </div>
         </div>
 
@@ -39,7 +39,7 @@
         <div class="col-2">
             <div class="form-group">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="pet" name="pet" value="1" {{$service->isPet() ? 'checked': ''}}>
+                    <input type="checkbox" class="form-check-input" id="pet" name="pet" value="1" {{ old('pet', $service->isPet()) ? 'checked': ''}}>
                     <label class="form-check-label" for="pet">Pet-shop</label>
                 </div>
                
@@ -48,7 +48,7 @@
         <div class="col-2">
             <div class="form-group">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="vet" name="vet" value="1" {{$service->isVet() ? 'checked': ''}}>
+                    <input type="checkbox" class="form-check-input" id="vet" name="vet" value="1" {{ old('vet', $service->isVet()) ? 'checked': ''}}>
                     <label class="form-check-label" for="vet">Veterinário</label>
                 </div>
                
@@ -68,9 +68,9 @@
                     precision: 2
                 },
                 package_types:[{id:1, name:'Selecione'}, {id:2, name:'15 Dias'}, {id:3, name:'30 Dias'}],
-                package_type_id: "{{$service->package_type_id}}",
+                package_type_id: "{{ old('package_type_id', $service->package_type_id) }}",
                 breeds:[],
-                breed_id: "{{$service->breed_id}}",
+                breed_id: "{{old('breed_id', $service->breed_id) }}",
             },
             methods:{
                 getBreeds(){

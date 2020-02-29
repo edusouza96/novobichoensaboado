@@ -46,7 +46,7 @@
         new Vue({
             el: '#form',
             data: {
-                inaugurationDate: "{{$store->getInaugurationDate()}}" != "" ? moment("{{$store->getInaugurationDate()}}", "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"),
+                inaugurationDate: "{{ old('inauguration_date', $store->getInaugurationDate()) }}" != "" ? moment("{{ old('inauguration_date', $store->getInaugurationDate()) }}", "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"),
             },
         });
     </script>

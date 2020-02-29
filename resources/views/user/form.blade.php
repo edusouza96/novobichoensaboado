@@ -43,7 +43,7 @@
             data: {
                
                 roles:[],
-                role_id: "{{$user->getRole() ? $user->getRole()->getId(): ''}}",
+                role_id: "{{ old('role_id', $user->getRole()) ? old('role_id', $user->getRole()) : ''}}",
             },
             methods:{
                 getRoles(){

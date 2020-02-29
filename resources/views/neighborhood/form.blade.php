@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label for="name">Nome do Bairro</label>
-                <input type="text" name="name" class="form-control" required value="{{$neighborhood->getName()}}">
+                <input type="text" name="name" class="form-control" required value="{{old('name', $neighborhood->getName())}}">
             </div>
         </div>
     </div>
@@ -11,7 +11,7 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="value">Valor Busca</label>
-                <input type="text" name="value" id="value" class="form-control" v-money="money" value="{{$neighborhood->getValue()}}">
+                <input type="text" name="value" id="value" class="form-control" v-money="money" value="{{old('value', $neighborhood->getValue())}}">
             </div>
         </div>
     </div>

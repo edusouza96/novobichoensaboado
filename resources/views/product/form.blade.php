@@ -3,13 +3,13 @@
         <div class="col-8">
             <div class="form-group">
                 <label for="name">Nome</label>
-                <input type="text" name="name" class="form-control" required value="{{$product->getName()}}">
+                <input type="text" name="name" class="form-control" required value="{{old('name', $product->getName())}}">
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
                 <label for="barcode">Código de Barras</label>
-                <input type="text" name="barcode" class="form-control" readonly value="{{$product->getBarcode()}}">
+                <input type="text" name="barcode" class="form-control" readonly value="{{old('barcode', $product->getBarcode())}}">
             </div>
         </div>
     </div>
@@ -23,7 +23,7 @@
         <div class="col-5">
             <div class="form-group">
                 <label for="value_sales">Valor de Venda</label>
-                <input type="text" name="value_sales" id="value_sales" class="form-control" v-money="money" value="{{$product->getValueSales()}}">
+                <input type="text" name="value_sales" id="value_sales" class="form-control" v-money="money" value="{{old('value_sales', $product->getValueSales())}}">
             </div>
         </div>
         <div class="col-2">
@@ -89,8 +89,8 @@
                 },
                 sources: [],
                 costCenters: [],
-                quantity: "{{ $product->getQuantity() }}",
-                valueBuy: "{{ $product->getValueBuy() }}",
+                quantity: "{{ old('quantity', $product->getQuantity()) }}",
+                valueBuy: "{{ old('value_buy', $product->getValueBuy()) }}",
                 totalOutlay: 0,
                 hasOutlay: false,
             },

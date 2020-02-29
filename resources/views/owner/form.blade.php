@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label for="name">Nome do Proprietario</label>
-                <input type="text" name="name" class="form-control" required value="{{$owner->getName()}}">
+                <input type="text" name="name" class="form-control" required value="{{old('name', $owner->getName())}}">
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="col-7">
             <div class="form-group">
                 <label for="cpf">Email</label>
-                <input type="text" name="email" class="form-control" value="{{$owner->getEmail()}}">
+                <input type="text" name="email" class="form-control" value="{{old('email', $owner->getEmail())}}">
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@
         new Vue({
             el: '#form',
             data: {
-                cpf: '{!!$owner->getCpf()!!}',
+                cpf: '{!!old("cpf", $owner->getCpf())!!}',
                 neighborhoods:[],
                 neighborhood_id: "{{old('breed_id',$owner->neighborhood_id)}}",
             },

@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label for="description">Descrição</label>
-                <input type="text" name="description" class="form-control" required value="{{$outlay->getDescription()}}">
+                <input type="text" name="description" class="form-control" required value="{{old('name', $outlay->getDescription())}}">
             </div>
         </div>
     </div>
@@ -11,7 +11,7 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="source">Valor</label>
-                <input type="text" name="value" id="value" class="form-control" v-money="money" value="{{$outlay->getValue()}}">
+                <input type="text" name="value" id="value" class="form-control" v-money="money" value="{{old('value', $outlay->getValue())}}">
             </div>
         </div>
         <div class="col-4">
@@ -46,7 +46,7 @@
         <div class="col-3">
             <div class="form-group">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="paid" name="paid" value="1" {{$outlay->statusPay()}}>
+                    <input type="checkbox" class="form-check-input" id="paid" name="paid" value="1" {{$outlay->statusPay())}}>
                     <label class="form-check-label" for="paid">Já esta pago</label>
                 </div>
             </div>
@@ -59,7 +59,7 @@
         new Vue({
             el: '#form',
             data: {
-                datePay: "{{$outlay->getDatePay()}}" != "" ? moment("{{$outlay->getDatePay()}}", "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"),
+                datePay: "{{old('date_pay', $outlay->getDatePay())}}" != "" ? moment("{{old('date_pay', $outlay->getDatePay())}}", "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"),
                 money: {
                     decimal: ",",
                     thousands: "",
@@ -67,8 +67,8 @@
                 },
                 sources: [],
                 costCenters: [],
-                costCenterId: "{{$outlay->cost_center_id}}",
-                sourceId: "{{$outlay->source_id}}",
+                costCenterId: "{{old('cost_center', $outlay->cost_center_id)}}",
+                sourceId: "{{old('source', $outlay->source_id)}}",
             },
             methods:{
                 getSources(){

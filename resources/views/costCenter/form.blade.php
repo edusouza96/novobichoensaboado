@@ -3,7 +3,7 @@
         <div class="col-8">
             <div class="form-group">
                 <label for="name">Nome</label>
-                <input type="text" name="name" class="form-control" required value="{{$costCenter->getName()}}">
+                <input type="text" name="name" class="form-control" required value="{{old('name', $costCenter->getName())}}">
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
             el: '#form',
             data: {
                 categories: [],
-                id: "{{$costCenter->cost_center_category_id}}",
+                id: "{{old('cost_center_category_id', $costCenter->cost_center_category_id)}}",
             },
             methods:{
               

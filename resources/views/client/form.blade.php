@@ -3,8 +3,8 @@
         <div class="col-12">
             <div class="form-group">
                 <label for="owner_name">Nome do Proprietario</label>
-                <input type="text" name="owner_name" class="form-control" readonly value="{{$client->getOwner()->getName()}}">
-                <input type="hidden" name="owner_id" value="{{$client->getOwner()->getId()}}">
+                <input type="text" name="owner_name" class="form-control" readonly value="{{old('owner_name', $client->getOwner()->getName())}}">
+                <input type="hidden" name="owner_id" value="{{old('owner_id', $client->getOwner()->getId())}}">
             </div>
         </div>
     </div>

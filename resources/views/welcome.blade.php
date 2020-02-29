@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Bicho ensaboado atualizado em 29/02/2020
                 </div>
 
                 <div class="links">

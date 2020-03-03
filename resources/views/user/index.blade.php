@@ -18,7 +18,7 @@
                             <div class="col-8">
                                 <div class="form-group">
                                     <label for="name">Nome</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" value="{{ request()->input('name')}}">
                                 </div>
                             </div>
                             <div class="col-4">
@@ -78,7 +78,7 @@
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$users->total()}}</strong></div>
-                <div>{{$users->links()}}</div>
+                <div>{{$users->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">

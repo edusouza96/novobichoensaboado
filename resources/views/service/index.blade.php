@@ -21,14 +21,14 @@ use BichoEnsaboado\Enums\TypePackageType;
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="name">Serviço</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" value="{{ request()->input('name')}}">
                                 </div>
                             </div>
                             
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="breed">Raça</label>
-                                    <select name="breed" id="breed" class="form-control">
+                                    <select name="breed" id="breed" class="form-control" v-model="breed">
                                         <option value>Todas</option>
                                         <option v-for="breed in breeds" :value="breed.id" :key="breed.id">@{{ breed.name }}</option>
                                     </select>
@@ -40,7 +40,7 @@ use BichoEnsaboado\Enums\TypePackageType;
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="package_type">Pacote</label>
-                                    <select name="package_type" id="package_type" class="form-control">
+                                    <select name="package_type" id="package_type" class="form-control" v-model="packageType">
                                         <option value>Selecione</option>
                                         <option value="2">15 Dias</option>
                                         <option value="3">30 Dias</option>
@@ -52,7 +52,7 @@ use BichoEnsaboado\Enums\TypePackageType;
                             <div class="col-2">
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="pet" name="pet" value="1">
+                                        <input type="checkbox" class="form-check-input" id="pet" name="pet" value="1" {{ request()->input('pet') ? 'checked' : ''}}>
                                         <label class="form-check-label" for="pet">Pet-shop</label>
                                     </div>
                                    
@@ -61,7 +61,7 @@ use BichoEnsaboado\Enums\TypePackageType;
                             <div class="col-2">
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="vet" name="vet" value="1">
+                                        <input type="checkbox" class="form-check-input" id="vet" name="vet" value="1" {{ request()->input('vet') ? 'checked' : ''}}>
                                         <label class="form-check-label" for="vet">Veterinário</label>
                                     </div>
                                    
@@ -121,7 +121,7 @@ use BichoEnsaboado\Enums\TypePackageType;
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$services->total()}}</strong></div>
-                <div>{{$services->links()}}</div>
+                <div>{{$services->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">
@@ -142,7 +142,9 @@ use BichoEnsaboado\Enums\TypePackageType;
                         body: 'Deseja realmente remover este serviço do sistema?'
                     }
                 },
-                breeds:[]
+                breeds:[],
+                breed: "{{ request()->input('breed')}}",
+                packageType: "{{ request()->input('package_type')}}",
             },
             methods:{
                 getBreeds(){

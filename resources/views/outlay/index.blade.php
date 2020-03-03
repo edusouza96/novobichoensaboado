@@ -19,7 +19,7 @@
                             <div class="col-10">
                                 <div class="form-group">
                                     <label for="description">Descrição</label>
-                                    <input type="text" name="description" class="form-control">
+                                    <input type="text" name="description" class="form-control" value="{{ request()->input('description')}}">
                                 </div>
                             </div>
                         </div>
@@ -27,7 +27,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="source">Fonte</label>
-                                    <select name="source" id="source" class="form-control">
+                                    <select name="source" id="source" class="form-control" v-model="source">
                                         <option value>Selecione</option>
                                         <option v-for="source in sources" :value="source.id" :key="source.id">@{{ source.display }}</option>
                                     </select>
@@ -36,7 +36,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cost_center">Centro de Custo</label>
-                                    <select name="cost_center" id="cost_center" class="form-control">
+                                    <select name="cost_center" id="cost_center" class="form-control" v-model="cost_center">
                                         <option value>Selecione</option>
                                         <option v-for="cost in costCenters" :value="cost.id" :key="cost.id">@{{ cost.name }}</option>
                                     </select>
@@ -48,7 +48,7 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label for="store">Loja</label>
-                                    <select name="store" id="store" class="form-control">
+                                    <select name="store" id="store" class="form-control" v-model="store">
                                         <option value>Selecione</option>
                                         <option value="1">Loja 1</option>
                                         <option value="2">Loja 2</option>
@@ -116,7 +116,7 @@
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$outlays->total()}}</strong></div>
-                <div>{{$outlays->links()}}</div>
+                <div>{{$outlays->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">
@@ -134,6 +134,9 @@
                 id: null,
                 sources: [],
                 costCenters: [],
+                source: "{{ request()->input('source') }}",
+                cost_center: "{{ request()->input('cost_center') }}",
+                store: "{{ request()->input('store') }}",
                 confirmDestroy: {
                     message:{
                         title: 'Atenção',

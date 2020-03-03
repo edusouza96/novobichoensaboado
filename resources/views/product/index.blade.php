@@ -18,13 +18,13 @@
                             <div class="col-8">
                                 <div class="form-group">
                                     <label for="name">Produtos</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" value="{{ request()->input('name')}}">
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="barcode">Código de Barras</label>
-                                    <input type="text" name="barcode" class="form-control">
+                                    <input type="text" name="barcode" class="form-control" value="{{ request()->input('barcode')}}">
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$products->total()}}</strong></div>
-                <div>{{$products->links()}}</div>
+                <div>{{$products->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">

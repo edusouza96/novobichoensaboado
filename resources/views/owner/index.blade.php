@@ -19,7 +19,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="owner_name">Nome do Proprietario</label>
-                                    <input type="text" name="owner_name" class="form-control">
+                                    <input type="text" name="owner_name" class="form-control" value="{{ request()->input('owner_name')}}">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -34,14 +34,14 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="pet_name">Nome do Pet</label>
-                                    <input type="text" name="pet_name" class="form-control">
+                                    <input type="text" name="pet_name" class="form-control" value="{{ request()->input('pet_name')}}">
                                 </div>
                             </div>
                             
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="breed_name">Raça</label>
-                                    <input type="text" name="breed_name" class="form-control">
+                                    <input type="text" name="breed_name" class="form-control" value="{{ request()->input('breed_name')}}">
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$owners->total()}}</strong></div>
-                <div>{{$owners->links()}}</div>
+                <div>{{$owners->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">

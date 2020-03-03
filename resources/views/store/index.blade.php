@@ -18,7 +18,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="name">Loja</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" value="{{ request()->input('name')}}">
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$stores->total()}}</strong></div>
-                <div>{{$stores->links()}}</div>
+                <div>{{$stores->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">

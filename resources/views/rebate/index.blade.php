@@ -18,7 +18,7 @@
                             <div class="col-10">
                                 <div class="form-group">
                                     <label for="name">Nome da Promoção/Desconto</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" value="{{ request()->input('name')}}">
                                 </div>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$rebates->total()}}</strong></div>
-                <div>{{$rebates->links()}}</div>
+                <div>{{$rebates->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">

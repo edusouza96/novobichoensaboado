@@ -18,7 +18,7 @@
                             <div class="col-10">
                                 <div class="form-group">
                                     <label for="name">Nome do Bairro</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" value="{{ request()->input('name')}}">
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$neighborhoods->total()}}</strong></div>
-                <div>{{$neighborhoods->links()}}</div>
+                <div>{{$neighborhoods->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">

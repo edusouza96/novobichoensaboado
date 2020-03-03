@@ -18,14 +18,14 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="name">Nome</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" value="{{ request()->input('name')}}">
                                 </div>
                             </div>
 
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cost_center_category_id">Categoria</label>
-                                    <select name="cost_center_category_id" id="cost_center_category_id" class="form-control">
+                                    <select name="cost_center_category_id" id="cost_center_category_id" class="form-control" v-model="id">
                                         <option value>Selecione</option>
                                         <option v-for="category in categories" :value="category.id" :key="category.id">@{{ category.name }}</option>
                                     </select>
@@ -77,7 +77,7 @@
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$costCenters->total()}}</strong></div>
-                <div>{{$costCenters->links()}}</div>
+                <div>{{$costCenters->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">
@@ -93,6 +93,7 @@
             el: '#costCenter',
             data: {
                 categories: [],
+                id: "{{ request()->input('cost_center_category_id') }}",
                 confirmDestroy: {
                     message:{
                         title: 'Atenção',

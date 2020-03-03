@@ -13,13 +13,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name_pet">Nome Pet</label>
-                                    <input type="text" name="name_pet" id="name_pet" class="form-control">
+                                    <input type="text" name="name_pet" id="name_pet" class="form-control" value="{{ request()->input('name_pet')}}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name_product">Nome Produto</label>
-                                    <input type="text" name="name_product" id="name_product" class="form-control">
+                                    <input type="text" name="name_product" id="name_product" class="form-control" value="{{ request()->input('name_product')}}">
                                 </div>
                             </div>
                             
@@ -28,13 +28,13 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="created_at">Data</label>
-                                    <input type="date" name="created_at" id="created_at" class="form-control">
+                                    <input type="date" name="created_at" id="created_at" class="form-control" value="{{ request()->input('created_at')}}">
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
                                     <label for="store">Loja</label>
-                                    <select name="store" id="store" class="form-control">
+                                    <select name="store" id="store" class="form-control" v-model="store">
                                         <option value>Selecione</option>
                                         <option value="1">Loja 1</option>
                                         <option value="2">Loja 2</option>
@@ -104,7 +104,7 @@
                     </tfoot>
                 </table>
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$sales->total()}}</strong></div>
-                <div>{{$sales->links()}}</div>
+                <div>{{$sales->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">
@@ -120,6 +120,7 @@
             el: '#sales_of_day',
             data: {
                 idSale: null,
+                store: "{{ request()->input('store') }}",
             },
             methods:{
                 setIdSale(id){

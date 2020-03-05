@@ -3602,6 +3602,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['pet'],
   data: function data() {
@@ -76121,101 +76142,114 @@ var render = function() {
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("table", { staticClass: "table" }, [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _vm.pet != null
-                    ? _c("tbody", [
-                        _c("tr", [
-                          _c("td", [_vm._v(_vm._s(_vm.pet.name))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(_vm.pet.breed_name))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(_vm.pet.neighborhood))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(_vm.pet.address))]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("div", [_vm._v(_vm._s(_vm.pet.phone1))]),
-                            _vm._v(" "),
-                            _c("div", [_vm._v(_vm._s(_vm.pet.phone2))])
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "a",
-                              {
-                                directives: [
-                                  {
-                                    name: "tooltip",
-                                    rawName: "v-tooltip.top-center",
-                                    value: "Histórico do Pet",
-                                    expression: "'Histórico do Pet'",
-                                    modifiers: { "top-center": true }
-                                  }
-                                ],
-                                staticClass: "btn btn-dark btn-sm text-white",
-                                attrs: { href: _vm.hrefViewHistoric() }
-                              },
-                              [_c("i", { staticClass: "fas fa-history" })]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "a",
-                              {
-                                directives: [
-                                  {
-                                    name: "tooltip",
-                                    rawName: "v-tooltip.top-center",
-                                    value: "Editar Pet",
-                                    expression: "'Editar Pet'",
-                                    modifiers: { "top-center": true }
-                                  }
-                                ],
-                                staticClass:
-                                  "btn btn-primary btn-sm text-white",
-                                attrs: { href: _vm.hrefEditPet() }
-                              },
-                              [_c("i", { staticClass: "fas fa-pencil-alt" })]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "a",
-                              {
-                                directives: [
-                                  {
-                                    name: "confirm",
-                                    rawName: "v-confirm",
-                                    value: _vm.confirmDestroy,
-                                    expression: "confirmDestroy"
-                                  },
-                                  {
-                                    name: "tooltip",
-                                    rawName: "v-tooltip.top-center",
-                                    value: "Excluir Pet",
-                                    expression: "'Excluir Pet'",
-                                    modifiers: { "top-center": true }
-                                  }
-                                ],
-                                staticClass: "btn btn-danger btn-sm text-white",
-                                attrs: { href: _vm.hrefDestroyPet() }
-                              },
-                              [_c("i", { staticClass: "fas fa-trash-alt" })]
-                            )
-                          ])
-                        ])
+              _vm.pet != null
+                ? _c("div", [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 mt-2 mb-2" }, [
+                        _c("strong", [_vm._v("Nome:")]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(_vm.pet.name))])
                       ])
-                    : _vm._e()
-                ])
-              ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 mt-2 mb-2" }, [
+                        _c("strong", [_vm._v("Raça:")]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(_vm.pet.breed_name))])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 mt-2 mb-2" }, [
+                        _c("strong", [_vm._v("Bairro:")]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(_vm.pet.neighborhood))])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 mt-2 mb-2" }, [
+                        _c("strong", [_vm._v("Endereço:")]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(_vm.pet.address))])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 mt-2 mb-2" }, [
+                        _c("strong", [_vm._v("Telefone 1:")]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(_vm.pet.phone1))])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 mt-2 mb-2" }, [
+                        _c("strong", [_vm._v("Telefone 2:")]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(_vm.pet.phone2))])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-4 mt-3 mb-3" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-dark text-white width90",
+                            attrs: { href: _vm.hrefViewHistoric() }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-history" }),
+                            _vm._v(
+                              " Histórico do Pet\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-4 mt-3 mb-3" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-primary text-white width90",
+                            attrs: { href: _vm.hrefEditPet() }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-pencil-alt" }),
+                            _vm._v(" Editar Pet\n                            ")
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-4 mt-3 mb-3" }, [
+                        _c(
+                          "a",
+                          {
+                            directives: [
+                              {
+                                name: "confirm",
+                                rawName: "v-confirm",
+                                value: _vm.confirmDestroy,
+                                expression: "confirmDestroy"
+                              }
+                            ],
+                            staticClass: "btn btn-danger text-white width90",
+                            attrs: { href: _vm.hrefDestroyPet() }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-trash-alt" }),
+                            _vm._v(" Excluir Pet\n                            ")
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
-            _vm._m(2)
+            _vm._m(1)
           ])
         ]
       )
@@ -76228,7 +76262,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("Pets")]),
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Informações do Pet")]),
       _vm._v(" "),
       _c(
         "button",
@@ -76242,30 +76276,6 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", { staticClass: "thead-primary" }, [
-        _c("th", [_vm._v("Nome")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Raça")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Bairro")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Endereço")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Telefone")]),
-        _vm._v(" "),
-        _c(
-          "th",
-          { staticClass: "text-center", attrs: { colspan: "3", width: "5%" } },
-          [_vm._v("Ações")]
-        )
-      ])
     ])
   },
   function() {

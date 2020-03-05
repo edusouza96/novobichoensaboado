@@ -13,13 +13,13 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="start">Inicio</label>
-                                    <input type="date" name="start" id="start" class="form-control">
+                                    <input type="date" name="start" id="start" class="form-control" value="{{ request()->input('start')}}">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="end">Fim</label>
-                                    <input type="date" name="end" id="end" class="form-control">
+                                    <input type="date" name="end" id="end" class="form-control" value="{{ request()->input('end')}}">
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                 </table>
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$historic->total()}}</strong></div>
-                <div>{{$historic->links()}}</div>
+                <div>{{$historic->appends(request()->query())->links()}}</div>
             </div>
         @else
             <div class="alert alert-info text-center" role="alert">

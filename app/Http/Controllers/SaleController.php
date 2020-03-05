@@ -48,12 +48,27 @@ class SaleController extends Controller
     {
         try {
             $sales = $this->saleRepository->findByFilter($request->all(), true, true);
+            $salesToCalc = $this->saleRepository->findByFilter($request->all(), true, false);
 
-            $total = $sales->sum('total');
-            $cash = $sales->where('payment_method_id', PaymentMethodsType::CASH)->sum('total');
-            $creditCard = $sales->where('payment_method_id', PaymentMethodsType::CREDIT_CARD)->sum('total');
-            $debitCard = $sales->where('payment_method_id', PaymentMethodsType::DEBIT_CARD)->sum('total');
+            $total = $salesToCalc->sum('total');
+            $cash = 0;
+            $creditCard = 0;
+            $debitCard = 0;
 
+            foreach ($salesToCalc as $sale) {
+                foreach ($sale->getSalePaymentMethod() as $paymentMethod) {
+                    if($paymentMethod->getPaymentMethodId() == PaymentMethodsType::CASH)
+                        $cash += $paymentMethod->getValueReceived() - $paymentMethod->getLeftover();
+                    
+                    if($paymentMethod->getPaymentMethodId() == PaymentMethodsType::CREDIT_CARD)
+                        $creditCard += $paymentMethod->getValueReceived();
+                    
+                    if($paymentMethod->getPaymentMethodId() == PaymentMethodsType::DEBIT_CARD)
+                        $debitCard += $paymentMethod->getValueReceived();
+
+                }
+            }
+             
             return view('sales.of-day', compact('sales', 'total', 'cash', 'creditCard', 'debitCard'));
         } catch (Exception $ex) {
             dd('erro SaleController::ofDay');

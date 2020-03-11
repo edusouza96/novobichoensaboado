@@ -27,6 +27,7 @@ class UserCreateRequest extends FormRequest
             "name" => "required",
             "nickname" => "required",
             "password" => "required",
+            "role_id" => "required",
         ];
     }
 
@@ -36,6 +37,7 @@ class UserCreateRequest extends FormRequest
             "name.required" => "O campo Nome completo é obrigatório.",
             "nickname.required" => "O campo Nome de usuário é obrigatório.",
             "password.required" => "O campo Senha é obrigatório.",
+            "role_id.required" => "O campo Perfil é obrigatório.",
         ];
     }
 }

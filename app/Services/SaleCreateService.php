@@ -63,7 +63,7 @@ class SaleCreateService
             $attributes['valueReceived'],
             $attributes['leftover'],
             $attributes['paymentMethod'],
-            $attributes['plots'],
+            $attributes['plots']
         );
 
         $source = $this->defineSource($attributes['paymentMethod'], $attributes['cardMachine']);
@@ -77,7 +77,7 @@ class SaleCreateService
                 $attributes['valueReceived2'],
                 $attributes['leftover2'],
                 $attributes['paymentMethod2'],
-                $attributes['plots2'],
+                $attributes['plots2']
             );
 
             $source = $this->defineSource($attributes['paymentMethod2'], $attributes['cardMachine2']);

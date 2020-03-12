@@ -18,49 +18,50 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault" aria-controls="navbarsDefault"
             aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+        </button>
 
-        <div class="collapse navbar-collapse" id="navbarsDefault">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('diary.index') }}">Agenda</a>
-                </li>
+        @if(auth()->check())
+            <div class="collapse navbar-collapse" id="navbarsDefault">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('diary.index') }}">Agenda</a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pdv.index') }}">PDV</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('sales.ofDay') }}">Vendas do dia</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a>
-                </li>
-               
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Cadastros   <i class="fas fa-caret-down"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('neighborhood.index') }}">Bairros</a>
-                        <a class="dropdown-item" href="{{ route('costCenter.index') }}">Centro de Custo</a>
-                        <a class="dropdown-item" href="{{ route('owner.index') }}">Clientes</a>
-                        <a class="dropdown-item" href="{{ route('outlay.index') }}">Despesas</a>
-                        <a class="dropdown-item" href="{{ route('store.index') }}">Lojas</a>
-                        <a class="dropdown-item" href="{{ route('product.index') }}">Produtos</a>
-                        <a class="dropdown-item" href="{{ route('rebate.index') }}">Promoções</a>
-                        <a class="dropdown-item" href="{{ route('breed.index') }}">Raças</a>
-                        <a class="dropdown-item" href="{{ route('service.index') }}">Serviços</a>
-                        <a class="dropdown-item" href="{{ route('user.index') }}">Usuarios</a>
-                    </div>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pdv.index') }}">PDV</a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('logout') }}">Sair</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('sales.ofDay') }}">Vendas do dia</a>
+                    </li>
 
-            </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a>
+                    </li>
 
-        </div>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cadastros   <i class="fas fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('neighborhood.index') }}">Bairros</a>
+                            <a class="dropdown-item" href="{{ route('costCenter.index') }}">Centro de Custo</a>
+                            <a class="dropdown-item" href="{{ route('owner.index') }}">Clientes</a>
+                            <a class="dropdown-item" href="{{ route('outlay.index') }}">Despesas</a>
+                            <a class="dropdown-item" href="{{ route('store.index') }}">Lojas</a>
+                            <a class="dropdown-item" href="{{ route('product.index') }}">Produtos</a>
+                            <a class="dropdown-item" href="{{ route('rebate.index') }}">Promoções</a>
+                            <a class="dropdown-item" href="{{ route('breed.index') }}">Raças</a>
+                            <a class="dropdown-item" href="{{ route('service.index') }}">Serviços</a>
+                            <a class="dropdown-item" href="{{ route('user.index') }}">Usuarios</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('auth.logout') }}">Sair</a>
+                    </li>
+
+                </ul>
+            </div>
+        @endif
     </nav>

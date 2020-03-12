@@ -23,6 +23,7 @@ class CreateClientsTable extends Migration
             $table->string('address', 255)->nullable();
             $table->bigInteger('phone1')->nullable();
             $table->bigInteger('phone2')->nullable();
+            $table->string('email');
             $table->timestamps();
         });
     }

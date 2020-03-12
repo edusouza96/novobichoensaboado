@@ -3,11 +3,10 @@
 namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\Role;
-use Illuminate\Database\Eloquent\Model;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
     use EntrustUserTrait;
 
@@ -40,5 +39,5 @@ class User extends Model
     {
         return $this->roles->first();
     }
-   
+
 }

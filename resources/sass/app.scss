@@ -79,9 +79,13 @@
     margin-top: 5em;
 }
 
-.thead-primary {
+.header-primary {
     background-color: $bg-default;
     color: $color-default;
+}
+
+.thead-primary {
+    @extend .header-primary;
 }
 
 .cursor-pointer {
@@ -201,7 +205,7 @@ legend {
 }
 
 @media print {
-    .noprint { display:none; } 
+    .noprint { display:none; }
 }
 
 .width90 {

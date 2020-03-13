@@ -14,6 +14,8 @@ use BichoEnsaboado\Http\Middleware\CashdeskStatus;
  */
 Route::get('/info', function () { phpinfo(); });
 
+Route::get('/', function () {return view('welcome'); });
+
 Auth::routes(['register' => false]);
 
 Route::get('sair', ['as' => 'auth.logout', 'uses' => 'Auth\LoginController@logout']);

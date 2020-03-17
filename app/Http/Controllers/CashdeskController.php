@@ -5,7 +5,6 @@ namespace BichoEnsaboado\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Services\CashdeskService;
-use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Http\Requests\OpenCashdeskRequest;
 use BichoEnsaboado\Http\Requests\BleedCashdeskRequest;
 use BichoEnsaboado\Http\Requests\CloseCashdeskRequest;
@@ -14,21 +13,17 @@ use BichoEnsaboado\Http\Requests\ContributeCashdeskRequest;
 class CashdeskController extends Controller
 {
     private $cashdeskService;
-    private $userRepository;
-    private $user;
     private $store = 1;
 
-    public function __construct(CashdeskService $cashdeskService, UserRepository $userRepository)
+    public function __construct(CashdeskService $cashdeskService)
     {
         $this->cashdeskService = $cashdeskService;
-        $this->userRepository = $userRepository;
-        $this->user = $this->userRepository->find(1);
     }
 
     public function bleed(BleedCashdeskRequest $request)
     {
         try {
-            $cashbook = $this->cashdeskService->bleed($request->all(), $this->user, $this->store);
+            $cashbook = $this->cashdeskService->bleed($request->all(), auth()->user(), $this->store);
             return response()->json($cashbook);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -38,7 +33,7 @@ class CashdeskController extends Controller
     public function contribute(ContributeCashdeskRequest $request)
     {
         try {
-            $cashbook = $this->cashdeskService->contribute($request->all(), $this->user, $this->store);
+            $cashbook = $this->cashdeskService->contribute($request->all(), auth()->user(), $this->store);
             return response()->json($cashbook);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -48,7 +43,7 @@ class CashdeskController extends Controller
     public function open(OpenCashdeskRequest $request)
     {
         try {
-            $cashbook = $this->cashdeskService->open($request->all(), $this->user, $this->store);
+            $cashbook = $this->cashdeskService->open($request->all(), auth()->user(), $this->store);
             return response()->json($cashbook);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -58,7 +53,7 @@ class CashdeskController extends Controller
     public function close(CloseCashdeskRequest $request)
     {
         try {
-            $cashbook = $this->cashdeskService->close($request->all(), $this->user, $this->store);
+            $cashbook = $this->cashdeskService->close($request->all(), auth()->user(), $this->store);
             return response()->json($cashbook);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -109,7 +104,7 @@ class CashdeskController extends Controller
     public function moneyTransfer(Request $request)
     {
         try {
-            $result = $this->cashdeskService->moneyTransfer($request->all(), $this->user, $this->store);
+            $result = $this->cashdeskService->moneyTransfer($request->all(), auth()->user(), $this->store);
             return response()->json($result);
         } catch (\Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

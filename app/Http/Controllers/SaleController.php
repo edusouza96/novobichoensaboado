@@ -8,7 +8,6 @@ use BichoEnsaboado\Enums\ServicesType;
 use BichoEnsaboado\Enums\PaymentMethodsType;
 use BichoEnsaboado\Services\ChargebackService;
 use BichoEnsaboado\Repositories\SaleRepository;
-use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Presenters\SaleItemPresenter;
 
 class SaleController extends Controller
@@ -16,20 +15,16 @@ class SaleController extends Controller
     private $saleRepository;
     private $chargebackService;
     private $store = 1;
-    private $userRepository;
-    private $user;
 
-    public function __construct(SaleRepository $saleRepository, ChargebackService $chargebackService, UserRepository $userRepository)
+    public function __construct(SaleRepository $saleRepository, ChargebackService $chargebackService)
     {
         $this->saleRepository = $saleRepository;
         $this->chargebackService = $chargebackService;
-        $this->userRepository = $userRepository;
-        $this->user = $this->userRepository->find(1);
     }
 
     public function chargeback(Request $request)
     {
-        $sale = $this->chargebackService->make($request->item_id, $request->type, $this->user, $this->store);
+        $sale = $this->chargebackService->make($request->item_id, $request->type, auth()->user(), $this->store);
         return response()->json($sale);
     }
 

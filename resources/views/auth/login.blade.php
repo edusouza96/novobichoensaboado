@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="row mb-5" >
-    <img class="card-img-top rounded mx-auto d-block" src="{{ asset('img/log.svg') }}" style="width: 14em;">
+    <img class="card-img-top rounded mx-auto d-block" src="{{ asset('img/log.svg') }}" style="width: 10em;">
 </div>
 @endsection
 @section('form')

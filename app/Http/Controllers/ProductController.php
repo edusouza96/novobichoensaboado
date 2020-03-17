@@ -6,7 +6,6 @@ use Milon\Barcode\DNS1D;
 use Milon\Barcode\DNS2D;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Controllers\Controller;
-use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Services\OutlayCreateService;
 use BichoEnsaboado\Repositories\ProductRepository;
 use BichoEnsaboado\Services\GenerateBarcodeService;
@@ -23,18 +22,14 @@ class ProductController extends Controller
     /** @var OutlayCreateService */
     private $outlayCreateService;
 
-    private $userRepository;
-    private $user;
     private $store = 1;
 
-    public function __construct(ProductRepository $productRepository, GenerateBarcodeService $generateBarcodeService, OutlayCreateService $outlayCreateService, UserRepository $userRepository)
+    public function __construct(ProductRepository $productRepository, GenerateBarcodeService $generateBarcodeService, OutlayCreateService $outlayCreateService)
     {
         $this->productRepository = $productRepository;
         $this->generateBarcodeService = $generateBarcodeService;
         $this->outlayCreateService = $outlayCreateService;
 
-        $this->userRepository = $userRepository;
-        $this->user = $this->userRepository->find(1);
     }
 
     public function findByName($name)
@@ -131,6 +126,6 @@ class ProductController extends Controller
             'cost_center' => $attributesRequest['cost_center'],
         );
 
-        $this->outlayCreateService->create($attributes, $this->user, $this->store);
+        $this->outlayCreateService->create($attributes, auth()->user(), $this->store);
     }
 }

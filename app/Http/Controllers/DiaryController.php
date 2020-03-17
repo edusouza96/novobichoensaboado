@@ -5,7 +5,6 @@ namespace BichoEnsaboado\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Controllers\Controller;
-use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Services\DiaryCreateService;
 use BichoEnsaboado\Repositories\DiaryRepository;
 use BichoEnsaboado\Presenters\BlacklistPresenter;
@@ -18,18 +17,12 @@ class DiaryController extends Controller
     /** @var DiaryCreateService */
     private $diaryService;
 
-    /** @var UserRepository */
-    private $userRepository;
-    private $user;
     private $store = 1;
 
-
-    public function __construct(DiaryRepository $diaryRepository, DiaryCreateService $diaryService, UserRepository $userRepository)
+    public function __construct(DiaryRepository $diaryRepository, DiaryCreateService $diaryService)
     {
         $this->diaryRepository = $diaryRepository;
         $this->diaryService = $diaryService;
-        $this->userRepository = $userRepository;
-        $this->user = $this->userRepository->find(1);
     }
 
     public function index($date = null)
@@ -52,7 +45,7 @@ class DiaryController extends Controller
     public function store(Request $request)
     {
         try {
-            $diary = $this->diaryService->create($request->all(), $this->user, $this->store);
+            $diary = $this->diaryService->create($request->all(), auth()->user(), $this->store);
             return response()->json($diary);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -99,9 +92,4 @@ class DiaryController extends Controller
         return view('client.historic', compact('historic', 'client_id'));
     }
 
-    // public function index(Request $request)
-    // {
-    //     $costCenters = $this->costCenterRepository->findByFilter($request->all(), true);
-    //     return view('costCenter.index', compact('costCenters'));
-    // }
 }

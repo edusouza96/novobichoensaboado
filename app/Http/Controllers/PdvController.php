@@ -9,7 +9,6 @@ use BichoEnsaboado\Services\SaleCreateService;
 use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Presenters\InvoicePresenter;
 use BichoEnsaboado\Repositories\SaleRepository;
-use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Repositories\DiaryRepository;
 
 class PdvController extends Controller
@@ -26,25 +25,19 @@ class PdvController extends Controller
     /** @var BuySearchService */
     private $buySearchService;
 
-    /** @var UserRepository */
-    private $userRepository;
-    private $user;
     private $store = 1;
 
     public function __construct(
         DiaryRepository $diaryRepository, 
         SaleRepository $saleRepository,
         SaleCreateService $saleCreateService, 
-        BuySearchService $buySearchService, 
-        UserRepository $userRepository
+        BuySearchService $buySearchService
     )
     {
         $this->diaryRepository = $diaryRepository;
         $this->saleRepository = $saleRepository;
         $this->saleCreateService = $saleCreateService;
         $this->buySearchService = $buySearchService;
-        $this->userRepository = $userRepository;
-        $this->user = $this->userRepository->find(1);
     }
    
     public function index($id = null)
@@ -77,7 +70,7 @@ class PdvController extends Controller
     public function registerPayment(Request $request)
     {
         try {
-            $id = $this->saleCreateService->create($request->all(), $this->user, $this->store);
+            $id = $this->saleCreateService->create($request->all(), auth()->user(), $this->store);
             
             if($request->get('diariesId'))
                 $this->diaryRepository->paid($request->get('diariesId'));

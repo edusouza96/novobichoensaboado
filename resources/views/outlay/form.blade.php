@@ -46,7 +46,7 @@
         <div class="col-3">
             <div class="form-group">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="paid" name="paid" value="1" {{$outlay->statusPay())}}>
+                    <input type="checkbox" class="form-check-input" id="paid" name="paid" value="1" {{$outlay->statusPay()}}>
                     <label class="form-check-label" for="paid">Já esta pago</label>
                 </div>
             </div>

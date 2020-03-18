@@ -179,6 +179,8 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('editar/{id}', ['as' => 'store.update', 'uses' => 'StoreController@update']);
         Route::get('deletar/{id}', ['as' => 'store.destroy', 'uses' => 'StoreController@destroy']);
         Route::get('', ['as' => 'store.index', 'uses' => 'StoreController@index']);
+        Route::get('opcoes', ['as' => 'store.allOptions', 'uses' => 'StoreController@allOptions']);
+
     });
 
     Route::group(['prefix' => 'usuario'], function(){

@@ -9377,7 +9377,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.text-red {\r\n\tcolor: #ff0000;\n}\r\n", ""]);
+exports.push([module.i, "\n.text-red {\n\tcolor: #ff0000;\n}\n", ""]);
 
 // exports
 
@@ -93905,8 +93905,8 @@ $(document).ajaxError(function (event, request, settings) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\eduardo.dasilva\Documents\GitHub\novobichoensaboado\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\eduardo.dasilva\Documents\GitHub\novobichoensaboado\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\bichoensaboado v2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\bichoensaboado v2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

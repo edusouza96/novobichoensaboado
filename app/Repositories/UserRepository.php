@@ -62,6 +62,7 @@ class UserRepository
         $attributes['password'] = bcrypt($attributes['password']);
         $user = $this->user->create($attributes);
         $user->roles()->attach($attributes['role_id']);
+        $user->stores()->sync($attributes['store']);
         $user->save();
 
         return $user;
@@ -75,6 +76,7 @@ class UserRepository
         $user->password = $this->checkNewPassword($id, $attributes['password']);
         $user->roles()->detach();
         $user->roles()->attach($attributes['role_id']);
+        $user->stores()->sync($attributes['store']);
         $user->save();
 
         return $user;

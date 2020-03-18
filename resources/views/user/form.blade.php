@@ -1,4 +1,4 @@
-<div id='form'>
+<div id='form' v-cloak>
     <div class="row">
         <div class="col-12">
             <div class="form-group">
@@ -33,6 +33,21 @@
             </div>
         </div>
     </div>
+
+    <fieldset>
+        <legend>Vincular Lojas</legend>
+
+        <div class="row" v-for="store in stores">
+            <div class="col-3">
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" :id="'store'+store.id" name="store[]" :value="store.id">
+                        <label class="form-check-label" :for="'store'+store.id">@{{ store.name }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 </div> 
 
 
@@ -41,7 +56,7 @@
         new Vue({
             el: '#form',
             data: {
-               
+                stores:[],
                 roles:[],
                 role_id: "{{ old('role_id', $user->getRole() ? $user->getRole()->getId() : '') }}",
             },
@@ -52,9 +67,16 @@
                         this.roles = data;
                     }.bind(this));
                 },
+                getStores(){
+                    $.get(laroute.route("store.allOptions"))
+                    .done(function(data) {
+                        this.stores = data;
+                    }.bind(this));
+                },
             },
             created(){
                 this.getRoles();
+                this.getStores();
             }
         });
     </script>

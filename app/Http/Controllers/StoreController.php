@@ -64,4 +64,13 @@ class StoreController extends Controller
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         } 
     }
+
+    public function allOptions()
+    {
+        try {
+            $store = $this->storeRepository->all();
+            return response()->json($store);
+        } catch (\InvalidArgumentException $e) {
+        }
+    }
 }

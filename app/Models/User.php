@@ -3,6 +3,7 @@
 namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\Role;
+use BichoEnsaboado\Models\Store;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -16,6 +17,11 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+    
+    public function stores()
+    {
+        return $this->belongsToMany(Store::class);
     }
 
     public function getId()

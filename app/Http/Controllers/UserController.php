@@ -42,7 +42,7 @@ class UserController extends Controller
     public function store(UserCreateRequest $request)
     {
         try {
-            $this->userRepository->create($request->only('name', 'nickname', 'password', 'role_id'));
+            $this->userRepository->create($request->only('name', 'nickname', 'password', 'role_id', 'store'));
             return redirect()->route('user.index')->with('alertType', 'success')->with('message', 'Usuário Cadastrado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -58,7 +58,7 @@ class UserController extends Controller
     public function update(UserCreateRequest $request, $id)
     {
         try {
-            $this->userRepository->update($id, $request->only('name',  'nickname', 'password', 'role_id'));
+            $this->userRepository->update($id, $request->only('name',  'nickname', 'password', 'role_id', 'store'));
             return redirect()->route('user.index')->with('alertType', 'success')->with('message', 'Usuário Atualizado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

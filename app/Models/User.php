@@ -45,5 +45,11 @@ class User extends Authenticatable
     {
         return $this->roles->first();
     }
+    public function getStoresIds()
+    {
+        return $this->stores->map(function($store){
+            return $store->getId();
+        });
+    }
 
 }

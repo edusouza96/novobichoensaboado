@@ -41,7 +41,7 @@
             <div class="col-3">
                 <div class="form-group">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" :id="'store'+store.id" name="store[]" :value="store.id">
+                        <input type="checkbox" class="form-check-input" :id="'store'+store.id" name="store[]" :value="store.id" :checked="canCheckStore(store.id)">
                         <label class="form-check-label" :for="'store'+store.id">@{{ store.name }}</label>
                     </div>
                 </div>
@@ -51,12 +51,14 @@
 </div> 
 
 
+
 @push('js-end')
     <script>
         new Vue({
             el: '#form',
             data: {
                 stores:[],
+                saved_stores: JSON.parse(`{{ $user->getStoresIds() }}`),
                 roles:[],
                 role_id: "{{ old('role_id', $user->getRole() ? $user->getRole()->getId() : '') }}",
             },
@@ -73,6 +75,14 @@
                         this.stores = data;
                     }.bind(this));
                 },
+                canCheckStore(id){
+                    let checking = this.saved_stores.filter(function(store){
+                        return store == id;
+                    });
+
+                    return checking.length > 0;
+                    
+                }
             },
             created(){
                 this.getRoles();

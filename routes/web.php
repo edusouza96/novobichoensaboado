@@ -148,12 +148,15 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     Route::group(['prefix' => 'centro-custo'], function(){
-        Route::get('', ['as' => 'costCenter.index', 'uses' => 'CostCenterController@index']);
-        Route::get('cadastrar', ['as' => 'costCenter.create', 'uses' => 'CostCenterController@create']);
-        Route::get('editar/{id}', ['as' => 'costCenter.edit', 'uses' => 'CostCenterController@edit']);
-        Route::get('deletar/{id}', ['as' => 'costCenter.destroy', 'uses' => 'CostCenterController@destroy']);
-        Route::post('cadastrar', ['as' => 'costCenter.store', 'uses' => 'CostCenterController@store']);
-        Route::post('editar/{id}', ['as' => 'costCenter.update', 'uses' => 'CostCenterController@update']);
+        Route::group(['middleware' => ['role:admin|developer']], function(){
+            Route::get('', ['as' => 'costCenter.index', 'uses' => 'CostCenterController@index']);
+            Route::get('cadastrar', ['as' => 'costCenter.create', 'uses' => 'CostCenterController@create']);
+            Route::get('editar/{id}', ['as' => 'costCenter.edit', 'uses' => 'CostCenterController@edit']);
+            Route::get('deletar/{id}', ['as' => 'costCenter.destroy', 'uses' => 'CostCenterController@destroy']);
+            Route::post('cadastrar', ['as' => 'costCenter.store', 'uses' => 'CostCenterController@store']);
+            Route::post('editar/{id}', ['as' => 'costCenter.update', 'uses' => 'CostCenterController@update']);
+        });
+
         Route::get('opcoes', ['as' => 'costCenter.allOptions', 'uses' => 'CostCenterController@allOptions']);
 
         Route::group(['prefix' => 'categoria'], function(){
@@ -173,17 +176,19 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     Route::group(['prefix' => 'loja'], function(){
-        Route::get('cadastrar', ['as' => 'store.create', 'uses' => 'StoreController@create']);
-        Route::post('cadastrar', ['as' => 'store.store', 'uses' => 'StoreController@store']);
-        Route::get('editar/{id}', ['as' => 'store.edit', 'uses' => 'StoreController@edit']);
-        Route::post('editar/{id}', ['as' => 'store.update', 'uses' => 'StoreController@update']);
-        Route::get('deletar/{id}', ['as' => 'store.destroy', 'uses' => 'StoreController@destroy']);
-        Route::get('', ['as' => 'store.index', 'uses' => 'StoreController@index']);
+        Route::group(['middleware' => ['role:admin|developer']], function(){
+            Route::get('cadastrar', ['as' => 'store.create', 'uses' => 'StoreController@create']);
+            Route::post('cadastrar', ['as' => 'store.store', 'uses' => 'StoreController@store']);
+            Route::get('editar/{id}', ['as' => 'store.edit', 'uses' => 'StoreController@edit']);
+            Route::post('editar/{id}', ['as' => 'store.update', 'uses' => 'StoreController@update']);
+            Route::get('deletar/{id}', ['as' => 'store.destroy', 'uses' => 'StoreController@destroy']);
+            Route::get('', ['as' => 'store.index', 'uses' => 'StoreController@index']);
+        });
         Route::get('opcoes', ['as' => 'store.allOptions', 'uses' => 'StoreController@allOptions']);
 
     });
 
-    Route::group(['prefix' => 'usuario'], function(){
+    Route::group(['prefix' => 'usuario', 'middleware' => ['role:admin|developer']], function(){
         Route::get('', ['as' => 'user.index', 'uses' => 'UserController@index']);
         Route::get('deletar/{id}', ['as' => 'user.destroy', 'uses' => 'UserController@destroy']);
         Route::get('cadastrar', ['as' => 'user.create', 'uses' => 'UserController@create']);

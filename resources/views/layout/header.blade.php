@@ -45,15 +45,21 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('neighborhood.index') }}">Bairros</a>
-                            <a class="dropdown-item" href="{{ route('costCenter.index') }}">Centro de Custo</a>
+                            @if(auth()->user()->canSeeAdministrativePage())
+                                <a class="dropdown-item" href="{{ route('costCenter.index') }}">Centro de Custo</a>
+                            @endif
                             <a class="dropdown-item" href="{{ route('owner.index') }}">Clientes</a>
                             <a class="dropdown-item" href="{{ route('outlay.index') }}">Despesas</a>
-                            <a class="dropdown-item" href="{{ route('store.index') }}">Lojas</a>
+                            @if(auth()->user()->canSeeAdministrativePage())
+                                <a class="dropdown-item" href="{{ route('store.index') }}">Lojas</a>
+                            @endif
                             <a class="dropdown-item" href="{{ route('product.index') }}">Produtos</a>
                             <a class="dropdown-item" href="{{ route('rebate.index') }}">Promoções</a>
                             <a class="dropdown-item" href="{{ route('breed.index') }}">Raças</a>
                             <a class="dropdown-item" href="{{ route('service.index') }}">Serviços</a>
-                            <a class="dropdown-item" href="{{ route('user.index') }}">Usuarios</a>
+                            @if(auth()->user()->canSeeAdministrativePage())
+                                <a class="dropdown-item" href="{{ route('user.index') }}">Usuarios</a>
+                            @endif
                         </div>
                     </li>
 

@@ -52,4 +52,9 @@ class User extends Authenticatable
         });
     }
 
+    public function canSeeAdministrativePage()
+    {
+        return $this->hasRole(['admin', 'developer']);
+    }
+
 }

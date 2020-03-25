@@ -13,8 +13,8 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="vaçue">Valor a Tranferir</label>
-                  <input type="text" name="vaçue" id="vaçue" class="form-control" v-money="money" v-model="value" />
+                  <label for="value">Valor a Tranferir</label>
+                  <input type="text" name="value" id="value" class="form-control" v-money="money" v-model="value" />
                 </div>
               </div>
 

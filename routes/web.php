@@ -21,10 +21,12 @@ Auth::routes(['register' => false]);
 Route::get('sair', ['as' => 'auth.logout', 'uses' => 'Auth\LoginController@logout']);
 
 Route::group(['middleware' => 'auth'], function() {
-
+    
     Route::get('dashboard', ['as' => 'dashboard.index', function () {
         return view('dashboard.index');
     }]);
+
+    Route::post('acesso-admin', ['as' => 'user.acessAdmin', 'uses' => 'UserController@acessAdmin']);
 
     Route::group(['prefix' => 'agenda'], function () {
         Route::get('{date?}', ['as' => 'diary.index', 'uses' => 'DiaryController@index']);

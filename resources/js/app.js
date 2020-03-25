@@ -100,3 +100,5 @@ Vue.component("show-outlay-to-pay", require("./components/show-outlay-to-pay.vue
 Vue.component("inconsistency-unfinished-cashdesk", require("./components/inconsistency-unfinished-cashdesk.vue").default);
 
 Vue.component("show-value-cashdesk", require("./components/show-value-cashdesk.vue").default);
+
+Vue.component("modal-authenticate", require("./components/modal-authenticate.vue").default);

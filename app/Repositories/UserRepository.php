@@ -101,4 +101,9 @@ class UserRepository
 
         return bcrypt($password);
     }
+
+    public function findByNickname($nickname)
+    {
+        return $this->user->where('nickname', $nickname)->first();  
+    }
 }

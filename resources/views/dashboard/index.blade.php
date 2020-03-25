@@ -5,7 +5,7 @@
 <div id="dashboard" class="ml-3 mr-3" v-cloak>
     <modal-contribute @failed="alertError" @contributed="contributed"></modal-contribute>
     <modal-bleed @failed="alertError" @bleeded="bleeded"></modal-bleed>
-    <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value"></modal-open-cashdesk>
+    <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value" :is-admin="'{{auth()->user()->canSeeAdministrativePage()}}'"></modal-open-cashdesk>
     <modal-close-cashdesk @failed="alertError" @closed="closed" :closing-date="closingDate"></modal-close-cashdesk>
     <modal-extract-day :key="reloadComponent"></modal-extract-day>
     <modal-money-transfer></modal-money-transfer>
@@ -31,7 +31,8 @@
                     <button class="btn btn-danger btn-action-dashboard" data-toggle="modal" data-target="#modal-close-cashdesk" v-if="isOpen" @click="setDateCurrent()">Fechar Caixa</button>
                 </div>
             </div>
-        
+            
+            @if(auth()->user()->canSeeAdministrativePage())
             <div class="row mt-2">
                 <div class="col-md-12">
                     <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-contribute" v-if="isOpen">Aporte</button>
@@ -46,13 +47,14 @@
             
             <div class="row mt-2">
                 <div class="col-md-12">
-                    <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
+                    <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-money-transfer">Transferência</button>
                 </div>
             </div>
-            
+            @endif
+
             <div class="row mt-2">
                 <div class="col-md-12">
-                    <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-money-transfer">Transferência</button>
+                    <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
                 </div>
             </div>
 

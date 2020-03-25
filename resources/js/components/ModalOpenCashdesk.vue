@@ -15,7 +15,7 @@
               <div class="form-group">
                 <label for="">Abrir caixa, sem novo aporte ?</label>
                 <div class="checkbox">
-                  <label><input type="checkbox" value="1" v-model="openWithoutNewContribute"> Sim</label>
+                  <label><input type="checkbox" value="1" v-model="openWithoutNewContribute" :disabled="!isAdmin"> Sim</label>
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@ export default {
       return (this.source == "" || this.valueStart == "0,00") && !this.openWithoutNewContribute;
     }
   },
-  props: ['value'],
+  props: ['value', 'isAdmin'],
   methods: {
     confirm() {
       $.post(laroute.route("cashdesk.open"), {
@@ -107,10 +107,15 @@ export default {
       .done(function(data) {
         this.sources = data;
       }.bind(this));
+    },
+    blockEdit(){
+      if(!this.isAdmin)
+        this.openWithoutNewContribute = true;
     }
   },
   created(){
     this.getSources();
+    this.blockEdit();
   }
 };
 </script>

@@ -5,6 +5,7 @@ namespace BichoEnsaboado\Http\Controllers;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Repositories\UserRepository;
 use BichoEnsaboado\Http\Requests\UserCreateRequest;
+use BichoEnsaboado\Services\AuthenticateAcessAdmin;
 
 class UserController extends Controller
 {
@@ -12,9 +13,13 @@ class UserController extends Controller
     /** @var UserRepository */
     private $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    /** @var AuthenticateAcessAdmin */
+    private $authenticateAcessAdmin;
+
+    public function __construct(UserRepository $userRepository, AuthenticateAcessAdmin $authenticateAcessAdmin)
     {
         $this->userRepository = $userRepository;
+        $this->authenticateAcessAdmin = $authenticateAcessAdmin;
     }
 
     public function index(Request $request)
@@ -65,5 +70,15 @@ class UserController extends Controller
         }
     }
 
+    public function acessAdmin(Request $request)
+    {
+        $response = $this->authenticateAcessAdmin->validate($request->only('username', 'password'));
+
+        if($response)
+            return response()->json($response);
+
+        throw new \Exception("Não Autorizado", 403);
+        
+    }
    
 }

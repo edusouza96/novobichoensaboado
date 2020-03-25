@@ -6,6 +6,7 @@
     <modal-services-vet :register="registerCurrent" @serviceVetSelected="serviceVetSelected"></modal-services-vet>
     <modal-observation :default="observationCurrent" :editable="editableCurrent" @setObservation="setObservation"></modal-observation>
     <modal-pets-by-owner :register="registerCurrent" @petSelected="petSelected" :key="reloadComponent"></modal-pets-by-owner>
+    <modal-authenticate :action="action" @cancel="cancel" @edit="edit" :key="reloadComponentAuth"></modal-authenticate>
 
     <table class="table">
       <thead class="thead-primary">
@@ -167,11 +168,11 @@
                 <i class="fas fa-shopping-cart"></i> Pagar
               </a>
 
-              <button @click="edit(register);refreshRegisterCurrent(index)" class="btn btn-info btn-sm" v-if="register.status == statusType.scheduled || register.status == statusType.present">
+              <button @click="beforeAuth(index, 'edit')" data-toggle="modal" data-target="#modal-authenticate" class="btn btn-info btn-sm" v-if="register.status == statusType.scheduled || register.status == statusType.present">
                 <i class="fas fa-edit"></i> Editar
               </button>
 
-              <button @click="cancel(register)" class="btn btn-info btn-sm" v-if="register.status == statusType.scheduled || register.status == statusType.present">
+              <button @click="beforeAuth(index, 'cancel')" data-toggle="modal" data-target="#modal-authenticate" class="btn btn-info btn-sm" v-if="register.status == statusType.scheduled || register.status == statusType.present">
                 <i class="fas fa-ban"></i> Excluir
               </button>
             </div>
@@ -187,6 +188,7 @@ export default {
   props: ["data", "date"],
   data: function() {
     return {
+      action: null,
       statusType: {
         scheduled : 1,
         present : 2,
@@ -220,9 +222,15 @@ export default {
       indexCurrent: null,
       registerCurrent: {},
       reloadComponent: '1',
+      reloadComponentAuth: '2',
     };
   },
   methods: {
+    beforeAuth(index, action){
+      this.reloadComponentAuth = Math.floor(Math.random() * 101);
+      this.refreshRegisterCurrent(index);
+      this.action = action;
+    },
     reloadComponentMyPets(){
       this.reloadComponent = Math.floor(Math.random() * 101);
     },
@@ -354,7 +362,8 @@ export default {
           console.log('Erro');
         });
     },
-    cancel: function(register) {
+    cancel: function() {
+      let register = this.registerCurrent;
       $.post(laroute.route("diary.destroy"), {id : register.id})
         .done(function(response) {
           let scheduleCanceled = this.data.filter(function(schedule){
@@ -375,7 +384,8 @@ export default {
           console.log('Erro');
         });
     },
-    edit: function(register) {
+    edit: function() {
+      let register = this.registerCurrent;
       register.editable = true;
       register.status = null;
     },

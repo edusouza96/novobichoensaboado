@@ -83,7 +83,7 @@ export default {
 			sources: []
 		};
 	},
-	props:['closingDate'],
+	props:['closingDate', 'store'],
 	computed: {
 		disabledConfirm() {
 			return (
@@ -118,7 +118,7 @@ export default {
 				: parseFloat(value.replace(",", "."));
 		},
 		getSources() {
-			$.get(laroute.route("treasure.findByStore", { id: 1 })).done(
+			$.get(laroute.route("treasure.findByStore", { id:1 })).done(
 				function(data) {
 					this.sources = data;
 				}.bind(this)

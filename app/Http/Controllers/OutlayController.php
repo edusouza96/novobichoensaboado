@@ -11,7 +11,6 @@ use BichoEnsaboado\Http\Requests\OutlayCreateRequest;
 class OutlayController extends Controller
 {
     private $outlayCreateService;
-    private $store = 1;
     private $outlayRepository;
 
     public function __construct(OutlayCreateService $outlayCreateService, OutlayRepository $outlayRepository)
@@ -35,7 +34,8 @@ class OutlayController extends Controller
     public function store(OutlayCreateRequest $request)
     {
         try {
-            $outlay = $this->outlayCreateService->create($request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $outlay = $this->outlayCreateService->create($request->all(), auth()->user(), $store);
             return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Cadastrada.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -46,7 +46,8 @@ class OutlayController extends Controller
     {
         try {
             $datePay = Carbon::createFromFormat('Y-m-d', $request->get('date_pay'));
-            $outlay = $this->outlayRepository->findByDate($datePay , $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $outlay = $this->outlayRepository->findByDate($datePay , $store);
             return response()->json($outlay);
         } catch (Exception $ex) {
             dd('erro');
@@ -80,7 +81,8 @@ class OutlayController extends Controller
     public function update(OutlayCreateRequest $request, $id)
     {
         try {
-            $outlay = $this->outlayCreateService->update($id, $request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $outlay = $this->outlayCreateService->update($id, $request->all(), auth()->user(), $store);
             return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Atualizada.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -98,7 +100,8 @@ class OutlayController extends Controller
     public function destroy($id)
     {
         try {
-            $this->outlayCreateService->delete($id, $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $this->outlayCreateService->delete($id, $store);
             return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Deletada.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -107,7 +110,8 @@ class OutlayController extends Controller
     public function pay(Request $request)
     {
         try {
-            $this->outlayCreateService->pay($request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $this->outlayCreateService->pay($request->all(), auth()->user(), $store);
             return redirect()->route('outlay.index')->with('alertType', 'success')->with('message', 'Despesa Paga.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

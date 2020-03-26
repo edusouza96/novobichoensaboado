@@ -13,7 +13,6 @@ use BichoEnsaboado\Http\Requests\ContributeCashdeskRequest;
 class CashdeskController extends Controller
 {
     private $cashdeskService;
-    private $store = 1;
 
     public function __construct(CashdeskService $cashdeskService)
     {
@@ -23,7 +22,8 @@ class CashdeskController extends Controller
     public function bleed(BleedCashdeskRequest $request)
     {
         try {
-            $cashbook = $this->cashdeskService->bleed($request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $cashbook = $this->cashdeskService->bleed($request->all(), auth()->user(), $store);
             return response()->json($cashbook);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -33,7 +33,8 @@ class CashdeskController extends Controller
     public function contribute(ContributeCashdeskRequest $request)
     {
         try {
-            $cashbook = $this->cashdeskService->contribute($request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $cashbook = $this->cashdeskService->contribute($request->all(), auth()->user(), $store);
             return response()->json($cashbook);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -43,7 +44,8 @@ class CashdeskController extends Controller
     public function open(OpenCashdeskRequest $request)
     {
         try {
-            $cashbook = $this->cashdeskService->open($request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $cashbook = $this->cashdeskService->open($request->all(), auth()->user(), $store);
             return response()->json($cashbook);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -53,7 +55,8 @@ class CashdeskController extends Controller
     public function close(CloseCashdeskRequest $request)
     {
         try {
-            $cashbook = $this->cashdeskService->close($request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $cashbook = $this->cashdeskService->close($request->all(), auth()->user(), $store);
             return response()->json($cashbook);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -63,7 +66,8 @@ class CashdeskController extends Controller
     public function status()
     {
         try {
-            $status = $this->cashdeskService->status($this->store);
+            $store = auth()->user()->getStore()->getId();
+            $status = $this->cashdeskService->status($store);
             return response()->json($status);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -73,7 +77,8 @@ class CashdeskController extends Controller
     public function getCashDrawer()
     {
         try {
-            $treasure = $this->cashdeskService->getCashDrawer($this->store);
+            $store = auth()->user()->getStore()->getId();
+            $treasure = $this->cashdeskService->getCashDrawer($store);
             return response()->json($treasure);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -83,7 +88,8 @@ class CashdeskController extends Controller
     public function inconsistencyUnfinishedCashdesk()
     {
         try {
-            $result = $this->cashdeskService->inconsistencyUnfinishedCashdesk($this->store);
+            $store = auth()->user()->getStore()->getId();
+            $result = $this->cashdeskService->inconsistencyUnfinishedCashdesk($store);
             return response()->json($result);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -94,7 +100,8 @@ class CashdeskController extends Controller
     {
         try {
             $date = Carbon::createFromFormat('Y-m-d', $request->get('date'));
-            $result = $this->cashdeskService->extractOfDay($date , $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $result = $this->cashdeskService->extractOfDay($date , $store);
             return response()->json($result);
         } catch (\Exception $ex) {
             return response()->json($ex->getMessage());
@@ -104,7 +111,8 @@ class CashdeskController extends Controller
     public function moneyTransfer(Request $request)
     {
         try {
-            $result = $this->cashdeskService->moneyTransfer($request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $result = $this->cashdeskService->moneyTransfer($request->all(), auth()->user(), $store);
             return response()->json($result);
         } catch (\Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

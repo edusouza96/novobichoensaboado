@@ -6,7 +6,7 @@
     <modal-contribute @failed="alertError" @contributed="contributed"></modal-contribute>
     <modal-bleed @failed="alertError" @bleeded="bleeded"></modal-bleed>
     <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value" :is-admin="'{{auth()->user()->canSeeAdministrativePage()}}'"></modal-open-cashdesk>
-    <modal-close-cashdesk @failed="alertError" @closed="closed" :closing-date="closingDate"></modal-close-cashdesk>
+    <modal-close-cashdesk @failed="alertError" @closed="closed" :closing-date="closingDate" :store="'{{auth()->user()->getStore()->getId()}}'"></modal-close-cashdesk>
     <modal-extract-day :key="reloadComponent"></modal-extract-day>
     <modal-money-transfer></modal-money-transfer>
     <alert-message :title="titleAlertMessage" text="" :type="typeAlertMessage" :active="showAlert" @active="showAlert=$event"></alert-message>

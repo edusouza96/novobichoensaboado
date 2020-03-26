@@ -25,8 +25,6 @@ class PdvController extends Controller
     /** @var BuySearchService */
     private $buySearchService;
 
-    private $store = 1;
-
     public function __construct(
         DiaryRepository $diaryRepository, 
         SaleRepository $saleRepository,
@@ -70,7 +68,8 @@ class PdvController extends Controller
     public function registerPayment(Request $request)
     {
         try {
-            $id = $this->saleCreateService->create($request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $id = $this->saleCreateService->create($request->all(), auth()->user(), $store);
             
             if($request->get('diariesId'))
                 $this->diaryRepository->paid($request->get('diariesId'));

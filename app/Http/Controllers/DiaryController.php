@@ -17,8 +17,6 @@ class DiaryController extends Controller
     /** @var DiaryCreateService */
     private $diaryService;
 
-    private $store = 1;
-
     public function __construct(DiaryRepository $diaryRepository, DiaryCreateService $diaryService)
     {
         $this->diaryRepository = $diaryRepository;
@@ -45,7 +43,8 @@ class DiaryController extends Controller
     public function store(Request $request)
     {
         try {
-            $diary = $this->diaryService->create($request->all(), auth()->user(), $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $diary = $this->diaryService->create($request->all(), auth()->user(), $store);
             return response()->json($diary);
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

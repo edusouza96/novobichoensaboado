@@ -17,7 +17,7 @@ class CashdeskStatus
      */
     public function handle($request, Closure $next)
     {
-        $store = 1;
+        $store = auth()->user()->getStore()->getId();
         $cashBookRepository = app(CashBookRepository::class);
         $status =  $cashBookRepository->findByDate(Carbon::now(), $store);
 

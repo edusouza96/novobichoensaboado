@@ -22,8 +22,6 @@ class ProductController extends Controller
     /** @var OutlayCreateService */
     private $outlayCreateService;
 
-    private $store = 1;
-
     public function __construct(ProductRepository $productRepository, GenerateBarcodeService $generateBarcodeService, OutlayCreateService $outlayCreateService)
     {
         $this->productRepository = $productRepository;
@@ -37,7 +35,7 @@ class ProductController extends Controller
         try{
             $products = $this->productRepository->findByName($name);
             return response()->json($products);
-        }catch(\InvalidArgumentException  $e){
+        }catch(\InvalidArgumentException $e){
         }
     }
 
@@ -126,6 +124,7 @@ class ProductController extends Controller
             'cost_center' => $attributesRequest['cost_center'],
         );
 
-        $this->outlayCreateService->create($attributes, auth()->user(), $this->store);
+        $store = auth()->user()->getStore()->getId();
+        $this->outlayCreateService->create($attributes, auth()->user(), $store);
     }
 }

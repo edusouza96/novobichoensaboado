@@ -52,6 +52,10 @@ class User extends Authenticatable
         });
     }
 
+    public function getStore()
+    {
+        return $this->stores->first();
+    }
     public function canSeeAdministrativePage()
     {
         return $this->hasRole(['admin', 'developer']);

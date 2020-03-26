@@ -14,7 +14,6 @@ class SaleController extends Controller
 {
     private $saleRepository;
     private $chargebackService;
-    private $store = 1;
 
     public function __construct(SaleRepository $saleRepository, ChargebackService $chargebackService)
     {
@@ -24,7 +23,8 @@ class SaleController extends Controller
 
     public function chargeback(Request $request)
     {
-        $sale = $this->chargebackService->make($request->item_id, $request->type, auth()->user(), $this->store);
+        $store = auth()->user()->getStore()->getId();
+        $sale = $this->chargebackService->make($request->item_id, $request->type, auth()->user(), $store);
         return response()->json($sale);
     }
 
@@ -32,7 +32,8 @@ class SaleController extends Controller
     {
         try {
             $date = Carbon::createFromFormat('Y-m-d', $request->get('date'));
-            $sales = $this->saleRepository->findByDate($date , $this->store);
+            $store = auth()->user()->getStore()->getId();
+            $sales = $this->saleRepository->findByDate($date , $store);
             return response()->json($sales);
         } catch (Exception $ex) {
             dd('erro SaleController::findByDate');

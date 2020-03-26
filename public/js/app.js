@@ -3497,7 +3497,7 @@ __webpack_require__.r(__webpack_exports__);
       sources: []
     };
   },
-  props: ['closingDate'],
+  props: ['closingDate', 'store'],
   computed: {
     disabledConfirm: function disabledConfirm() {
       return this.source == "" || this.closingDate == "" || this.valueWithdraw == "0,00";

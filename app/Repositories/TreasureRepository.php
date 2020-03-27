@@ -72,4 +72,15 @@ class TreasureRepository
             ->where('name', 'cash_drawer')
             ->first();
     }
+
+    public function create(array $attributes)
+    {
+        return $this->treasure->create($attributes);
+    }
+
+    public function deleteByStore($store)
+    {
+        return $this->treasure->where('store_id', $store)
+                           ->delete();
+    }
 }

@@ -3,7 +3,9 @@
 namespace BichoEnsaboado\Http\Controllers;
 
 use Illuminate\Http\Request;
+use BichoEnsaboado\Enums\SourceType;
 use BichoEnsaboado\Repositories\StoreRepository;
+use BichoEnsaboado\Services\TreasureByStoreService;
 use BichoEnsaboado\Http\Requests\StoreCreateRequest;
 
 class StoreController extends Controller
@@ -11,10 +13,14 @@ class StoreController extends Controller
 
     /** @var StoreRepository */
     private $storeRepository;
+    
+    /** @var TreasureByStoreService */
+    private $treasureByStoreService;
 
-    public function __construct(StoreRepository $storeRepository)
+    public function __construct(StoreRepository $storeRepository, TreasureByStoreService $treasureByStoreService)
     {
         $this->storeRepository = $storeRepository;
+        $this->treasureByStoreService = $treasureByStoreService;
     }
 
     public function index(Request $request)
@@ -32,7 +38,8 @@ class StoreController extends Controller
     public function store(StoreCreateRequest $request)
     {
         try {
-            $this->storeRepository->create($request->only('name', 'phone', 'email', 'address', 'inauguration_date'));
+            $store = $this->storeRepository->create($request->only('name', 'phone', 'email', 'address', 'inauguration_date'));
+            $this->treasureByStoreService->createInitialSource($store);
             return redirect()->route('store.index')->with('alertType', 'success')->with('message', 'Loja Cadastrada.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -59,6 +66,7 @@ class StoreController extends Controller
     {
         try {
             $this->storeRepository->destroy($id);
+            $this->treasureByStoreService->deleteByStore($id);
             return redirect()->route('store.index')->with('alertType', 'success')->with('message', 'Loja Deletada.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

@@ -26,6 +26,14 @@ final class SourceType extends Enum
                 return 'PagSeguro';
             case self::BANK:
                 return 'Banco';
+            case self::SAFE_BOX_NAME:
+                return 'Cofre';
+            case self::CASH_DRAWER_NAME:
+                return 'Gaveta';
+            case self::PAGSEGURO_NAME:
+                return 'PagSeguro';
+            case self::BANK_NAME:
+                return 'Banco';
         }
     }
     

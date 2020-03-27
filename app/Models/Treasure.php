@@ -10,6 +10,7 @@ class Treasure extends Model
     use SoftDeletes;
     protected $table = 'treasures';
     public $timestamps = false;
+    protected $fillable = ['name', 'display', 'value', 'store_id', 'card_machine'];
 
     public function getId()
     {

@@ -119,7 +119,7 @@ class DiaryRepository
         }
         
         $search->orderBy('date_hour', 'desc');
-// dd(str_replace_array('s?', $search->getBindings(), $search->toSql()));
+        // dd(str_replace_array('s?', $search->getBindings(), $search->toSql()));
         return $paginate ? $search->paginate(15) : $search->get();
     }
 
@@ -141,5 +141,24 @@ class DiaryRepository
             ->groupBy(DB::raw("DATE_FORMAT(date_hour, '%Y-%m-%d')"))
             ->groupBy('clients.owner_id')
             ->get();
+    }
+
+    public function reportSearchesbyPeriod(array $attributes, $paginate=false)
+    {
+        $search = $this->diary->newQuery();
+
+        if(isset($attributes['start'])){
+            $search->whereDate('date_hour', '>=', Carbon::createFromFormat('Y-m-d', $attributes['start'])->startOfDay());
+        }
+
+        if(isset($attributes['end'])){
+            $search->whereDate('date_hour', '<=', Carbon::createFromFormat('Y-m-d', $attributes['end'])->endOfDay());
+        }
+
+        $search->where('fetch', true);
+
+        $search->orderBy('date_hour', 'desc');
+        
+        return $paginate ? $search->paginate(15) : $search->get();
     }
 }

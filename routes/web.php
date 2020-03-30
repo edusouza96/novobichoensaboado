@@ -202,5 +202,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'perfil'], function () {
         Route::get('opcoes', ['as' => 'role.allOptions', 'uses' => 'RoleController@allOptions']);
     });
+    
+    Route::group(['prefix' => 'relatorios'], function () {
+        Route::get('buscas-por-periodo', ['as' => 'report.searchesbyPeriod', 'uses' => 'ReportController@searchesbyPeriod']);
+    });
 });
 

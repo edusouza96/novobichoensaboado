@@ -66,12 +66,25 @@
                     <tfoot class="thead-dark">
                         <tr>
                             <th colspan="3"></th>
-                            <th >Total das buscas</th>
+                            <th>Total das buscas</th>
                             <th>R$ {{ number_format($sumDeliveryFee, 2, ',', '.') }}</th>
                         </tr>
                     </tfoot>
                 </table>
+
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$report->total()}}</strong></div>
+
+                <div class="text-right mt-4 mr-5">
+                    <form method="GET" action="{{route('report.searchesbyPeriodExcel')}}">
+                        <input type="hidden" name="start" value="{{ request()->input('start')}}">
+                        <input type="hidden" name="end" value="{{ request()->input('end')}}">
+        
+                        <button class="btn btn-success" type="submit">
+                            <i class="fas fa-file-excel"></i> Gerar Planilha
+                        </button>
+                    </form>  
+                </div>
+
                 <div>{{$report->appends(request()->query())->links()}}</div>
             </div>
         @else

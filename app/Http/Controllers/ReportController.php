@@ -2,11 +2,12 @@
 
 namespace BichoEnsaboado\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Excel;
+use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Repositories\DiaryRepository;
 use BichoEnsaboado\Services\GenerateExcelReport;
+use BichoEnsaboado\Presenters\ChartSearchesByPeriodPresenter;
 
 class ReportController extends Controller
 {
@@ -30,7 +31,11 @@ class ReportController extends Controller
         $report = $this->diaryRepository->reportSearchesbyPeriod($request->all(), false);
         return Excel::download(new GenerateExcelReport($report, 'report.excel.searchesbyPeriod'), 'RELATORIO_BUSCAS_POR_PERIODO.xlsx');
     }
-
     
+    public function searchesbyPeriodChart(Request $request)
+    {
+        $report = $this->diaryRepository->reportSearchesbyPeriod($request->all(), false);
+        return new ChartSearchesByPeriodPresenter($report);
+    }
    
 }

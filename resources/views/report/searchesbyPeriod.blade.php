@@ -84,6 +84,13 @@
                         </button>
                     </form>  
                 </div>
+                
+                <div class="text-right mt-4 mr-5">
+                    <modal-chart-pie title="Buscas por periodo" route="report.searchesbyPeriodChart"></modal-chart-pie>
+                    <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-chart-pie">
+                        <i class="fas fa-chart-pie"></i> Gerar Gráfico
+                    </button>
+                </div>
 
                 <div>{{$report->appends(request()->query())->links()}}</div>
             </div>

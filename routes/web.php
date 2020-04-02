@@ -206,6 +206,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'relatorios'], function () {
         Route::get('buscas-por-periodo', ['as' => 'report.searchesbyPeriod', 'uses' => 'ReportController@searchesbyPeriod']);
         Route::get('excel-buscas-por-periodo', ['as' => 'report.searchesbyPeriodExcel', 'uses' => 'ReportController@searchesbyPeriodExcel']);
+        Route::get('graficos-buscas-por-periodo', ['as' => 'report.searchesbyPeriodChart', 'uses' => 'ReportController@searchesbyPeriodChart']);
     });
 });
 

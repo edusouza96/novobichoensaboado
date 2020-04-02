@@ -21,6 +21,7 @@ $(function () {
 
 window.moment = require('moment');
 window.Vue = require("vue");
+window.Chart  = require("chart.js");
 
 import Notifications from 'vue-notification';
 Vue.use(Notifications)
@@ -102,3 +103,5 @@ Vue.component("inconsistency-unfinished-cashdesk", require("./components/inconsi
 Vue.component("show-value-cashdesk", require("./components/show-value-cashdesk.vue").default);
 
 Vue.component("modal-authenticate", require("./components/modal-authenticate.vue").default);
+
+Vue.component("modal-chart-pie", require("./components/modal-chart-pie.vue").default);

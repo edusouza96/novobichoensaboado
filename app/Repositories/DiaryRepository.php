@@ -154,6 +154,12 @@ class DiaryRepository
         if(isset($attributes['end'])){
             $search->whereDate('date_hour', '<=', Carbon::createFromFormat('Y-m-d', $attributes['end'])->endOfDay());
         }
+        
+        if(isset($attributes['neighborhood_id'])){
+            $search->whereHas('client.owner', function($query) use($attributes){
+                $query->where('neighborhood_id', $attributes['neighborhood_id']);
+            });
+        }
 
         $search->where('fetch', true);
 

@@ -23,6 +23,16 @@
                                     <input type="date" name="end" id="end" class="form-control" value="{{ request()->input('end')}}">
                                 </div>
                             </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="neighborhood_id">Bairro</label>
+                                    <select name="neighborhood_id" class="form-control" v-model="neighborhood_id">
+                                        <option value="">Selecione</option>
+                                        <option v-for="neighborhood in neighborhoods" :value="neighborhood.id">@{{neighborhood.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -77,15 +87,11 @@
                 <div class="container">
                     <div class="mt-4 row justify-content-end">
                         <div class="col-2 text-right">
-                            <form method="GET" action="{{route('report.searchesbyPeriodExcel')}}">
-                                <input type="hidden" name="start" value="{{ request()->input('start')}}">
-                                <input type="hidden" name="end" value="{{ request()->input('end')}}">
-                
-                                <button class="btn btn-success" type="submit">
-                                    <i class="fas fa-file-excel"></i> Gerar Planilha
-                                </button>
-                            </form>  
+                            <a href="{{route('report.searchesbyPeriodExcel', request()->input())}}" class="btn btn-success" type="submit">
+                                <i class="fas fa-file-excel"></i> Gerar Planilha
+                            </a>
                         </div>
+                        
                         <div class="col-2 text-right">
                             <modal-chart-pie title="Buscas por periodo" route="report.searchesbyPeriodChart" :param="param"></modal-chart-pie>
                             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-chart-pie">
@@ -111,8 +117,20 @@
             el: '#report',
             data:{
                 param: @json(request()->input()),
+                neighborhoods:[],
+                neighborhood_id: "{{ request()->input('neighborhood_id') }}",
+            },
+            methods:{
+                getNeighborhoods(){
+                    return $.get(laroute.route('neighborhood.allOptions'))
+                        .done(function(data){
+                            this.neighborhoods = data;
+                        }.bind(this));  
+                },
+            },
+            created(){
+                this.getNeighborhoods();
             }
         });
-        JSON.stringify
     </script>
 @endpush

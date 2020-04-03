@@ -3404,9 +3404,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getData: function getData() {
-      return $.get(laroute.route(this.route), {
-        param: this.param
-      }).done(function (data) {
+      return $.get(laroute.route(this.route), this.param).done(function (data) {
         this.data = data;
       }.bind(this));
     },

@@ -74,22 +74,25 @@
 
                 <div class="text-right mt-4 mr-5"><strong>Total de registros: {{$report->total()}}</strong></div>
 
-                <div class="text-right mt-4 mr-5">
-                    <form method="GET" action="{{route('report.searchesbyPeriodExcel')}}">
-                        <input type="hidden" name="start" value="{{ request()->input('start')}}">
-                        <input type="hidden" name="end" value="{{ request()->input('end')}}">
-        
-                        <button class="btn btn-success" type="submit">
-                            <i class="fas fa-file-excel"></i> Gerar Planilha
-                        </button>
-                    </form>  
-                </div>
+                <div class="container">
+                    <div class="mt-4 row justify-content-end">
+                        <div class="col-2 text-right">
+                            <form method="GET" action="{{route('report.searchesbyPeriodExcel')}}">
+                                <input type="hidden" name="start" value="{{ request()->input('start')}}">
+                                <input type="hidden" name="end" value="{{ request()->input('end')}}">
                 
-                <div class="text-right mt-4 mr-5">
-                    <modal-chart-pie title="Buscas por periodo" route="report.searchesbyPeriodChart"></modal-chart-pie>
-                    <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-chart-pie">
-                        <i class="fas fa-chart-pie"></i> Gerar Gráfico
-                    </button>
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fas fa-file-excel"></i> Gerar Planilha
+                                </button>
+                            </form>  
+                        </div>
+                        <div class="col-2 text-right">
+                            <modal-chart-pie title="Buscas por periodo" route="report.searchesbyPeriodChart" :param="param"></modal-chart-pie>
+                            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-chart-pie">
+                                <i class="fas fa-chart-pie"></i> Gerar Gráfico
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div>{{$report->appends(request()->query())->links()}}</div>
@@ -106,6 +109,10 @@
     <script>
         new Vue({
             el: '#report',
+            data:{
+                param: @json(request()->input()),
+            }
         });
+        JSON.stringify
     </script>
 @endpush

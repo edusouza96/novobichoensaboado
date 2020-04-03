@@ -54,7 +54,7 @@ export default {
 			});
 		},
 		getData(){
-			return $.get(laroute.route(this.route), {param:this.param})
+			return $.get(laroute.route(this.route), this.param)
 				.done(function(data){
 					this.data = data;
 				}.bind(this));

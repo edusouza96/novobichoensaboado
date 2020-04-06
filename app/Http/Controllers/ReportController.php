@@ -38,4 +38,25 @@ class ReportController extends Controller
         return new ChartSearchesByPeriodPresenter($report);
     }
    
+    public function petsAttendedByNeighborhood(Request $request)
+    {
+        $report = $this->diaryRepository->reportPetsAttendedByNeighborhood($request->all(), true);
+        return view('report.petsAttendedByNeighborhood', compact('report'));
+    }
+    
+    public function petsAttendedByNeighborhoodExcel(Request $request)
+    {
+        $report = $this->diaryRepository->reportPetsAttendedByNeighborhood($request->all(), false);
+        return Excel::download(new GenerateExcelReport($report, 'report.excel.searchesbyPeriod'), 'RELATORIO_BUSCAS_POR_PERIODO.xlsx');
+    }
+    
+    public function petsAttendedByNeighborhoodChart(Request $request)
+    {
+        $report = $this->diaryRepository->reportPetsAttendedByNeighborhood($request->all(), false);
+        return new ChartSearchesByPeriodPresenter($report);
+    }
+
+
+
+   
 }

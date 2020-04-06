@@ -207,6 +207,11 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('buscas-por-periodo', ['as' => 'report.searchesbyPeriod', 'uses' => 'ReportController@searchesbyPeriod']);
         Route::get('excel-buscas-por-periodo', ['as' => 'report.searchesbyPeriodExcel', 'uses' => 'ReportController@searchesbyPeriodExcel']);
         Route::get('graficos-buscas-por-periodo', ['as' => 'report.searchesbyPeriodChart', 'uses' => 'ReportController@searchesbyPeriodChart']);
+
+        Route::get('pets-atendidos-por-bairro', ['as' => 'report.petsAttendedByNeighborhood', 'uses' => 'ReportController@petsAttendedByNeighborhood']);
+        Route::get('excel-pets-atendidos-por-bairro', ['as' => 'report.petsAttendedByNeighborhoodExcel', 'uses' => 'ReportController@petsAttendedByNeighborhoodExcel']);
+        Route::get('graficos-pets-atendidos-por-bairro', ['as' => 'report.petsAttendedByNeighborhoodChart', 'uses' => 'ReportController@petsAttendedByNeighborhoodChart']);
+
     });
 });
 

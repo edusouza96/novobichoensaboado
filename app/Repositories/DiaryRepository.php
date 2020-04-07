@@ -199,4 +199,35 @@ class DiaryRepository
 
         return $paginate ? $search->paginate(15) : $search->get();
     }
+   
+    public function reportPetsAttendedByBreed(array $attributes, $paginate = false)
+    {
+        $search = $this->diary->newQuery();
+
+        $search->select(DB::raw('count(breed_id) as count, max(breeds.name) as name'));
+
+        $search->leftJoin('clients', 'diaries.client_id', '=', 'clients.id');
+        $search->leftJoin('breeds', 'breeds.id', '=', 'clients.breed_id');
+        $search->leftJoin('owners', 'owners.id', '=', 'clients.owner_id');
+
+        if(isset($attributes['start'])){
+            $search->whereDate('date_hour', '>=', Carbon::createFromFormat('Y-m-d', $attributes['start'])->startOfDay());
+        }
+
+        if(isset($attributes['end'])){
+            $search->whereDate('date_hour', '<=', Carbon::createFromFormat('Y-m-d', $attributes['end'])->endOfDay());
+        }
+        
+        if(isset($attributes['neighborhood_id'])){
+            $search->where('neighborhood_id', $attributes['neighborhood_id']);
+        }
+        
+        if(isset($attributes['breed_id'])){
+            $search->where('breed_id', $attributes['breed_id']);
+        }
+
+        $search->groupBy('breed_id');
+
+        return $paginate ? $search->paginate(15) : $search->get();
+    }
 }

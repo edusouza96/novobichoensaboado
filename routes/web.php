@@ -212,6 +212,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('excel-pets-atendidos-por-bairro', ['as' => 'report.petsAttendedByNeighborhoodExcel', 'uses' => 'ReportController@petsAttendedByNeighborhoodExcel']);
         Route::get('graficos-pets-atendidos-por-bairro', ['as' => 'report.petsAttendedByNeighborhoodChart', 'uses' => 'ReportController@petsAttendedByNeighborhoodChart']);
 
+        Route::get('pets-atendidos-por-raca', ['as' => 'report.petsAttendedByBreed', 'uses' => 'ReportController@petsAttendedByBreed']);
+        Route::get('excel-pets-atendidos-por-raca', ['as' => 'report.petsAttendedByBreedExcel', 'uses' => 'ReportController@petsAttendedByBreedExcel']);
+        Route::get('graficos-pets-atendidos-por-raca', ['as' => 'report.petsAttendedByBreedChart', 'uses' => 'ReportController@petsAttendedByBreedChart']);
+
     });
 });
 

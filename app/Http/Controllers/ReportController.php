@@ -8,7 +8,7 @@ use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Repositories\DiaryRepository;
 use BichoEnsaboado\Services\GenerateExcelReport;
 use BichoEnsaboado\Presenters\ChartSearchesByPeriodPresenter;
-use BichoEnsaboado\Presenters\ChartPetsAttendedByPeriodPresenter;
+use BichoEnsaboado\Presenters\ChartPetsAttendedPresenter;
 
 class ReportController extends Controller
 {
@@ -54,7 +54,25 @@ class ReportController extends Controller
     public function petsAttendedByNeighborhoodChart(Request $request)
     {
         $report = $this->diaryRepository->reportPetsAttendedByNeighborhood($request->all(), false);
-        return new ChartPetsAttendedByPeriodPresenter($report);
+        return new ChartPetsAttendedPresenter($report);
+    }
+   
+    public function petsAttendedByBreed(Request $request)
+    {
+        $report = $this->diaryRepository->reportPetsAttendedByBreed($request->all(), true);
+        return view('report.petsAttendedByBreed', compact('report'));
+    }
+    
+    public function petsAttendedByBreedExcel(Request $request)
+    {
+        $report = $this->diaryRepository->reportPetsAttendedByBreed($request->all(), false);
+        return Excel::download(new GenerateExcelReport($report, 'report.excel.petsAttendedByBreed'), 'RELATORIO_ATENDIMENTOS_POR_RAÇA.xlsx');
+    }
+    
+    public function petsAttendedByBreedChart(Request $request)
+    {
+        $report = $this->diaryRepository->reportPetsAttendedByBreed($request->all(), false);
+        return new ChartPetsAttendedPresenter($report);
     }
 
 

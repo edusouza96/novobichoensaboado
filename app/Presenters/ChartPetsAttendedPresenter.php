@@ -5,7 +5,7 @@ use JsonSerializable;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
  
-class ChartPetsAttendedByPeriodPresenter implements Arrayable, JsonSerializable
+class ChartPetsAttendedPresenter implements Arrayable, JsonSerializable
 {
     private $report;
 

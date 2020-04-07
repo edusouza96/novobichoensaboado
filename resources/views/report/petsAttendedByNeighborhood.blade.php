@@ -95,7 +95,7 @@
                         </div>
                         
                         <div class="col-2 text-right">
-                            <modal-chart-pie title="Buscas por periodo" route="report.petsAttendedByNeighborhoodChart" :param="param"></modal-chart-pie>
+                            <modal-chart-pie title="Atendimentos por periodo" route="report.petsAttendedByNeighborhoodChart" :param="param"></modal-chart-pie>
                             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-chart-pie">
                                 <i class="fas fa-chart-pie"></i> Gerar Gráfico
                             </button>

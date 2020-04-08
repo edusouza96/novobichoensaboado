@@ -216,6 +216,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('excel-pets-atendidos-por-raca', ['as' => 'report.petsAttendedByBreedExcel', 'uses' => 'ReportController@petsAttendedByBreedExcel']);
         Route::get('graficos-pets-atendidos-por-raca', ['as' => 'report.petsAttendedByBreedChart', 'uses' => 'ReportController@petsAttendedByBreedChart']);
 
+        Route::get('despesas-por-periodo', ['as' => 'report.outlayByPeriod', 'uses' => 'ReportController@outlayByPeriod']);
+        Route::get('excel-despesas-por-periodo', ['as' => 'report.outlayByPeriodExcel', 'uses' => 'ReportController@outlayByPeriodExcel']);
+        Route::get('graficos-despesas-por-periodo', ['as' => 'report.outlayByPeriodChart', 'uses' => 'ReportController@outlayByPeriodChart']);
+
     });
 });
 

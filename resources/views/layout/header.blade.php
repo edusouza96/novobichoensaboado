@@ -69,6 +69,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('report.searchesbyPeriod') }}">Buscas por período</a>
+                            <a class="dropdown-item" href="{{ route('report.outlayByPeriod') }}">Despesas por periodo</a>
                             <a class="dropdown-item" href="{{ route('report.petsAttendedByNeighborhood') }}">Pets atendidos por período</a>
                             <a class="dropdown-item" href="{{ route('report.petsAttendedByBreed') }}">Pets atendidos por raça</a>
                         </div>

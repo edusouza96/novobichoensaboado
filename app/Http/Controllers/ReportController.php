@@ -7,17 +7,23 @@ use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Repositories\DiaryRepository;
 use BichoEnsaboado\Services\GenerateExcelReport;
-use BichoEnsaboado\Presenters\ChartSearchesByPeriodPresenter;
+use BichoEnsaboado\Repositories\OutlayRepository;
 use BichoEnsaboado\Presenters\ChartPetsAttendedPresenter;
+use BichoEnsaboado\Presenters\ChartOutlayByPeriodPresenter;
+use BichoEnsaboado\Presenters\ChartSearchesByPeriodPresenter;
 
 class ReportController extends Controller
 {
     /** @var DiaryRepository */
     private $diaryRepository;
 
-    public function __construct(DiaryRepository $diaryRepository)
+    /** @var OutlayRepository */
+    private $outlayRepository;
+
+    public function __construct(DiaryRepository $diaryRepository, OutlayRepository $outlayRepository)
     {
         $this->diaryRepository = $diaryRepository;
+        $this->outlayRepository = $outlayRepository;
     }
    
     public function searchesbyPeriod(Request $request)
@@ -74,7 +80,25 @@ class ReportController extends Controller
         $report = $this->diaryRepository->reportPetsAttendedByBreed($request->all(), false);
         return new ChartPetsAttendedPresenter($report);
     }
-
+    
+    public function outlayByPeriod(Request $request)
+    {
+        $report = $this->outlayRepository->reportOutlayByPeriod($request->all(), true);
+        $sum = $this->outlayRepository->reportOutlayByPeriod($request->all(), false)->sum('value');
+        return view('report.outlayByPeriod', compact('report', 'sum'));
+    }
+    
+    public function outlayByPeriodExcel(Request $request)
+    {
+        $report = $this->outlayRepository->reportOutlayByPeriod($request->all(), false);
+        return Excel::download(new GenerateExcelReport($report, 'report.excel.outlayByPeriod'), 'RELATORIO_DESPESAS_POR_PERIODO.xlsx');
+    }
+    
+    public function outlayByPeriodChart(Request $request)
+    {
+        $report = $this->outlayRepository->reportOutlayByPeriod($request->all(), false);
+        return new ChartOutlayByPeriodPresenter($report);
+    }
 
 
    

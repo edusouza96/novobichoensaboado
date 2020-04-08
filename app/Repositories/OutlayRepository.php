@@ -156,4 +156,35 @@ class OutlayRepository
     {
         $this->find($id)->delete();   
     }
+
+    public function reportOutlayByPeriod(array $attributes, $paginate = false)
+    {
+        $search = $this->outlay->newQuery();
+
+        if(isset($attributes['start'])){
+            $search->whereDate('date_pay', '>=', Carbon::createFromFormat('Y-m-d', $attributes['start'])->startOfDay());
+        }
+
+        if(isset($attributes['end'])){
+            $search->whereDate('date_pay', '<=', Carbon::createFromFormat('Y-m-d', $attributes['end'])->endOfDay());
+        }
+        
+        if(isset($attributes['cost_center_id'])){
+            $search->where('cost_center_id', $attributes['cost_center_id']);
+        }
+        
+        if(isset($attributes['source_id'])){
+            $search->where('source_id', $attributes['source_id']);
+        }
+
+        $search->where('paid', true);
+
+        $search = $search->whereHas('costCenter', function($query){
+            return $query->where('cost_center_category_id', '<>', CostCenterSystemType::CATEGORY_SISTEMA);
+        });
+
+        $search->orderBy('date_pay');
+
+        return $paginate ? $search->paginate(15) : $search->get();
+    }
 }

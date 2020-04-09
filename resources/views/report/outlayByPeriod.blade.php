@@ -102,8 +102,8 @@
                         </div>
                         
                         <div class="col-2 text-right">
-                            <modal-chart-pie title="Buscas por periodo" route="report.outlayByPeriodChart" :param="param"></modal-chart-pie>
-                            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-chart-pie">
+                            <modal-chart-bar title="Despesas por periodo" route="report.outlayByPeriodChart" :param="param" :label="label"></modal-chart-bar>
+                            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-chart-bar">
                                 <i class="fas fa-chart-pie"></i> Gerar Gráfico
                             </button>
                         </div>
@@ -125,6 +125,7 @@
         new Vue({
             el: '#report',
             data:{
+                label: ['Custo no Periodo R$'],
                 param: @json(request()->input()),
                 sources: [],
                 costCenters: [],

@@ -12,14 +12,14 @@ class ChartOutlayByPeriodPresenter implements Arrayable, JsonSerializable
     public function __construct(Collection $report)
     {
         $this->report = $report->groupBy(function($data){
-            return $data->getCostCenter()->getName();
+            return $data->getDatePay()->format('m/Y');
         });
     }
 
     public function toArray()
     {
         return $this->report->map(function($data){
-            return $data->sum('value');
+            return number_format($data->sum('value'), 2);
         });
     }
         

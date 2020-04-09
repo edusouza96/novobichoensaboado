@@ -105,3 +105,5 @@ Vue.component("show-value-cashdesk", require("./components/show-value-cashdesk.v
 Vue.component("modal-authenticate", require("./components/modal-authenticate.vue").default);
 
 Vue.component("modal-chart-pie", require("./components/modal-chart-pie.vue").default);
+
+Vue.component("modal-chart-bar", require("./components/modal-chart-bar.vue").default);

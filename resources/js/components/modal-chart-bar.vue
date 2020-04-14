@@ -53,7 +53,12 @@ export default {
 			var canvasChart = document.getElementById("canvas-chart");
 			new Chart(canvasChart, {
 				type: "bar",
-				data: this.buildDataChart()
+				data: this.buildDataChart(),
+				options: {
+					legend: {
+						display: false,
+					}
+				}
 			});
 		},
 		getData(){

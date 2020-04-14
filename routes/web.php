@@ -219,6 +219,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('despesas-por-periodo', ['as' => 'report.outlayByPeriod', 'uses' => 'ReportController@outlayByPeriod']);
         Route::get('excel-despesas-por-periodo', ['as' => 'report.outlayByPeriodExcel', 'uses' => 'ReportController@outlayByPeriodExcel']);
         Route::get('graficos-despesas-por-periodo', ['as' => 'report.outlayByPeriodChart', 'uses' => 'ReportController@outlayByPeriodChart']);
+       
+        Route::get('vendas-por-periodo', ['as' => 'report.salesByPeriod', 'uses' => 'ReportController@salesByPeriod']);
+        Route::get('excel-vendas-por-periodo', ['as' => 'report.salesByPeriodExcel', 'uses' => 'ReportController@salesByPeriodExcel']);
+        Route::get('graficos-vendas-por-periodo', ['as' => 'report.salesByPeriodChart', 'uses' => 'ReportController@salesByPeriodChart']);
 
     });
 });

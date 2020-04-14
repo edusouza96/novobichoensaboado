@@ -5,21 +5,21 @@ use JsonSerializable;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
  
-class ChartOutlayByPeriodPresenter implements Arrayable, JsonSerializable
+class ChartSalesByPeriodPresenter implements Arrayable, JsonSerializable
 {
     private $report;
 
     public function __construct(Collection $report)
     {
         $this->report = $report->groupBy(function($data){
-            return $data->getDatePay()->format('m/Y');
+            return $data->getCreatedAt()->format('m/Y');
         });
     }
 
     public function toArray()
     {
         return $this->report->map(function($data){
-            return number_format($data->sum('value'), 2, '.', '');
+            return number_format($data->sum('total'), 2, '.', '');
         });
     }
         

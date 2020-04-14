@@ -3395,7 +3395,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 canvasChart = document.getElementById("canvas-chart");
                 new Chart(canvasChart, {
                   type: "bar",
-                  data: _this.buildDataChart()
+                  data: _this.buildDataChart(),
+                  options: {
+                    legend: {
+                      display: false
+                    }
+                  }
                 });
 
               case 4:

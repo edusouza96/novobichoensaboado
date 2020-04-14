@@ -178,5 +178,32 @@ class SaleRepository
         
         $sale->save();
     }
+
+    public function reportSalesByPeriod(array $attributes, $paginate = false)
+    {
+        $search = $this->sale->newQuery();
+
+        if(isset($attributes['start'])){
+            $search->whereDate('created_at', '>=', Carbon::createFromFormat('Y-m-d', $attributes['start'])->startOfDay());
+        }
+
+        if(isset($attributes['end'])){
+            $search->whereDate('created_at', '<=', Carbon::createFromFormat('Y-m-d', $attributes['end'])->endOfDay());
+        }
+        
+        if(isset($attributes['store_id'])){
+            $search->where('store_id', $attributes['store_id']);
+        }
+
+        if(isset($attributes['product_name'])){
+            $search->whereHas('products', function($query) use($attributes){
+                return $query->where('name', 'like', "%{$attributes['product_name']}%");
+            });
+        }
+
+        $search->orderBy('created_at');
+
+        return $paginate ? $search->paginate(15) : $search->get();
+    }
     
 }

@@ -190,4 +190,11 @@ class Diary extends Model
             "type" => ServicesType::DELIVERY_FEE,
         ];
     }
+    public function getDescription()
+    {
+        return 
+            (is_null($this->getServicePet()) ? '' : $this->getServicePet()->getName().' + ').
+            (is_null($this->getServiceVet()) ? '' : $this->getServiceVet()->getName().' + ').
+            (is_null($this->getFetch())      ? '' : 'Serviço de Busca');
+    }
 }

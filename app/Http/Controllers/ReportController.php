@@ -5,10 +5,12 @@ namespace BichoEnsaboado\Http\Controllers;
 use Excel;
 use Illuminate\Http\Request;
 use BichoEnsaboado\Http\Controllers\Controller;
+use BichoEnsaboado\Repositories\SaleRepository;
 use BichoEnsaboado\Repositories\DiaryRepository;
 use BichoEnsaboado\Services\GenerateExcelReport;
 use BichoEnsaboado\Repositories\OutlayRepository;
 use BichoEnsaboado\Presenters\ChartPetsAttendedPresenter;
+use BichoEnsaboado\Presenters\ChartSalesByPeriodPresenter;
 use BichoEnsaboado\Presenters\ChartOutlayByPeriodPresenter;
 use BichoEnsaboado\Presenters\ChartSearchesByPeriodPresenter;
 
@@ -19,11 +21,15 @@ class ReportController extends Controller
 
     /** @var OutlayRepository */
     private $outlayRepository;
+    
+    /** @var SaleRepository */
+    private $saleRepository;
 
-    public function __construct(DiaryRepository $diaryRepository, OutlayRepository $outlayRepository)
+    public function __construct(DiaryRepository $diaryRepository, OutlayRepository $outlayRepository, SaleRepository $saleRepository)
     {
         $this->diaryRepository = $diaryRepository;
         $this->outlayRepository = $outlayRepository;
+        $this->saleRepository = $saleRepository;
     }
    
     public function searchesbyPeriod(Request $request)
@@ -98,6 +104,25 @@ class ReportController extends Controller
     {
         $report = $this->outlayRepository->reportOutlayByPeriod($request->all(), false);
         return new ChartOutlayByPeriodPresenter($report);
+    }
+
+    public function salesByPeriod(Request $request)
+    {
+        $report = $this->saleRepository->reportSalesByPeriod($request->all(), true);
+        $sum = $this->saleRepository->reportSalesByPeriod($request->all(), false)->sum('total');
+        return view('report.salesByPeriod', compact('report', 'sum'));
+    }
+    
+    public function salesByPeriodExcel(Request $request)
+    {
+        $report = $this->saleRepository->reportSalesByPeriod($request->all(), false);
+        return Excel::download(new GenerateExcelReport($report, 'report.excel.salesByPeriod'), 'RELATORIO_VENDAS_POR_PERIODO.xlsx');
+    }
+    
+    public function salesByPeriodChart(Request $request)
+    {
+        $report = $this->saleRepository->reportSalesByPeriod($request->all(), false);
+        return new ChartSalesByPeriodPresenter($report);
     }
 
 

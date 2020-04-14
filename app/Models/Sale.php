@@ -3,6 +3,7 @@
 namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\User;
+use BichoEnsaboado\Models\Store;
 use BichoEnsaboado\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use BichoEnsaboado\Models\SalePaymentMethod;
@@ -36,6 +37,11 @@ class Sale extends Model
     public function salePaymentMethod()
     {
         return $this->hasMany(SalePaymentMethod::class)->orderBy('id');
+    }
+    
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
     }
 
     public function getSalePaymentMethod()
@@ -79,7 +85,7 @@ class Sale extends Model
 
         $description = '';
         foreach ($this->getDiary() as $diary) {
-            $description .= $diary->getClient()->getName().'<br>';
+            $description .= $diary->getDescription().' - '.$diary->getClient()->getName().'<br>';
         }
         foreach ($this->getProducts() as $product) {
             $description .= $product->getName().'<br>';
@@ -98,5 +104,10 @@ class Sale extends Model
             'value' => $this->getCalcValueTotal(),
             'description' => $this->getDescription(),
         ];
+    }
+
+    public function getNumerInvoice()
+    {
+        return str_pad($this->getId(), 6, '0', STR_PAD_LEFT);
     }
 }

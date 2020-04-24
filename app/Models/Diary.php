@@ -117,7 +117,7 @@ class Diary extends Model
 
     public function getCompanion()
     {
-        return $this->companion;
+        return (int) $this->companion;
     }
     
     public function getCheckinHour()

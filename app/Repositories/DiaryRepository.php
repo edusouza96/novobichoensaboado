@@ -91,13 +91,16 @@ class DiaryRepository
         return $diary->delete();
     }
 
-    public function findPetsSameOwnerScheduledSameDay(Owner $owner, Carbon $date)
+    public function findPetsSameOwnerScheduledSameDay(Client $client, Carbon $date)
     {
         $diary = $this->diary->newQuery();
 
-        return $diary->whereHas('client', function($query) use($owner){
+        
+        return $diary->whereHas('client', function($query) use($client){
+            $query->where('id', '<>',$client->getId());
+            $owner = $client->getOwner();
             $query->whereHas('owner', function($query) use($owner){
-                $query->Where('id', $owner->getId());
+                $query->where('id', $owner->getId());
             });
         })->whereBetween('date_hour', [clone $date->startOfDay(), clone $date->endOfDay()])->get();
     }

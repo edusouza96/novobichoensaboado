@@ -107,3 +107,5 @@ Vue.component("modal-authenticate", require("./components/modal-authenticate.vue
 Vue.component("modal-chart-pie", require("./components/modal-chart-pie.vue").default);
 
 Vue.component("modal-chart-bar", require("./components/modal-chart-bar.vue").default);
+
+Vue.component("modal-chart-financial-statement", require("./components/modal-chart-financial-statement.vue").default);

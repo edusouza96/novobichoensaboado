@@ -40,5 +40,12 @@ class SalePaymentMethod extends Model
     {
         return $this->plots;
     }
+
+    public function getCalcValueTotal()
+    {
+        return $this->getLeftover() > 0
+            ? abs($this->getValueReceived() - $this->getLeftover())
+            : $this->getValueReceived();
+    }
    
 }

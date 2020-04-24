@@ -68,6 +68,7 @@
                             Relatórios   <i class="fas fa-caret-down"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('report.financialStatement') }}">Balanço financeiro</a>
                             <a class="dropdown-item" href="{{ route('report.searchesbyPeriod') }}">Buscas por período</a>
                             <a class="dropdown-item" href="{{ route('report.outlayByPeriod') }}">Despesas por periodo</a>
                             <a class="dropdown-item" href="{{ route('report.petsAttendedByNeighborhood') }}">Pets atendidos por período</a>

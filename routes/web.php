@@ -223,6 +223,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('vendas-por-periodo', ['as' => 'report.salesByPeriod', 'uses' => 'ReportController@salesByPeriod']);
         Route::get('excel-vendas-por-periodo', ['as' => 'report.salesByPeriodExcel', 'uses' => 'ReportController@salesByPeriodExcel']);
         Route::get('graficos-vendas-por-periodo', ['as' => 'report.salesByPeriodChart', 'uses' => 'ReportController@salesByPeriodChart']);
+       
+        Route::get('balanco-financeiro', ['as' => 'report.financialStatement', 'uses' => 'ReportController@financialStatement']);
+        Route::get('excel-balanco-financeiro', ['as' => 'report.financialStatementExcel', 'uses' => 'ReportController@financialStatementExcel']);
+        Route::get('graficos-balanco-financeiro', ['as' => 'report.financialStatementChart', 'uses' => 'ReportController@financialStatementChart']);
 
     });
 });

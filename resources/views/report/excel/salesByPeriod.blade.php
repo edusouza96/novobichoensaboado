@@ -14,7 +14,7 @@
                 <td>{{ $data->getCreatedAt()->format('d/m/Y') }}</td>
                 <td>{{ $data->getNumerInvoice() }}</td>
                 <td>{!! $data->getDescription() !!}</td>
-                <td>R$ {{ number_format($data->getTotal(), 2, ',', '.') }}</td>
+                <td>R$ {{ number_format($data->getCalcValueTotal(), 2, ',', '.') }}</td>
                 <td>{{ $data->store->getName() }}</td>
             </tr>
         @endforeach

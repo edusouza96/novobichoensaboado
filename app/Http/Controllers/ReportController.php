@@ -13,6 +13,7 @@ use BichoEnsaboado\Presenters\ChartPetsAttendedPresenter;
 use BichoEnsaboado\Presenters\ChartSalesByPeriodPresenter;
 use BichoEnsaboado\Presenters\ChartOutlayByPeriodPresenter;
 use BichoEnsaboado\Presenters\ChartSearchesByPeriodPresenter;
+use BichoEnsaboado\Presenters\ReportFinancialStatementPresenter;
 
 class ReportController extends Controller
 {
@@ -124,7 +125,33 @@ class ReportController extends Controller
         $report = $this->saleRepository->reportSalesByPeriod($request->all(), false);
         return new ChartSalesByPeriodPresenter($report);
     }
+    
+    public function financialStatement(Request $request)
+    {
+        $outlays = $this->outlayRepository->reportOutlayByPeriod($request->all(), false);
+        $sales = $this->saleRepository->reportSalesByPeriod($request->all(), false);
 
+        $report = (new ReportFinancialStatementPresenter($outlays, $sales))->getByYear();
+        
+        return view('report.financialStatement', compact('report'));
+    }
+    
+    public function financialStatementExcel(Request $request)
+    {
+        $outlays = $this->outlayRepository->reportOutlayByPeriod($request->all(), false);
+        $sales = $this->saleRepository->reportSalesByPeriod($request->all(), false);
 
-   
+        $report = (new ReportFinancialStatementPresenter($outlays, $sales))->get();
+
+        return Excel::download(new GenerateExcelReport($report, 'report.excel.financialStatement'), 'RELATORIO_BALANÇO_FINANCEIRO.xlsx');
+    }
+    
+    public function financialStatementChart(Request $request)
+    {
+        $outlays = $this->outlayRepository->reportOutlayByPeriod($request->all(), false);
+        $sales = $this->saleRepository->reportSalesByPeriod($request->all(), false);
+
+        return (new ReportFinancialStatementPresenter($outlays, $sales))->getForChart();
+    }
+
 }

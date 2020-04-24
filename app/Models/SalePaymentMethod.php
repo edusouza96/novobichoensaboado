@@ -4,6 +4,7 @@ namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\Sale;
 use Illuminate\Database\Eloquent\Model;
+use BichoEnsaboado\Enums\PaymentMethodsType;
 
 class SalePaymentMethod extends Model
 {
@@ -39,6 +40,11 @@ class SalePaymentMethod extends Model
     public function getPlots()
     {
         return $this->plots;
+    }
+    
+    public function getDescription()
+    {
+        return PaymentMethodsType::getName($this->getPaymentMethodId());
     }
 
     public function getCalcValueTotal()

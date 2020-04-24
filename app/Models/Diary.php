@@ -53,6 +53,10 @@ class Diary extends Model
     {
         return $this->id;
     }
+    public function getSales()
+    {
+        return $this->sales;
+    }
     public function getClient()
     {
         return $this->client;

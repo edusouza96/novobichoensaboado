@@ -58,6 +58,7 @@
                             <th scope="col">Nome Pet</th>
                             <th scope="col">Proprietario</th>
                             <th scope="col">Bairro</th>
+                            <th scope="col">Forma de Pagamento</th>
                             <th scope="col">Valor</th>
                         </tr>
                     </thead>
@@ -68,14 +69,25 @@
                                 <td>{{ $data->getClient()->getName() }}</td>
                                 <td>{{ $data->getClient()->getOwnerName() }}</td>
                                 <td>{{ $data->getClient()->getNeighborhood()->getName() }}</td>
+                                <td>
+                                    {{ 
+                                        $data->getSales()->isEmpty() 
+                                            ? ''
+                                            : (
+                                                $data->getSales()->first()->getSalePaymentMethod()->first()
+                                                    ? $data->getSales()->first()->getSalePaymentMethod()->first()->getDescription()
+                                                    : ''
+                                            )
+                                    }}
+
+                                </td>
                                 <td>R$ {{ number_format($data->getDeliveryFee(), 2, ',', '.') }}</td>
-                               
                             </tr>
                         @endforeach
                     </tbody>
                     <tfoot class="thead-dark">
                         <tr>
-                            <th colspan="3"></th>
+                            <th colspan="4"></th>
                             <th>Total das buscas</th>
                             <th>R$ {{ number_format($sumDeliveryFee, 2, ',', '.') }}</th>
                         </tr>

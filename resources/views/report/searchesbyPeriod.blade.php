@@ -23,13 +23,24 @@
                                     <input type="date" name="end" id="end" class="form-control" value="{{ request()->input('end')}}">
                                 </div>
                             </div>
-                            
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="neighborhood_id">Bairro</label>
                                     <select name="neighborhood_id" class="form-control" v-model="neighborhood_id">
                                         <option value="">Selecione</option>
                                         <option v-for="neighborhood in neighborhoods" :value="neighborhood.id">@{{neighborhood.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="store_id">Loja</label>
+                                    <select name="store_id" id="store_id" class="form-control" v-model="store_id">
+                                        <option value>Selecione</option>
+                                        <option v-for="store in stores" :value="store.id" :key="store.id">@{{ store.name }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -58,6 +69,7 @@
                             <th scope="col">Nome Pet</th>
                             <th scope="col">Proprietario</th>
                             <th scope="col">Bairro</th>
+                            <th scope="col">Loja</th>
                             <th scope="col">Forma de Pagamento</th>
                             <th scope="col">Valor</th>
                         </tr>
@@ -69,6 +81,7 @@
                                 <td>{{ $data->getClient()->getName() }}</td>
                                 <td>{{ $data->getClient()->getOwnerName() }}</td>
                                 <td>{{ $data->getClient()->getNeighborhood()->getName() }}</td>
+                                <td>{{ $data->getStore()->getName() }}</td>
                                 <td>
                                     {{ 
                                         $data->getSales()->isEmpty() 
@@ -87,7 +100,7 @@
                     </tbody>
                     <tfoot class="thead-dark">
                         <tr>
-                            <th colspan="4"></th>
+                            <th colspan="5"></th>
                             <th>Total das buscas</th>
                             <th>R$ {{ number_format($sumDeliveryFee, 2, ',', '.') }}</th>
                         </tr>
@@ -131,6 +144,8 @@
                 param: @json(request()->input()),
                 neighborhoods:[],
                 neighborhood_id: "{{ request()->input('neighborhood_id') }}",
+                stores:[],
+                store_id: "{{ request()->input('store_id') }}",
             },
             methods:{
                 getNeighborhoods(){
@@ -139,9 +154,16 @@
                             this.neighborhoods = data;
                         }.bind(this));  
                 },
+                getStores(){
+                    $.get(laroute.route("store.allOptions"))
+                    .done(function(data) {
+                        this.stores = data;
+                    }.bind(this));
+                },
             },
             created(){
                 this.getNeighborhoods();
+                this.getStores();
             }
         });
     </script>

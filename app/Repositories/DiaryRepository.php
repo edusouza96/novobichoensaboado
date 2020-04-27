@@ -164,6 +164,10 @@ class DiaryRepository
             });
         }
 
+        if(isset($attributes['store_id'])){
+            $search->where('store_id', $attributes['store_id']);
+        }
+        
         $search->where('fetch', true);
 
         $search->orderBy('date_hour', 'desc');
@@ -198,6 +202,10 @@ class DiaryRepository
             $search->where('breed_id', $attributes['breed_id']);
         }
 
+        if(isset($attributes['store_id'])){
+            $search->where('store_id', $attributes['store_id']);
+        }
+
         $search->groupBy('neighborhood_id');
 
         return $paginate ? $search->paginate(15) : $search->get();
@@ -227,6 +235,10 @@ class DiaryRepository
         
         if(isset($attributes['breed_id'])){
             $search->where('breed_id', $attributes['breed_id']);
+        }
+        
+        if(isset($attributes['store_id'])){
+            $search->where('store_id', $attributes['store_id']);
         }
 
         $search->groupBy('breed_id');

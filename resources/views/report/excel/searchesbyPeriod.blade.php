@@ -5,6 +5,7 @@
             <th scope="col">Nome Pet</th>
             <th scope="col">Proprietario</th>
             <th scope="col">Bairro</th>
+            <th scope="col">Loja</th>
             <th scope="col">Forma de Pagamento</th>
             <th scope="col">Valor</th>
         </tr>
@@ -16,6 +17,7 @@
                 <td>{{ $data->getClient()->getName() }}</td>
                 <td>{{ $data->getClient()->getOwnerName() }}</td>
                 <td>{{ $data->getClient()->getNeighborhood()->getName() }}</td>
+                <td>{{ $data->getStore()->getName() }}</td>
                 <td>
                     {{ 
                         $data->getSales()->isEmpty() 
@@ -34,7 +36,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="4"></th>
+            <th colspan="5"></th>
             <th>Total das buscas</th>
             <th>R$ {{ number_format($report->sum('delivery_fee'), 2, ',', '.') }}</th>
         </tr>

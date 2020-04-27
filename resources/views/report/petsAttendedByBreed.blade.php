@@ -27,6 +27,15 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="store_id">Loja</label>
+                                    <select name="store_id" id="store_id" class="form-control" v-model="store_id">
+                                        <option value>Selecione</option>
+                                        <option v-for="store in stores" :value="store.id" :key="store.id">@{{ store.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -123,6 +132,8 @@
                 neighborhood_id: "{{ request()->input('neighborhood_id') }}",
                 breeds:[],
                 breed_id: "{{ request()->input('breed_id') }}",
+                stores:[],
+                store_id: "{{ request()->input('store_id') }}",
             },
             methods:{
                 getNeighborhoods(){
@@ -137,10 +148,17 @@
                             this.breeds = data;
                         }.bind(this));
                 },
+                getStores(){
+                    $.get(laroute.route("store.allOptions"))
+                    .done(function(data) {
+                        this.stores = data;
+                    }.bind(this));
+                },
             },
             created(){
                 this.getNeighborhoods();
                 this.getBreeds();
+                this.getStores();
             }
         });
     </script>

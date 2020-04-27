@@ -48,6 +48,10 @@ class Diary extends Model
     {
         return $this->belongsTo(Package::class, 'package_id');
     }
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 
     public function getId()
     {
@@ -107,7 +111,7 @@ class Diary extends Model
     
     public function getStore()
     {
-        return $this->store_id;
+        return $this->store;
     }
 
     public function getPackage()

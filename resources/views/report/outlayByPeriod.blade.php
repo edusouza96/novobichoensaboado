@@ -27,6 +27,15 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="store_id">Loja</label>
+                                    <select name="store_id" id="store_id" class="form-control" v-model="store_id">
+                                        <option value>Selecione</option>
+                                        <option v-for="store in stores" :value="store.id" :key="store.id">@{{ store.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
@@ -64,6 +73,7 @@
                     <thead class="thead-primary">
                         <tr>
                             <th scope="col">Data Pagamento</th>
+                            <th scope="col">Loja</th>
                             <th scope="col">Descrição</th>
                             <th scope="col">Fonte</th>
                             <th scope="col">Centro de Custo</th>
@@ -74,17 +84,17 @@
                         @foreach ($report as $data)
                             <tr>
                                 <td>{{ $data->getDatePay()->format('d/m/Y') }}</td>
+                                <td>{{ $data->getStore()->getName() }}</td>
                                 <td>{{ $data->getDescription() }}</td>
                                 <td>{{ $data->getSource()->getDisplay() }}</td>
                                 <td>{{ $data->getCostCenter()->getName() }}</td>
                                 <td>R$ {{ number_format($data->getValue(), 2, ',', '.') }}</td>
-                               
                             </tr>
                         @endforeach
                     </tbody>
                     <tfoot class="thead-dark">
                         <tr>
-                            <th colspan="3"></th>
+                            <th colspan="4"></th>
                             <th>Total das buscas</th>
                             <th>R$ {{ number_format($sum, 2, ',', '.') }}</th>
                         </tr>
@@ -131,6 +141,8 @@
                 costCenters: [],
                 source: "{{ request()->input('source_id') }}",
                 cost_center: "{{ request()->input('cost_center_id') }}",
+                stores:[],
+                store_id: "{{ request()->input('store_id') }}",
             },
             methods:{
                 getSources(){
@@ -145,10 +157,17 @@
                         this.costCenters = data;
                     }.bind(this));
                 },
+                getStores(){
+                    $.get(laroute.route("store.allOptions"))
+                    .done(function(data) {
+                        this.stores = data;
+                    }.bind(this));
+                },
             },
             created(){
                 this.getSources();
                 this.getCostCenters();
+                this.getStores();
             }
         });
     </script>

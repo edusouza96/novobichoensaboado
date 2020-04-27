@@ -92,7 +92,7 @@
                                 <td>{{ $outlay->getDatePay()? $outlay->getDatePay()->format('d/m/Y'):'' }}</td>
                                 <td>{{ $outlay->getSource() ? $outlay->getSource()->getDisplay() : "" }}</td>
                                 <td>{{ $outlay->getCostCenter()->getName() }}</td>
-                                <td>{{ $outlay->getStore() }}</td>
+                                <td>{{ $outlay->getStore()->getName() }}</td>
                                 <td>
                                     @if(!$outlay->getPaid())
                                         <button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#modal-pay-outlay" @click="id = {{ $outlay->getId()}}">

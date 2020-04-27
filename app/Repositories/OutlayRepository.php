@@ -183,6 +183,10 @@ class OutlayRepository
             return $query->where('cost_center_category_id', '<>', CostCenterSystemType::CATEGORY_SISTEMA);
         });
 
+        if(isset($attributes['store_id'])){
+            $search->where('store_id', $attributes['store_id']);
+        }
+
         $search->orderBy('date_pay');
 
         return $paginate ? $search->paginate(15) : $search->get();

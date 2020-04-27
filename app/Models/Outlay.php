@@ -36,6 +36,10 @@ class Outlay extends Model
     {
         return $this->belongsTo(CashBookMove::class, 'cash_book_move_id');
     }
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
     
     public function getId()
     {
@@ -71,7 +75,7 @@ class Outlay extends Model
     }
     public function getStore()
     {
-        return $this->store_id;
+        return $this->store;
     }
     public function getCreatedAt()
     {

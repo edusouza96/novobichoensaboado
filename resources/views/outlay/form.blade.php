@@ -78,7 +78,7 @@
                     }.bind(this));
                 },
                 getCostCenters(){
-                    $.get(laroute.route("costCenter.allOptions", {id:1}))
+                    $.get(laroute.route("costCenter.allOptions"))
                     .done(function(data) {
                         this.costCenters = data;
                     }.bind(this));

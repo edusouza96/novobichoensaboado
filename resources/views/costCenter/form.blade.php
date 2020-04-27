@@ -32,7 +32,7 @@
             methods:{
               
                 getCategories(){
-                    $.get(laroute.route("costCenter.category.allOptions", {id:1}))
+                    $.get(laroute.route("costCenter.category.allOptions"))
                     .done(function(data) {
                         this.categories = data;
                     }.bind(this));

@@ -9,6 +9,15 @@
                     <div class="card-header filter-header">Filtrar</div>
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="store_id">Loja</label>
+                                    <select name="store_id" id="store_id" class="form-control" v-model="store_id">
+                                        <option value>Selecione</option>
+                                        <option v-for="store in stores" :value="store.id" :key="store.id">@{{ store.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="source_id">Fonte</label>
@@ -27,15 +36,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="store_id">Loja</label>
-                                    <select name="store_id" id="store_id" class="form-control" v-model="store_id">
-                                        <option value>Selecione</option>
-                                        <option v-for="store in stores" :value="store.id" :key="store.id">@{{ store.name }}</option>
-                                    </select>
-                                </div>
-                            </div>
+                           
                         </div>
                         <div class="row">
                             <div class="col-md-3">
@@ -146,13 +147,15 @@
             },
             methods:{
                 getSources(){
-                    $.get(laroute.route("treasure.findByStore", {id:1}))
-                    .done(function(data) {
-                        this.sources = data;
-                    }.bind(this));
+                    if(this.store_id){
+                        $.get(laroute.route("treasure.findByStore", { id: this.store_id }))
+                        .done(function(data) {
+                            this.sources = data;
+                        }.bind(this));
+                    }
                 },
                 getCostCenters(){
-                    $.get(laroute.route("costCenter.allOptions", {id:1}))
+                    $.get(laroute.route("costCenter.allOptions"))
                     .done(function(data) {
                         this.costCenters = data;
                     }.bind(this));
@@ -165,9 +168,14 @@
                 },
             },
             created(){
-                this.getSources();
-                this.getCostCenters();
                 this.getStores();
+                this.getCostCenters();
+                this.getSources();
+            },
+            watch: {
+                store_id(){
+                    this.getSources();
+                }
             }
         });
     </script>

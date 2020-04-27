@@ -73,8 +73,8 @@ class OutlayRepository
             $search = $search->where('cost_center_id', $attributes['cost_center']);
         }
         
-        if(isset($attributes['store'])){
-            $search = $search->where('store_id', $attributes['store']);
+        if(isset($attributes['store_id'])){
+            $search = $search->where('store_id', $attributes['store_id']);
         }
         
         if(isset($attributes['date_pay'])){

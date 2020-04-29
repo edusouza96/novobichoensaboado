@@ -37,13 +37,7 @@
               </div>
 
               <div class="col-md-12">
-                <div class="form-group">
-                  <label for="source">Fonte</label>
-                  <select name="source" id="source" class="form-control" v-model="source">
-                    <option value>Selecione</option>
-                    <option v-for="sourceOrigin in sources" :value="sourceOrigin.id" :key="sourceOrigin.id">{{ sourceOrigin.display }}</option>
-                  </select>
-                </div>
+                <select-sources v-model="source" :store="store"></select-sources>
               </div>
             </div>
           </fieldset>
@@ -76,7 +70,6 @@ export default {
         thousands: "",
         precision: 2
       },
-      sources: [],
     };
   },
   computed: {
@@ -84,7 +77,7 @@ export default {
       return (this.source == "" || this.valueStart == "0,00") && !this.openWithoutNewContribute;
     }
   },
-  props: ['value', 'isAdmin'],
+  props: ['value', 'isAdmin', 'store'],
   methods: {
     confirm() {
       $.post(laroute.route("cashdesk.open"), {
@@ -102,19 +95,12 @@ export default {
     convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
     },
-    getSources(){
-      $.get(laroute.route("treasure.findByStore", {id:1}))
-      .done(function(data) {
-        this.sources = data;
-      }.bind(this));
-    },
     blockEdit(){
       if(!this.isAdmin)
         this.openWithoutNewContribute = true;
     }
   },
   created(){
-    this.getSources();
     this.blockEdit();
   }
 };

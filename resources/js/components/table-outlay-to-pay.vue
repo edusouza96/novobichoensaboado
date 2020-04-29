@@ -1,6 +1,6 @@
 <template>
 	<div v-show="list.length > 0">
-		<modal-pay-outlay :id="id" :key="id" :modal_id="'modal-pay-outlay-'+type"></modal-pay-outlay>
+		<modal-pay-outlay :id="id" :key="id" :store="store" :modal_id="'modal-pay-outlay-'+type"></modal-pay-outlay>
 		<table class="table">
 			<thead>
 				<tr :class="classBgColor">
@@ -42,7 +42,7 @@ export default {
 			id: null
 		};
 	},
-	props: ["type"],
+	props: ["type", "store"],
 	methods: {
 		get() {
 			$.get(

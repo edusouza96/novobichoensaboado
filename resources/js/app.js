@@ -70,7 +70,7 @@ Vue.component("payment-method", require("./components/payment-method.vue").defau
 
 Vue.component("pay", require("./components/pay.vue").default);
 
-Vue.component("modal-open-cashdesk", require("./components/ModalOpenCashdesk.vue").default);
+Vue.component("modal-open-cashdesk", require("./components/modal-open-cashdesk.vue").default);
 
 Vue.component("modal-close-cashdesk", require("./components/modal-close-cashdesk.vue").default);
 
@@ -109,3 +109,5 @@ Vue.component("modal-chart-pie", require("./components/modal-chart-pie.vue").def
 Vue.component("modal-chart-bar", require("./components/modal-chart-bar.vue").default);
 
 Vue.component("modal-chart-financial-statement", require("./components/modal-chart-financial-statement.vue").default);
+
+Vue.component("select-sources", require("./components/fields/select-sources.vue").default);

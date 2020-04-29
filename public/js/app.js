@@ -1869,135 +1869,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalOpenCashdesk.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalOpenCashdesk.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      valueStart: null,
-      source: "",
-      openWithoutNewContribute: false,
-      money: {
-        decimal: ",",
-        thousands: "",
-        precision: 2
-      },
-      sources: []
-    };
-  },
-  computed: {
-    disabledConfirm: function disabledConfirm() {
-      return (this.source == "" || this.valueStart == "0,00") && !this.openWithoutNewContribute;
-    }
-  },
-  props: ['value', 'isAdmin'],
-  methods: {
-    confirm: function confirm() {
-      $.post(laroute.route("cashdesk.open"), {
-        source: this.source,
-        valueStart: this.convertToUsPattern(this.valueStart),
-        openWithoutNewContribute: this.openWithoutNewContribute
-      }).done(function (result) {
-        this.$emit("opened", result);
-      }.bind(this)).fail(function (error) {
-        this.$emit("failed", error);
-      }.bind(this));
-    },
-    convertToUsPattern: function convertToUsPattern(value) {
-      return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
-    },
-    getSources: function getSources() {
-      $.get(laroute.route("treasure.findByStore", {
-        id: 1
-      })).done(function (data) {
-        this.sources = data;
-      }.bind(this));
-    },
-    blockEdit: function blockEdit() {
-      if (!this.isAdmin) this.openWithoutNewContribute = true;
-    }
-  },
-  created: function created() {
-    this.getSources();
-    this.blockEdit();
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalServicesPet.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalServicesPet.vue?vue&type=script&lang=js& ***!
@@ -3034,6 +2905,50 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/fields/select-sources.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/fields/select-sources.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      sources: [],
+      sourceId: ''
+    };
+  },
+  props: ['value', 'store'],
+  methods: {
+    getSources: function getSources() {
+      $.get(laroute.route("treasure.findByStore", {
+        id: this.store
+      })).done(function (data) {
+        this.sources = data;
+      }.bind(this));
+    }
+  },
+  created: function created() {
+    this.getSources();
+    this.sourceId = this.value;
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/inconsistency-unfinished-cashdesk.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/inconsistency-unfinished-cashdesk.vue?vue&type=script&lang=js& ***!
@@ -3265,6 +3180,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3275,8 +3204,7 @@ __webpack_require__.r(__webpack_exports__);
         decimal: ",",
         thousands: "",
         precision: 2
-      },
-      sources: []
+      }
     };
   },
   computed: {
@@ -3284,6 +3212,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.source == "" || this.valueWithdraw == "0,00" || this.observation == "";
     }
   },
+  props: ['store'],
   methods: {
     confirm: function confirm() {
       $.post(laroute.route("cashdesk.bleed"), {
@@ -3298,17 +3227,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     convertToUsPattern: function convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
-    },
-    getSources: function getSources() {
-      $.get(laroute.route("treasure.findByStore", {
-        id: 1
-      })).done(function (data) {
-        this.sources = data;
-      }.bind(this));
     }
-  },
-  created: function created() {
-    this.getSources();
   }
 });
 
@@ -3906,16 +3825,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3925,8 +3834,7 @@ __webpack_require__.r(__webpack_exports__);
         decimal: ",",
         thousands: "",
         precision: 2
-      },
-      sources: []
+      }
     };
   },
   props: ['closingDate', 'store'],
@@ -3950,17 +3858,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     convertToUsPattern: function convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
-    },
-    getSources: function getSources() {
-      $.get(laroute.route("treasure.findByStore", {
-        id: 1
-      })).done(function (data) {
-        this.sources = data;
-      }.bind(this));
     }
-  },
-  created: function created() {
-    this.getSources();
   }
 });
 
@@ -4016,6 +3914,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4025,8 +3930,7 @@ __webpack_require__.r(__webpack_exports__);
         decimal: ",",
         thousands: "",
         precision: 2
-      },
-      sources: []
+      }
     };
   },
   computed: {
@@ -4034,6 +3938,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.source == "" || this.valueContribute == "0,00";
     }
   },
+  props: ['store'],
   methods: {
     confirm: function confirm() {
       $.post(laroute.route("cashdesk.contribute"), {
@@ -4047,17 +3952,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     convertToUsPattern: function convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
-    },
-    getSources: function getSources() {
-      $.get(laroute.route("treasure.findByStore", {
-        id: 1
-      })).done(function (data) {
-        this.sources = data;
-      }.bind(this));
     }
-  },
-  created: function created() {
-    this.getSources();
   }
 });
 
@@ -4507,6 +4402,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4528,6 +4434,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.origin == "" || this.value == "0,00" || this.destiny == "";
     }
   },
+  props: ["store"],
   methods: {
     confirm: function confirm() {
       $.post(laroute.route("cashdesk.moneyTransfer"), {
@@ -4535,11 +4442,11 @@ __webpack_require__.r(__webpack_exports__);
         destiny: this.destiny,
         value: this.convertToUsPattern(this.value)
       }).done(function (result) {
-        this.message = 'Valor transferido!';
-        this.classAlert = 'alert-success';
+        this.message = "Valor transferido!";
+        this.classAlert = "alert-success";
       }.bind(this)).fail(function (error) {
         this.message = error.responseJSON.message;
-        this.classAlert = 'alert-danger';
+        this.classAlert = "alert-danger";
       }.bind(this));
     },
     convertToUsPattern: function convertToUsPattern(value) {
@@ -4547,7 +4454,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     getSources: function getSources() {
       $.get(laroute.route("treasure.findByStore", {
-        id: 1
+        id: this.store
       })).done(function (data) {
         this.sources = data;
       }.bind(this));
@@ -4555,6 +4462,120 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.getSources();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal-open-cashdesk.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal-open-cashdesk.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      valueStart: null,
+      source: "",
+      openWithoutNewContribute: false,
+      money: {
+        decimal: ",",
+        thousands: "",
+        precision: 2
+      }
+    };
+  },
+  computed: {
+    disabledConfirm: function disabledConfirm() {
+      return (this.source == "" || this.valueStart == "0,00") && !this.openWithoutNewContribute;
+    }
+  },
+  props: ['value', 'isAdmin', 'store'],
+  methods: {
+    confirm: function confirm() {
+      $.post(laroute.route("cashdesk.open"), {
+        source: this.source,
+        valueStart: this.convertToUsPattern(this.valueStart),
+        openWithoutNewContribute: this.openWithoutNewContribute
+      }).done(function (result) {
+        this.$emit("opened", result);
+      }.bind(this)).fail(function (error) {
+        this.$emit("failed", error);
+      }.bind(this));
+    },
+    convertToUsPattern: function convertToUsPattern(value) {
+      return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
+    },
+    blockEdit: function blockEdit() {
+      if (!this.isAdmin) this.openWithoutNewContribute = true;
+    }
+  },
+  created: function created() {
+    this.blockEdit();
   }
 });
 
@@ -4612,12 +4633,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4629,11 +4644,10 @@ __webpack_require__.r(__webpack_exports__);
         thousands: "",
         precision: 2
       },
-      sources: [],
       datePay: moment().format("YYYY-MM-DD")
     };
   },
-  props: ['id', 'modal_id'],
+  props: ['id', 'modal_id', 'store'],
   computed: {
     disabledConfirm: function disabledConfirm() {
       return this.source == "" || this.valueContribute == "0,00" || this.datePay == "";
@@ -4653,13 +4667,6 @@ __webpack_require__.r(__webpack_exports__);
     convertToUsPattern: function convertToUsPattern(value) {
       return value == undefined ? 0.0 : parseFloat(value.replace(",", "."));
     },
-    getSources: function getSources() {
-      $.get(laroute.route("treasure.findByStore", {
-        id: 1
-      })).done(function (data) {
-        this.sources = data;
-      }.bind(this));
-    },
     getOutlay: function getOutlay() {
       if (this.id) {
         $.get(laroute.route("outlay.showJson", {
@@ -4674,7 +4681,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.getSources();
     this.getOutlay();
   }
 });
@@ -5119,6 +5125,7 @@ __webpack_require__.r(__webpack_exports__);
       countTomorrow: 0
     };
   },
+  props: ["store"],
   computed: {
     has: function has() {
       var count = this.countYesterday + this.countToday + this.countTomorrow;
@@ -5355,7 +5362,7 @@ __webpack_require__.r(__webpack_exports__);
       id: null
     };
   },
-  props: ["type"],
+  props: ["type", "store"],
   methods: {
     get: function get() {
       $.get(laroute.route("outlay.listDashboard", {
@@ -92605,260 +92612,6 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalOpenCashdesk.vue?vue&type=template&id=9bb7e0b0&":
-/*!********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalOpenCashdesk.vue?vue&type=template&id=9bb7e0b0& ***!
-  \********************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "modal fade",
-      attrs: { id: "modal-open-cashdesk", tabindex: "-1", role: "dialog" }
-    },
-    [
-      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-body" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [
-                    _vm._v("Abrir caixa, sem novo aporte ?")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "checkbox" }, [
-                    _c("label", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.openWithoutNewContribute,
-                            expression: "openWithoutNewContribute"
-                          }
-                        ],
-                        attrs: {
-                          type: "checkbox",
-                          value: "1",
-                          disabled: !_vm.isAdmin
-                        },
-                        domProps: {
-                          checked: Array.isArray(_vm.openWithoutNewContribute)
-                            ? _vm._i(_vm.openWithoutNewContribute, "1") > -1
-                            : _vm.openWithoutNewContribute
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.openWithoutNewContribute,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = "1",
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  (_vm.openWithoutNewContribute = $$a.concat([
-                                    $$v
-                                  ]))
-                              } else {
-                                $$i > -1 &&
-                                  (_vm.openWithoutNewContribute = $$a
-                                    .slice(0, $$i)
-                                    .concat($$a.slice($$i + 1)))
-                              }
-                            } else {
-                              _vm.openWithoutNewContribute = $$c
-                            }
-                          }
-                        }
-                      }),
-                      _vm._v(" Sim")
-                    ])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "fieldset",
-              { attrs: { disabled: _vm.openWithoutNewContribute } },
-              [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-12" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "value_start" } }, [
-                        _vm._v("Valor do Aporte do Caixa Inicial")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "money",
-                            rawName: "v-money",
-                            value: _vm.money,
-                            expression: "money"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.valueStart,
-                            expression: "valueStart"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: "value_start",
-                          id: "value_start"
-                        },
-                        domProps: { value: _vm.valueStart },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.valueStart = $event.target.value
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-12" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "source" } }, [
-                        _vm._v("Fonte")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.source,
-                              expression: "source"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { name: "source", id: "source" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.source = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            }
-                          }
-                        },
-                        [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("Selecione")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.sources, function(sourceOrigin) {
-                            return _c(
-                              "option",
-                              {
-                                key: sourceOrigin.id,
-                                domProps: { value: sourceOrigin.id }
-                              },
-                              [_vm._v(_vm._s(sourceOrigin.display))]
-                            )
-                          })
-                        ],
-                        2
-                      )
-                    ])
-                  ])
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-footer" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-secondary",
-                attrs: { type: "button", "data-dismiss": "modal" }
-              },
-              [_vm._v("Cancelar")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-success",
-                attrs: {
-                  type: "button",
-                  "data-dismiss": "modal",
-                  disabled: _vm.disabledConfirm
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.confirm()
-                  }
-                }
-              },
-              [_vm._v("Confirmar")]
-            )
-          ])
-        ])
-      ])
-    ]
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("Abrir Caixa")]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalServicesPet.vue?vue&type=template&id=7fd10b5f&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalServicesPet.vue?vue&type=template&id=7fd10b5f& ***!
@@ -93874,6 +93627,78 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/fields/select-sources.vue?vue&type=template&id=6e53aa42&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/fields/select-sources.vue?vue&type=template&id=6e53aa42& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "form-group" }, [
+    _c("label", { attrs: { for: "source" } }, [_vm._v("Fonte")]),
+    _vm._v(" "),
+    _c(
+      "select",
+      {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.sourceId,
+            expression: "sourceId"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { name: "source", id: "source" },
+        on: {
+          input: function($event) {
+            return _vm.$emit("input", $event.target.value)
+          },
+          change: function($event) {
+            var $$selectedVal = Array.prototype.filter
+              .call($event.target.options, function(o) {
+                return o.selected
+              })
+              .map(function(o) {
+                var val = "_value" in o ? o._value : o.value
+                return val
+              })
+            _vm.sourceId = $event.target.multiple
+              ? $$selectedVal
+              : $$selectedVal[0]
+          }
+        }
+      },
+      [
+        _c("option", { attrs: { value: "" } }, [_vm._v("Selecione")]),
+        _vm._v(" "),
+        _vm._l(_vm.sources, function(source) {
+          return _c(
+            "option",
+            { key: source.id, domProps: { value: source.id } },
+            [_vm._v(_vm._s(source.display))]
+          )
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/inconsistency-unfinished-cashdesk.vue?vue&type=template&id=2fc9ba19&":
 /*!************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/inconsistency-unfinished-cashdesk.vue?vue&type=template&id=2fc9ba19& ***!
@@ -94222,61 +94047,23 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "source" } }, [
-                    _vm._v("Destino")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.source,
-                          expression: "source"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "source", id: "source" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.source = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Selecione")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.sources, function(sourceDestiny) {
-                        return _c(
-                          "option",
-                          {
-                            key: sourceDestiny.id,
-                            domProps: { value: sourceDestiny.id }
-                          },
-                          [_vm._v(_vm._s(sourceDestiny.display))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ])
-              ]),
+              _c(
+                "div",
+                { staticClass: "col-md-12" },
+                [
+                  _c("select-sources", {
+                    attrs: { store: _vm.store },
+                    model: {
+                      value: _vm.source,
+                      callback: function($$v) {
+                        _vm.source = $$v
+                      },
+                      expression: "source"
+                    }
+                  })
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-12" }, [
                 _c("div", { staticClass: "form-group" }, [
@@ -94933,61 +94720,23 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "source" } }, [
-                    _vm._v("Destino")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.source,
-                          expression: "source"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "source", id: "source" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.source = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Selecione")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.sources, function(sourceDestiny) {
-                        return _c(
-                          "option",
-                          {
-                            key: sourceDestiny.id,
-                            domProps: { value: sourceDestiny.id }
-                          },
-                          [_vm._v(_vm._s(sourceDestiny.display))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ])
-              ])
+              _c(
+                "div",
+                { staticClass: "col-md-12" },
+                [
+                  _c("select-sources", {
+                    attrs: { store: _vm.store },
+                    model: {
+                      value: _vm.source,
+                      callback: function($$v) {
+                        _vm.source = $$v
+                      },
+                      expression: "source"
+                    }
+                  })
+                ],
+                1
+              )
             ])
           ]),
           _vm._v(" "),
@@ -95121,59 +94870,23 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "source" } }, [_vm._v("Fonte")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.source,
-                          expression: "source"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "source", id: "source" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.source = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Selecione")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.sources, function(sourceOrigin) {
-                        return _c(
-                          "option",
-                          {
-                            key: sourceOrigin.id,
-                            domProps: { value: sourceOrigin.id }
-                          },
-                          [_vm._v(_vm._s(sourceOrigin.display))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ])
-              ])
+              _c(
+                "div",
+                { staticClass: "col-md-12" },
+                [
+                  _c("select-sources", {
+                    attrs: { store: _vm.store },
+                    model: {
+                      value: _vm.source,
+                      callback: function($$v) {
+                        _vm.source = $$v
+                      },
+                      expression: "source"
+                    }
+                  })
+                ],
+                1
+              )
             ])
           ]),
           _vm._v(" "),
@@ -95944,6 +95657,222 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal-open-cashdesk.vue?vue&type=template&id=3ae577d4&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal-open-cashdesk.vue?vue&type=template&id=3ae577d4& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: { id: "modal-open-cashdesk", tabindex: "-1", role: "dialog" }
+    },
+    [
+      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-body" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [
+                    _vm._v("Abrir caixa, sem novo aporte ?")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "checkbox" }, [
+                    _c("label", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.openWithoutNewContribute,
+                            expression: "openWithoutNewContribute"
+                          }
+                        ],
+                        attrs: {
+                          type: "checkbox",
+                          value: "1",
+                          disabled: !_vm.isAdmin
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.openWithoutNewContribute)
+                            ? _vm._i(_vm.openWithoutNewContribute, "1") > -1
+                            : _vm.openWithoutNewContribute
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.openWithoutNewContribute,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "1",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.openWithoutNewContribute = $$a.concat([
+                                    $$v
+                                  ]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.openWithoutNewContribute = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.openWithoutNewContribute = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" Sim")
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "fieldset",
+              { attrs: { disabled: _vm.openWithoutNewContribute } },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "value_start" } }, [
+                        _vm._v("Valor do Aporte do Caixa Inicial")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "money",
+                            rawName: "v-money",
+                            value: _vm.money,
+                            expression: "money"
+                          },
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.valueStart,
+                            expression: "valueStart"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "value_start",
+                          id: "value_start"
+                        },
+                        domProps: { value: _vm.valueStart },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.valueStart = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-md-12" },
+                    [
+                      _c("select-sources", {
+                        attrs: { store: _vm.store },
+                        model: {
+                          value: _vm.source,
+                          callback: function($$v) {
+                            _vm.source = $$v
+                          },
+                          expression: "source"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-footer" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary",
+                attrs: { type: "button", "data-dismiss": "modal" }
+              },
+              [_vm._v("Cancelar")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: {
+                  type: "button",
+                  "data-dismiss": "modal",
+                  disabled: _vm.disabledConfirm
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.confirm()
+                  }
+                }
+              },
+              [_vm._v("Confirmar")]
+            )
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Abrir Caixa")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal-pay-outlay.vue?vue&type=template&id=0f045046&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal-pay-outlay.vue?vue&type=template&id=0f045046& ***!
@@ -96011,59 +95940,23 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "source" } }, [_vm._v("Fonte")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.source,
-                          expression: "source"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "source", id: "source" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.source = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Selecione")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.sources, function(sourceOrigin) {
-                        return _c(
-                          "option",
-                          {
-                            key: sourceOrigin.id,
-                            domProps: { value: sourceOrigin.id }
-                          },
-                          [_vm._v(_vm._s(sourceOrigin.display))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ])
-              ]),
+              _c(
+                "div",
+                { staticClass: "col-md-12" },
+                [
+                  _c("select-sources", {
+                    attrs: { store: _vm.store },
+                    model: {
+                      value: _vm.source,
+                      callback: function($$v) {
+                        _vm.source = $$v
+                      },
+                      expression: "source"
+                    }
+                  })
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-12" }, [
                 _c("div", { staticClass: "form-group" }, [
@@ -96775,7 +96668,7 @@ var render = function() {
           "div",
           [
             _c("table-outlay-to-pay", {
-              attrs: { type: "yesterday" },
+              attrs: { store: _vm.store, type: "yesterday" },
               on: {
                 count: function($event) {
                   _vm.countYesterday = $event
@@ -96784,7 +96677,7 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("table-outlay-to-pay", {
-              attrs: { type: "today" },
+              attrs: { store: _vm.store, type: "today" },
               on: {
                 count: function($event) {
                   _vm.countToday = $event
@@ -96793,7 +96686,7 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("table-outlay-to-pay", {
-              attrs: { type: "tomorrow" },
+              attrs: { store: _vm.store, type: "tomorrow" },
               on: {
                 count: function($event) {
                   _vm.countTomorrow = $event
@@ -97119,7 +97012,11 @@ var render = function() {
     [
       _c("modal-pay-outlay", {
         key: _vm.id,
-        attrs: { id: _vm.id, modal_id: "modal-pay-outlay-" + _vm.type }
+        attrs: {
+          id: _vm.id,
+          store: _vm.store,
+          modal_id: "modal-pay-outlay-" + _vm.type
+        }
       }),
       _vm._v(" "),
       _c("table", { staticClass: "table" }, [
@@ -111210,7 +111107,7 @@ Vue.component("modal-pets-by-owner", __webpack_require__(/*! ./components/modal-
 Vue.component("modal-finish-pay", __webpack_require__(/*! ./components/modal-finish-pay.vue */ "./resources/js/components/modal-finish-pay.vue")["default"]);
 Vue.component("payment-method", __webpack_require__(/*! ./components/payment-method.vue */ "./resources/js/components/payment-method.vue")["default"]);
 Vue.component("pay", __webpack_require__(/*! ./components/pay.vue */ "./resources/js/components/pay.vue")["default"]);
-Vue.component("modal-open-cashdesk", __webpack_require__(/*! ./components/ModalOpenCashdesk.vue */ "./resources/js/components/ModalOpenCashdesk.vue")["default"]);
+Vue.component("modal-open-cashdesk", __webpack_require__(/*! ./components/modal-open-cashdesk.vue */ "./resources/js/components/modal-open-cashdesk.vue")["default"]);
 Vue.component("modal-close-cashdesk", __webpack_require__(/*! ./components/modal-close-cashdesk.vue */ "./resources/js/components/modal-close-cashdesk.vue")["default"]);
 Vue.component("modal-extract-day", __webpack_require__(/*! ./components/ModalExtractDay.vue */ "./resources/js/components/ModalExtractDay.vue")["default"]);
 Vue.component("alert-message", __webpack_require__(/*! ./components/alert-message.vue */ "./resources/js/components/alert-message.vue")["default"]);
@@ -111230,6 +111127,7 @@ Vue.component("modal-authenticate", __webpack_require__(/*! ./components/modal-a
 Vue.component("modal-chart-pie", __webpack_require__(/*! ./components/modal-chart-pie.vue */ "./resources/js/components/modal-chart-pie.vue")["default"]);
 Vue.component("modal-chart-bar", __webpack_require__(/*! ./components/modal-chart-bar.vue */ "./resources/js/components/modal-chart-bar.vue")["default"]);
 Vue.component("modal-chart-financial-statement", __webpack_require__(/*! ./components/modal-chart-financial-statement.vue */ "./resources/js/components/modal-chart-financial-statement.vue")["default"]);
+Vue.component("select-sources", __webpack_require__(/*! ./components/fields/select-sources.vue */ "./resources/js/components/fields/select-sources.vue")["default"]);
 
 /***/ }),
 
@@ -111411,75 +111309,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalObservation_vue_vue_type_template_id_e3f43bac___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalObservation_vue_vue_type_template_id_e3f43bac___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/ModalOpenCashdesk.vue":
-/*!*******************************************************!*\
-  !*** ./resources/js/components/ModalOpenCashdesk.vue ***!
-  \*******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ModalOpenCashdesk_vue_vue_type_template_id_9bb7e0b0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalOpenCashdesk.vue?vue&type=template&id=9bb7e0b0& */ "./resources/js/components/ModalOpenCashdesk.vue?vue&type=template&id=9bb7e0b0&");
-/* harmony import */ var _ModalOpenCashdesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalOpenCashdesk.vue?vue&type=script&lang=js& */ "./resources/js/components/ModalOpenCashdesk.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ModalOpenCashdesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ModalOpenCashdesk_vue_vue_type_template_id_9bb7e0b0___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ModalOpenCashdesk_vue_vue_type_template_id_9bb7e0b0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/ModalOpenCashdesk.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/ModalOpenCashdesk.vue?vue&type=script&lang=js&":
-/*!********************************************************************************!*\
-  !*** ./resources/js/components/ModalOpenCashdesk.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalOpenCashdesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalOpenCashdesk.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalOpenCashdesk.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalOpenCashdesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/ModalOpenCashdesk.vue?vue&type=template&id=9bb7e0b0&":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/components/ModalOpenCashdesk.vue?vue&type=template&id=9bb7e0b0& ***!
-  \**************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalOpenCashdesk_vue_vue_type_template_id_9bb7e0b0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalOpenCashdesk.vue?vue&type=template&id=9bb7e0b0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalOpenCashdesk.vue?vue&type=template&id=9bb7e0b0&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalOpenCashdesk_vue_vue_type_template_id_9bb7e0b0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalOpenCashdesk_vue_vue_type_template_id_9bb7e0b0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -111756,6 +111585,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_diary_table_vue_vue_type_template_id_ea1cd36e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_diary_table_vue_vue_type_template_id_ea1cd36e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/fields/select-sources.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/fields/select-sources.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _select_sources_vue_vue_type_template_id_6e53aa42___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./select-sources.vue?vue&type=template&id=6e53aa42& */ "./resources/js/components/fields/select-sources.vue?vue&type=template&id=6e53aa42&");
+/* harmony import */ var _select_sources_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./select-sources.vue?vue&type=script&lang=js& */ "./resources/js/components/fields/select-sources.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _select_sources_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _select_sources_vue_vue_type_template_id_6e53aa42___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _select_sources_vue_vue_type_template_id_6e53aa42___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/fields/select-sources.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/fields/select-sources.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/fields/select-sources.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_select_sources_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./select-sources.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/fields/select-sources.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_select_sources_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/fields/select-sources.vue?vue&type=template&id=6e53aa42&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/fields/select-sources.vue?vue&type=template&id=6e53aa42& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_select_sources_vue_vue_type_template_id_6e53aa42___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./select-sources.vue?vue&type=template&id=6e53aa42& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/fields/select-sources.vue?vue&type=template&id=6e53aa42&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_select_sources_vue_vue_type_template_id_6e53aa42___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_select_sources_vue_vue_type_template_id_6e53aa42___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -112584,6 +112482,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modal_money_transfer_vue_vue_type_template_id_44e1b37a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modal_money_transfer_vue_vue_type_template_id_44e1b37a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/modal-open-cashdesk.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/modal-open-cashdesk.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modal_open_cashdesk_vue_vue_type_template_id_3ae577d4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal-open-cashdesk.vue?vue&type=template&id=3ae577d4& */ "./resources/js/components/modal-open-cashdesk.vue?vue&type=template&id=3ae577d4&");
+/* harmony import */ var _modal_open_cashdesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal-open-cashdesk.vue?vue&type=script&lang=js& */ "./resources/js/components/modal-open-cashdesk.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _modal_open_cashdesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _modal_open_cashdesk_vue_vue_type_template_id_3ae577d4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _modal_open_cashdesk_vue_vue_type_template_id_3ae577d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/modal-open-cashdesk.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/modal-open-cashdesk.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/modal-open-cashdesk.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modal_open_cashdesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./modal-open-cashdesk.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal-open-cashdesk.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modal_open_cashdesk_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modal-open-cashdesk.vue?vue&type=template&id=3ae577d4&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/modal-open-cashdesk.vue?vue&type=template&id=3ae577d4& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modal_open_cashdesk_vue_vue_type_template_id_3ae577d4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./modal-open-cashdesk.vue?vue&type=template&id=3ae577d4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal-open-cashdesk.vue?vue&type=template&id=3ae577d4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modal_open_cashdesk_vue_vue_type_template_id_3ae577d4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modal_open_cashdesk_vue_vue_type_template_id_3ae577d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

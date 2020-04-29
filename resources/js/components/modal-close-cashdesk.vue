@@ -39,17 +39,7 @@
 						</div>
 
 						<div class="col-md-12">
-							<div class="form-group">
-								<label for="source">Destino</label>
-								<select name="source" id="source" class="form-control" v-model="source">
-									<option value>Selecione</option>
-									<option
-										v-for="sourceDestiny in sources"
-										:value="sourceDestiny.id"
-										:key="sourceDestiny.id"
-									>{{ sourceDestiny.display }}</option>
-								</select>
-							</div>
+							<select-sources v-model="source" :store="store"></select-sources>
 						</div>
 					</div>
 				</div>
@@ -80,7 +70,6 @@ export default {
 				thousands: "",
 				precision: 2
 			},
-			sources: []
 		};
 	},
 	props:['closingDate', 'store'],
@@ -117,16 +106,6 @@ export default {
 				? 0.0
 				: parseFloat(value.replace(",", "."));
 		},
-		getSources() {
-			$.get(laroute.route("treasure.findByStore", { id:1 })).done(
-				function(data) {
-					this.sources = data;
-				}.bind(this)
-			);
-		}
-	},
-	created() {
-		this.getSources();
 	}
 };
 </script>

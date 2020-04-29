@@ -35,7 +35,7 @@
     </div>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-2">
             <div class="form-group">
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="has_outlay" name="has_outlay" v-model="hasOutlay">
@@ -43,6 +43,12 @@
                 </div>  
             </div>  
         </div>  
+        <div class="col-3">
+            <div class="form-group">
+                <label for="store">Loja</label>
+                <input type="text" value="{{ auth()->user()->getStore()->getName() }}" name="store" id="store" class="form-control" readonly>
+            </div>
+        </div>
     </div>
 
     <fieldset v-if="hasOutlay">
@@ -55,13 +61,7 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="form-group">
-                    <label for="source">Fonte</label>
-                    <select name="source" id="source" class="form-control">
-                        <option value>Selecione</option>
-                        <option v-for="source in sources" :value="source.id" :key="source.id">@{{ source.display }}</option>
-                    </select>
-                </div>
+                <select-sources v-model="sourceId" store="{{ auth()->user()->getStore()->getId() }}"></select-sources>
             </div>
             <div class="col-5">
                 <div class="form-group">
@@ -87,20 +87,14 @@
                     thousands: "",
                     precision: 2
                 },
-                sources: [],
                 costCenters: [],
                 quantity: "{{ old('quantity', $product->getQuantity()) }}",
                 valueBuy: "{{ old('value_buy', $product->getValueBuy()) }}",
                 totalOutlay: 0,
                 hasOutlay: false,
+                sourceId: "{{old('source')}}",
             },
             methods:{
-                getSources(){
-                    $.get(laroute.route("treasure.findByStore", {id:1}))
-                    .done(function(data) {
-                        this.sources = data;
-                    }.bind(this));
-                },
                 getCostCenters(){
                     $.get(laroute.route("costCenter.allOptions"))
                     .done(function(data) {
@@ -125,7 +119,6 @@
                 }
             },
             created(){
-                this.getSources();
                 this.getCostCenters();
             },
             watch:{

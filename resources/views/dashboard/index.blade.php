@@ -2,13 +2,17 @@
 @section('title') Dashboard @endsection
 
 @section('content')
+<div class="alert alert-info text-center" role="alert">
+    Loja: {{auth()->user()->getStore()->getName()}}
+</div> 
+
 <div id="dashboard" class="ml-3 mr-3" v-cloak>
-    <modal-contribute @failed="alertError" @contributed="contributed"></modal-contribute>
-    <modal-bleed @failed="alertError" @bleeded="bleeded"></modal-bleed>
-    <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value" :is-admin="'{{auth()->user()->canSeeAdministrativePage()}}'"></modal-open-cashdesk>
+    <modal-contribute :store="'{{auth()->user()->getStore()->getId()}}'" @failed="alertError" @contributed="contributed"></modal-contribute>
+    <modal-bleed :store="'{{auth()->user()->getStore()->getId()}}'" @failed="alertError" @bleeded="bleeded"></modal-bleed>
+    <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value" :store="'{{auth()->user()->getStore()->getId()}}'" :is-admin="'{{auth()->user()->canSeeAdministrativePage()}}'"></modal-open-cashdesk>
     <modal-close-cashdesk @failed="alertError" @closed="closed" :closing-date="closingDate" :store="'{{auth()->user()->getStore()->getId()}}'"></modal-close-cashdesk>
     <modal-extract-day :key="reloadComponent"></modal-extract-day>
-    <modal-money-transfer></modal-money-transfer>
+    <modal-money-transfer :store="'{{auth()->user()->getStore()->getId()}}'"></modal-money-transfer>
     <alert-message :title="titleAlertMessage" text="" :type="typeAlertMessage" :active="showAlert" @active="showAlert=$event"></alert-message>
 
     <div class="row justify-content-between">
@@ -75,7 +79,7 @@
         <div class="col-md-4 col-xs-12">
             <div class="row">
                 <div class="col-md-12">
-                    <show-outlay-to-pay></show-outlay-to-pay>
+                    <show-outlay-to-pay :store="'{{auth()->user()->getStore()->getId()}}'"></show-outlay-to-pay>
                 </div>
             </div>
 

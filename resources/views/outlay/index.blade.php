@@ -3,7 +3,7 @@
  
 @section('content') 
     <div id="outlays" class="container">
-        <modal-pay-outlay :id="id" :key="id"></modal-pay-outlay>
+        <modal-pay-outlay :id="id" :key="id" :store="'{{auth()->user()->getStore()->getId()}}'" modal_id="modal-pay-outlay"></modal-pay-outlay>
         <div class="text-right mb-3">
             <a href="{{route('outlay.create')}}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Cadastrar

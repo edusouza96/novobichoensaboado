@@ -5,9 +5,9 @@
 				<i class="fas fa-dollar-sign text-warning"></i> Contas a Pagar
 			</div>
 			<div>
-				<table-outlay-to-pay type="yesterday" @count="countYesterday =  $event"></table-outlay-to-pay>
-				<table-outlay-to-pay type="today" @count="countToday =  $event"></table-outlay-to-pay>
-				<table-outlay-to-pay type="tomorrow" @count="countTomorrow =  $event"></table-outlay-to-pay>
+				<table-outlay-to-pay :store="store" type="yesterday" @count="countYesterday =  $event"></table-outlay-to-pay>
+				<table-outlay-to-pay :store="store" type="today" @count="countToday =  $event"></table-outlay-to-pay>
+				<table-outlay-to-pay :store="store" type="tomorrow" @count="countTomorrow =  $event"></table-outlay-to-pay>
 				
 			</div>
 		</div>
@@ -24,6 +24,7 @@ export default {
 			countTomorrow: 0,
 		};
 	},
+	props: ["store"],
 	computed:{
 		has(){
 			let count = this.countYesterday + this.countToday + this.countTomorrow;

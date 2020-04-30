@@ -8,6 +8,7 @@ use BichoEnsaboado\Models\Diary;
 use BichoEnsaboado\Models\Owner;
 use BichoEnsaboado\Models\Client;
 use BichoEnsaboado\Models\Service;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use BichoEnsaboado\Enums\StatusType;
 
@@ -91,13 +92,13 @@ class DiaryRepository
         return $diary->delete();
     }
 
-    public function findPetsSameOwnerScheduledSameDay(Client $client, Carbon $date)
+    public function findPetsSameOwnerScheduledSameDay(Client $client, Carbon $date, $ignoreId = false)
     {
         $diary = $this->diary->newQuery();
 
-        
-        return $diary->whereHas('client', function($query) use($client){
-            $query->where('id', '<>',$client->getId());
+        return $diary->whereHas('client', function($query) use($client, $ignoreId){
+            if($ignoreId)  $query->where('id', '<>',$client->getId());
+
             $owner = $client->getOwner();
             $query->whereHas('owner', function($query) use($owner){
                 $query->where('id', $owner->getId());
@@ -244,5 +245,11 @@ class DiaryRepository
         $search->groupBy('breed_id');
 
         return $paginate ? $search->paginate(15) : $search->get();
+    }
+
+    public function resetDeliveryFee(Collection $ids)
+    {
+        $this->diary->whereIn('id', $ids)
+            ->update(['delivery_fee' => 0]);
     }
 }

@@ -169,6 +169,7 @@ class Diary extends Model
     {
         if (is_null($this->getServicePet())) return null;
         return [
+            "id" => $this->getId(),
             "units" => 1,
             "description" => $this->getServicePet()->getName().' - '.$this->getClient()->getName(),
             "unitaryValue" => $this->getServicePetValue(),
@@ -180,6 +181,7 @@ class Diary extends Model
     {
         if (is_null($this->getServiceVet())) return null;
         return [
+            "id" => $this->getId(),
             "units" => 1,
             "description" => $this->getServiceVet()->getName().' - '.$this->getClient()->getName(),
             "unitaryValue" => $this->getServiceVetValue(),
@@ -191,6 +193,7 @@ class Diary extends Model
     {
         if ($this->getFetch() == 0) return null;
         return [
+            "id" => $this->getId(),
             "units" => 1,
             "description" => 'Serviço de Busca - '.$this->getClient()->getName(),
             "unitaryValue" => $this->getDeliveryFee(),

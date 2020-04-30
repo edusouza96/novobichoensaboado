@@ -40,8 +40,6 @@ class DiaryCreateService
 
     public function create(array $attributes, User $userLogged, $store)
     {
-        $diary = $this->diaryRepository->findOrNew($attributes['id']);
-
         $client = $this->clientRepository->find($attributes['client']);
         $servicePet = isset($attributes['servicePet']) ? $this->serviceRepository->find($attributes['servicePet']) : null;
         $valuePet = $servicePet ? $servicePet->getValue() : 0;
@@ -73,17 +71,12 @@ class DiaryCreateService
             }
         }
         
-        $companion = $diary->getCompanion();
-        $brothers = $this->diaryRepository->findPetsSameOwnerScheduledSameDay($client, Carbon::createFromFormat('Y-m-d H:i:s', $attributes['date']));
-
-        if($brothers->count() > 0 && !$this->isFirstPetSameOwnerOfDay($attributes, $companion)){
-            $companion = 1;
-            $gross = $valuePet + $valueVet;
-            $deliveryFee = 0;
-        }
+        $brothers = $this->diaryRepository->findPetsSameOwnerScheduledSameDay($client, Carbon::createFromFormat('Y-m-d H:i:s', $attributes['date']), true);
+        $companion = (int) $brothers->count() > 0;
         
         $status = empty($attributes['id']) ? StatusType::SCHEDULED : null;
         
+        $diary = $this->diaryRepository->findOrNew($attributes['id']);
         $diary = $this->diaryRepository->save($diary, $userLogged, $store, $client, $dateHour, $status, $servicePet, $valuePet, $serviceVet, $valueVet, $fetch, $deliveryFee, $gross, $observation, 0, $companion);
         return $diary;
     }

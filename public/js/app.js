@@ -2776,6 +2776,7 @@ __webpack_require__.r(__webpack_exports__);
         register.cssRowBackground = data.cssRowBackground;
         register.editable = false;
         register.hour = data.hour;
+        register.deliveryFee = data.deliveryFee;
 
         if (this.date == moment(register.dateHour).format('YYYY-MM-DD')) {
           var scheduleCanceled = this.data.filter(function (schedule) {

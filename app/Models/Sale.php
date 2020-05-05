@@ -4,6 +4,7 @@ namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\User;
 use BichoEnsaboado\Models\Store;
+use BichoEnsaboado\Models\Rebate;
 use BichoEnsaboado\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use BichoEnsaboado\Models\SalePaymentMethod;
@@ -15,6 +16,10 @@ class Sale extends Model
 
     protected $table = 'sales';
 
+    public function rebates()
+    {
+        return $this->belongsToMany(Rebate::class, 'sales_rebates', 'sale_id', 'rebate_id');
+    }
     public function diary()
     {
         return $this->belongsToMany(Diary::class, 'sales_diaries', 'sale_id', 'diary_id')->withTimestamps()->withPivot('id');
@@ -47,6 +52,10 @@ class Sale extends Model
     public function getSalePaymentMethod()
     {
         return $this->salePaymentMethod;
+    }
+    public function getRebates()
+    {
+        return $this->rebates->first();
     }
     public function getId()
     {

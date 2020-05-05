@@ -82,6 +82,13 @@ class SaleRepository
         return $sale;
     }
 
+    public function attachRebate(Sale $sale, $rebateId)
+    {
+        $sale->rebates()->attach($rebateId);
+        $sale->save();
+        return $sale;
+    }
+
     public function newInstance()
     {
         return $this->sale->newInstance();

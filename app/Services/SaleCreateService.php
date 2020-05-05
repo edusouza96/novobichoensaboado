@@ -50,6 +50,8 @@ class SaleCreateService
             $store
         );
 
+        if($attributes['rebate'])  $this->saleRepository->attachRebate($sale, $attributes['rebate']);
+
         $diariesId = isset($attributes['diariesId']) ? $attributes['diariesId'] : [];
         foreach ($diariesId as $diaryId) {
             $this->attachDiary($sale, $diaryId);

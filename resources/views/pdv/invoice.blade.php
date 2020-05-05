@@ -71,6 +71,17 @@
         </table>
     </div>
 
+    @if($sale->hasRebate())
+        <div class="container invoice-payment">
+            <div class="row">
+                <div class="col-12 pt-4">
+                    <strong>Desconto: </strong>
+                    {!! $sale->getNameRebate() !!} - R$ {!! $sale->getValueRebate() !!}
+                </div>
+            </div>
+        </div>
+    @endif
+    
     @for ($i = 0; $i < $sale->countPaymentMethods(); $i++)
         
         <div class="container invoice-payment">

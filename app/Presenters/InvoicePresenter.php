@@ -114,7 +114,9 @@ class InvoicePresenter
 
     public function getTotal()
     {
-        return number_format($this->getSaleItems()->sum('amountValue'), 2, ',', '');
+        return number_format(
+            $this->getSaleItems()->sum('amountValue') - $this->sale->getRebate(), 
+            2, ',', '');
     }
 
     public function getValueReceived($i)
@@ -143,6 +145,19 @@ class InvoicePresenter
     public function countPaymentMethods()
     {
         return $this->sale->getSalePaymentMethod()->count();
+    }
+   
+    public function hasRebate()
+    {
+        return (bool) $this->sale->getRebates();
+    }
+    public function getNameRebate()
+    {
+        return $this->sale->getRebates()->getName();
+    }
+    public function getValueRebate()
+    {
+        return number_format($this->sale->getRebate(), 2, ',', '');
     }
         
 }

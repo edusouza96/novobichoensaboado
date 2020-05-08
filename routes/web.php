@@ -25,10 +25,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('selecionar-loja', ['as' => 'auth-definition.selectCurrenteStore', 'uses' => 'Auth\DefinitionController@selectCurrenteStore']);
     Route::post('selecionar-loja/store', ['as' => 'auth-definition.setCurrenteStore', 'uses' => 'Auth\DefinitionController@setCurrenteStore']);
 
-    Route::group(['prefix' => 'loja'], function(){
-        Route::get('opcoes', ['as' => 'store.allOptions', 'uses' => 'StoreController@allOptions']);
-    });
-    
     Route::group(['middleware' => 'check_store_user'], function() {
     
         Route::get('dashboard', ['as' => 'dashboard.index', function () {
@@ -195,6 +191,8 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('deletar/{id}', ['as' => 'store.destroy', 'uses' => 'StoreController@destroy']);
                 Route::get('', ['as' => 'store.index', 'uses' => 'StoreController@index']);
             });
+            Route::get('opcoes', ['as' => 'store.allOptions', 'uses' => 'StoreController@allOptions']);
+
         });
 
         Route::group(['prefix' => 'usuario', 'middleware' => ['role:admin|developer']], function(){

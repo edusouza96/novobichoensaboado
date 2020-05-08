@@ -34,20 +34,9 @@
         new Vue({
             el: '#form',
             data:{
-                stores:[],
+                stores:@json(auth()->user()->stores),
                 store_id: "{{ request()->input('store_id') }}",
             },
-            methods:{
-                getStores(){
-                    $.get(laroute.route("store.allOptions"))
-                    .done(function(data) {
-                        this.stores = data;
-                    }.bind(this));
-                },
-            },
-            created(){
-                this.getStores();
-            }
         });
     </script>
 @endpush

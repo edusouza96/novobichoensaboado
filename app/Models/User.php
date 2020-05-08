@@ -54,11 +54,19 @@ class User extends Authenticatable
 
     public function getStore()
     {
+        if($this->stores->count() > 1)
+            return $this->stores->firstWhere('id', $this->getCurrenteStoreId());
+            
         return $this->stores->first();
     }
     public function canSeeAdministrativePage()
     {
         return $this->hasRole(['admin', 'developer']);
+    }
+
+    private function getCurrenteStoreId()
+    {
+        return session()->get('userLoggedCurrenteStore');
     }
 
 }

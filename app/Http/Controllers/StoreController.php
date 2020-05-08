@@ -3,7 +3,6 @@
 namespace BichoEnsaboado\Http\Controllers;
 
 use Illuminate\Http\Request;
-use BichoEnsaboado\Enums\SourceType;
 use BichoEnsaboado\Repositories\StoreRepository;
 use BichoEnsaboado\Services\TreasureByStoreService;
 use BichoEnsaboado\Http\Requests\StoreCreateRequest;

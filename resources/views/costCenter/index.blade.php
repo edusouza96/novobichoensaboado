@@ -62,14 +62,18 @@
                                 <td>{{ $costCenter->getName() }}</td>
                                 <td>{{ $costCenter->getCategory()->getName() }}</td>
                                 <td>
-                                    <a href="{{route('costCenter.edit', $costCenter->getId())}}" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </a>
+                                    @if(!$costCenter->isFixed())
+                                        <a href="{{route('costCenter.edit', $costCenter->getId())}}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                    @endif
                                 </td>
                                 <td>
-                                    <a v-confirm="confirmDestroy" href="{{route('costCenter.destroy', $costCenter->getId())}}" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
+                                    @if(!$costCenter->isFixed())
+                                        <a v-confirm="confirmDestroy" href="{{route('costCenter.destroy', $costCenter->getId())}}" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

@@ -30,5 +30,9 @@ class CostCenter extends Model
     {
         return $this->category;
     }
+    public function isFixed()
+    {
+        return $this->fixed;
+    }
   
 }

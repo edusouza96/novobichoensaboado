@@ -19,6 +19,19 @@ class UserRepository
         return $this->user->all();   
     }
 
+    public function getEmployees()
+    {
+        $search = $this->user->newQuery();   
+
+        $search->whereHas('roles', function($query){
+            return $query->where('name', 'employee');
+        });
+
+        $search->orderBy('name');
+
+        return $search->get();
+    }
+
     public function find($id)
     {
         return $this->user->find($id);

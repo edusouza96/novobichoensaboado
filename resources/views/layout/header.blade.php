@@ -52,6 +52,7 @@
                             <a class="dropdown-item" href="{{ route('outlay.index') }}">Despesas</a>
                             @if(auth()->user()->canSeeAdministrativePage())
                                 <a class="dropdown-item" href="{{ route('store.index') }}">Lojas</a>
+                                <a class="dropdown-item" href="{{ route('employeeSalary.index') }}">Pagamento de Funcionários</a>
                             @endif
                             <a class="dropdown-item" href="{{ route('product.index') }}">Produtos</a>
                             <a class="dropdown-item" href="{{ route('rebate.index') }}">Promoções</a>

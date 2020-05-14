@@ -194,6 +194,16 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('opcoes', ['as' => 'store.allOptions', 'uses' => 'StoreController@allOptions']);
 
         });
+        Route::group(['prefix' => 'funcionarios-pagamentos'], function(){
+            Route::group(['middleware' => ['role:admin|developer']], function(){
+                Route::get('cadastrar', ['as' => 'employeeSalary.create', 'uses' => 'EmployeeSalaryController@create']);
+                Route::post('cadastrar', ['as' => 'employeeSalary.employeeSalary', 'uses' => 'EmployeeSalaryController@store']);
+                Route::get('editar/{id}', ['as' => 'employeeSalary.edit', 'uses' => 'EmployeeSalaryController@edit']);
+                Route::post('editar/{id}', ['as' => 'employeeSalary.update', 'uses' => 'EmployeeSalaryController@update']);
+                Route::get('', ['as' => 'employeeSalary.index', 'uses' => 'EmployeeSalaryController@index']);
+            });
+
+        });
 
         Route::group(['prefix' => 'usuario', 'middleware' => ['role:admin|developer']], function(){
             Route::get('', ['as' => 'user.index', 'uses' => 'UserController@index']);
@@ -202,6 +212,11 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('cadastrar', ['as' => 'user.store', 'uses' => 'UserController@store']);
             Route::get('editar/{id}', ['as' => 'user.edit', 'uses' => 'UserController@edit']);
             Route::post('editar/{id}', ['as' => 'user.update', 'uses' => 'UserController@update']);
+        });
+        
+        Route::group(['prefix' => 'usuario'], function(){
+            Route::get('opcoes-funcionarios', ['as' => 'user.allEmployeeUsers', 'uses' => 'UserController@allEmployeeUsers']);
+            
         });
 
         Route::group(['prefix' => 'perfil'], function () {

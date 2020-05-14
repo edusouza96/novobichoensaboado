@@ -80,5 +80,14 @@ class UserController extends Controller
         throw new \Exception("Não Autorizado", 403);
         
     }
+
+    public function allEmployeeUsers()
+    {
+        try {
+            $users = $this->userRepository->getEmployees();
+            return response()->json($users);
+        } catch (\InvalidArgumentException $e) {
+        }
+    }
    
 }

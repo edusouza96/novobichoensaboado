@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label for="description">Descrição</label>
-                <input type="text" name="description" class="form-control" required value="{{old('name', $outlay->getDescription())}}">
+                <input type="text" name="description" class="form-control" required value="{{old('description', $outlay->getDescription())}}">
             </div>
         </div>
     </div>

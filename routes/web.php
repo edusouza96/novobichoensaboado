@@ -197,7 +197,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::group(['prefix' => 'funcionarios-pagamentos'], function(){
             Route::group(['middleware' => ['role:admin|developer']], function(){
                 Route::get('cadastrar', ['as' => 'employeeSalary.create', 'uses' => 'EmployeeSalaryController@create']);
-                Route::post('cadastrar', ['as' => 'employeeSalary.employeeSalary', 'uses' => 'EmployeeSalaryController@store']);
+                Route::post('cadastrar', ['as' => 'employeeSalary.store', 'uses' => 'EmployeeSalaryController@store']);
                 Route::get('editar/{id}', ['as' => 'employeeSalary.edit', 'uses' => 'EmployeeSalaryController@edit']);
                 Route::post('editar/{id}', ['as' => 'employeeSalary.update', 'uses' => 'EmployeeSalaryController@update']);
                 Route::get('', ['as' => 'employeeSalary.index', 'uses' => 'EmployeeSalaryController@index']);

@@ -22,6 +22,11 @@ class EmployeeSalaryRepository
         return $this->employeeSalary->newInstance();
     }
 
+    public function find($id)
+    {
+        return $this->employeeSalary->find($id);   
+    }
+
     public function findByFilter(array $attributes, $paginate=false)
     {
         $search = $this->employeeSalary->newQuery();
@@ -46,10 +51,10 @@ class EmployeeSalaryRepository
 
         return $paginate ? $search->paginate(15) : $search->get();
     }
-
-    public function create(Outlay $outlay,User $user, $salaryAdvance)
+    
+    public function save(Outlay $outlay,User $user, $salaryAdvance, $id = null)
     {
-        $employeeSalary = $this->newInstance();
+        $employeeSalary = $id ? $this->find($id) : $this->newInstance();
         $employeeSalary->salary_advance = $salaryAdvance;
         $employeeSalary->outlays()->associate($outlay);
         $employeeSalary->users()->associate($user);

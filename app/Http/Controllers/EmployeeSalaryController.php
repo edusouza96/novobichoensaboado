@@ -45,11 +45,15 @@ class EmployeeSalaryController extends Controller
 
     public function edit($id)
     {
+        $employeeSalary = $this->employeeSalaryRepository->find($id);
+        return view('employeeSalary.edit', compact('employeeSalary'));
     }
 
     public function update(Request $request, $id)
     {
         try {
+            $this->employeeSalaryCreateService->update($id, $request->all(), auth()->user());            
+            return redirect()->route('employeeSalary.index')->with('alertType', 'success')->with('message', 'Pagamento Atualizado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
         }

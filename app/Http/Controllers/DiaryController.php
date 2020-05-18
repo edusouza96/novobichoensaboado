@@ -32,7 +32,8 @@ class DiaryController extends Controller
                 $date = Carbon::createFromFormat('Y-m-d', $date);
             }
 
-            $diaries = $this->diaryRepository->findByDate($date);
+            $storeId = auth()->user()->getStore()->getId();
+            $diaries = $this->diaryRepository->findByDate($date, $storeId);
             return view('diary.index', compact('date', 'diaries'));
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', 'Data Invalida!');
@@ -65,7 +66,8 @@ class DiaryController extends Controller
 
     public function blacklist()
     {
-        $diary = $this->diaryRepository->blacklist();
+        $storeId = auth()->user()->getStore()->getId();
+        $diary = $this->diaryRepository->blacklist($storeId);
         $diary = $diary->map(function($item){
            $debitor = new BlacklistPresenter($item);
            return $debitor->toArray();

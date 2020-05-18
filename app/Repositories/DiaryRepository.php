@@ -43,12 +43,14 @@ class DiaryRepository
         return $diary;
     }
 
-    public function findByDate(Carbon $date)
+    public function findByDate(Carbon $date, $storeId)
     {
         return $this->diary->whereBetween('date_hour', [
-            $date->startOfDay()->toDateTimeString(), 
-            $date->endOfDay()->toDateTimeString()
-        ])->get();
+                $date->startOfDay()->toDateTimeString(), 
+                $date->endOfDay()->toDateTimeString()
+            ])
+            ->where('store_id', $storeId)
+            ->get();
     }
 
     public function find($id)
@@ -123,7 +125,6 @@ class DiaryRepository
         }
         
         $search->orderBy('date_hour', 'desc');
-        // dd(str_replace_array('s?', $search->getBindings(), $search->toSql()));
         return $paginate ? $search->paginate(15) : $search->get();
     }
 
@@ -134,7 +135,7 @@ class DiaryRepository
         return $diary;
     }
 
-    public function blacklist()
+    public function blacklist($storeId)
     {
         $diary = $this->diary->newQuery();
 
@@ -142,6 +143,7 @@ class DiaryRepository
             ->join('clients', 'diaries.client_id', '=', 'clients.id')
             ->whereDoesntHave('sales')
             ->whereDate('date_hour', '<=', Carbon::now()->startOfDay())
+            ->where('store_id', $storeId)
             ->groupBy(DB::raw("DATE_FORMAT(date_hour, '%Y-%m-%d')"))
             ->groupBy('clients.owner_id')
             ->get();

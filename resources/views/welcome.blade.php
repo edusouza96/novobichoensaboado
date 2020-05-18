@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Bicho ensaboado atualizado em 11/03/2020
+                    Bicho ensaboado atualizado em 19/05/2020
                 </div>
 
                 <div class="links">

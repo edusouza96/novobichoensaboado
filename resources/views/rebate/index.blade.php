@@ -58,7 +58,7 @@
                                     <div>{!! $rebate->applyVet() ? '<i class="fas fa-user-md"></i> Vet' : '' !!}</div>
                                     <div>{!! $rebate->applyProduct() ? '<i class="fas fa-shopping-bag"></i> Produtos' : '' !!}</div>
                                 </td>
-                                <td class="align-middle">{{ $rebate->isActive() ? 'Sim' : 'Não' }}</td>
+                                <td class="align-middle">{{ $rebate->isActive() ? 'Ativo' : 'Inativo' }}</td>
                                 <td class="align-middle">
                                     <a href="{{route('rebate.edit', $rebate->getId())}}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-pencil-alt"></i>

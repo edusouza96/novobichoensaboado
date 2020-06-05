@@ -52,6 +52,9 @@ class RebateRepository
 
     public function update($id, array $attributes)
     {
+        if(!isset($attributes['pet'])) $attributes['pet'] = 0;
+        if(!isset($attributes['vet'])) $attributes['vet'] = 0;
+        if(!isset($attributes['product'])) $attributes['product'] = 0;
         return $this->rebate->whereId($id)
                            ->update($attributes);
     }

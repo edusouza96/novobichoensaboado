@@ -72,7 +72,7 @@
                             <a class="dropdown-item" href="{{ route('report.financialStatement') }}">Balanço financeiro</a>
                             <a class="dropdown-item" href="{{ route('report.searchesbyPeriod') }}">Buscas por período</a>
                             <a class="dropdown-item" href="{{ route('report.outlayByPeriod') }}">Despesas por periodo</a>
-                            <a class="dropdown-item" href="{{ route('report.petsAttendedByNeighborhood') }}">Pets atendidos por período</a>
+                            <a class="dropdown-item" href="{{ route('report.petsAttendedByNeighborhood') }}">Pets atendidos por bairro</a>
                             <a class="dropdown-item" href="{{ route('report.petsAttendedByBreed') }}">Pets atendidos por raça</a>
                             <a class="dropdown-item" href="{{ route('report.salesByPeriod') }}">Vendas por periodo</a>
                         </div>

@@ -34,10 +34,9 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label for="store">Loja</label>
-                                    <select name="store" id="store" class="form-control" v-model="store">
+                                    <select name="store" id="store" class="form-control" v-model="store_id">
                                         <option value>Selecione</option>
-                                        <option value="1">Loja 1</option>
-                                        <option value="2">Loja 2</option>
+                                        <option v-for="store in stores" :value="store.id" :key="store.id">@{{ store.name }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -75,7 +74,7 @@
                                 <td>{!! str_pad($sale->getId(), 6, '0', STR_PAD_LEFT) !!}</td>
                                 <td>R$ {{ number_format($sale->getTotal(), 2, ',', '.') }}</td>
                                 <td>{{ $sale->getCreatedAt()->format('d/m/Y') }}</td>
-                                <td>{{ $sale->getStore() }}</td>
+                                <td>{{ $sale->getStoreName() }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-preview-invoice" @click="setIdSale({{$sale->getId()}})">
                                         <i class="fas fa-eye"></i> Visualizar
@@ -120,13 +119,23 @@
             el: '#sales_of_day',
             data: {
                 idSale: null,
-                store: "{{ request()->input('store') }}",
+                stores: [],
+                store_id: "{{ request()->input('store_id') }}",
             },
             methods:{
                 setIdSale(id){
                     this.idSale = id;
-                }
+                },
+                getStores(){
+                    $.get(laroute.route("store.allOptions"))
+                    .done(function(data) {
+                        this.stores = data;
+                    }.bind(this));
+                },
             },
+            created(){
+                this.getStores();
+            }
         });
     </script>
 @endpush

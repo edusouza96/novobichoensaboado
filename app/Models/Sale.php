@@ -94,7 +94,7 @@ class Sale extends Model
 
         $description = '';
         foreach ($this->getDiary() as $diary) {
-            $description .= $diary->getDescription().' - '.$diary->getClient()->getName().'<br>';
+            $description .= $diary->getDescription().' - '.($diary->getClient() ? $diary->getClient()->getName() : '').'<br>';
         }
         foreach ($this->getProducts() as $product) {
             $description .= $product->getName().'<br>';
@@ -104,6 +104,10 @@ class Sale extends Model
     public function getStore()
     {
         return $this->store_id;
+    }
+    public function getStoreName()
+    {
+        return $this->store->getName();
     }
 
     public function toArray()

@@ -179,7 +179,7 @@ class SaleRepository
 
         $sale->total = $newTotal;
         
-        $salePaymentMethod = $sale->getSalePaymentMethod()->last;
+        $salePaymentMethod = $sale->getSalePaymentMethod()->last();
         $salePaymentMethod->leftover += ($oldTotal - $newTotal);
         $salePaymentMethod->save();
         

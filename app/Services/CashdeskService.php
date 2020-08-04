@@ -78,8 +78,8 @@ class CashdeskService
         $source = $attributes['source'];
         $valueContribute = $attributes['valueContribute'];
         $cashBook = $this->cashBookRepository->getLast($store);
-        
-        $outlay = $this->outlayRepository->save('Aporte', $valueContribute, Carbon::now(), $source, CostCenterSystemType::COST_CENTER_APORTE_CAIXA_INICIAL, $paid=true, $userLogged, $store);
+
+        $outlay = $this->outlayRepository->save('Aporte', $valueContribute, Carbon::now(), $source, CostCenterSystemType::COST_CENTER_APORTE_CAIXA_INICIAL, null, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->subValue($valueContribute, SourceType::getName($source), $store);
         $treasure = $this->treasureRepository->addValue($valueContribute, SourceType::CASH_DRAWER_NAME, $store);
 
@@ -91,7 +91,7 @@ class CashdeskService
         $valueWithdraw = $attributes['valueWithdraw'];
         $observation = $attributes['observation'];
         
-        $outlay = $this->outlayRepository->save($observation, $valueWithdraw, Carbon::now(), SourceType::CASH_DRAWER, CostCenterSystemType::COST_CENTER_SANGRIA, $paid=true, $userLogged, $store);
+        $outlay = $this->outlayRepository->save($observation, $valueWithdraw, Carbon::now(), SourceType::CASH_DRAWER, CostCenterSystemType::COST_CENTER_SANGRIA, null, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->addValue($valueWithdraw, SourceType::getName($source), $store);
         $treasure = $this->treasureRepository->subValue($valueWithdraw, SourceType::CASH_DRAWER_NAME, $store);
 
@@ -165,7 +165,7 @@ class CashdeskService
             ->map(function($saleGroup){ 
                 return [
                     'value' => $saleGroup->sum('total') - $saleGroup->sum('rebate'),
-                    'method' => PaymentMethodsType::getName($saleGroup->first()->getPaymentMethodId())
+                    'method' => PaymentMethodsType::getName($saleGroup->first()->getSalePaymentMethod()->first()->getPaymentMethodId())
                 ];
             });
     }

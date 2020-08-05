@@ -14,7 +14,7 @@ use BichoEnsaboado\Http\Middleware\CashdeskStatus;
  */
 Route::get('/info', function () { phpinfo(); });
 
-Route::get('/', function () {return view('welcome'); });
+Route::get('/', function () { return redirect(route('dashboard.index')); });
 
 Auth::routes(['register' => false]);
 

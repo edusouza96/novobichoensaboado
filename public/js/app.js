@@ -93743,7 +93743,7 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(inconsistency.store_id))]),
+                    _c("td", [_vm._v(_vm._s(inconsistency.store.name))]),
                     _vm._v(" "),
                     _c("td", [
                       _c(

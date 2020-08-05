@@ -19,7 +19,7 @@
 						<tr v-for="inconsistency in inconsistencyUnfinishedCashdesk" :key="inconsistency.id">
 							<td>{{showDateBr(inconsistency.date_hour)}}</td>
 							<td>R$ {{convertToBrPattern(inconsistency.value_start)}}</td>
-							<td>{{inconsistency.store_id}}</td>
+							<td>{{inconsistency.store.name}}</td>
 							<td>
 								<button
 									class="btn btn-dark btn-sm"

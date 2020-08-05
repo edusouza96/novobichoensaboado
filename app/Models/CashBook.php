@@ -10,6 +10,7 @@ class CashBook extends Model
 {
     protected $table = 'cash_book';
     protected $dates = ['date_hour'];
+    protected $with = ['store'];
 
     public function createdBy()
     {
@@ -22,6 +23,10 @@ class CashBook extends Model
     public function moves()
     {
         return $this->hasMany(CashBookMove::class);
+    }
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
     }
 
     public function getId()

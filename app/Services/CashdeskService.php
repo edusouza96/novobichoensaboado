@@ -9,6 +9,7 @@ use BichoEnsaboado\Enums\SourceType;
 use BichoEnsaboado\Enums\TypeMovesType;
 use BichoEnsaboado\Enums\PaymentMethodsType;
 use BichoEnsaboado\Enums\CostCenterSystemType;
+use BichoEnsaboado\Models\CashBook;
 use BichoEnsaboado\Repositories\SaleRepository;
 use BichoEnsaboado\Repositories\OutlayRepository;
 use BichoEnsaboado\Repositories\CashBookRepository;
@@ -50,7 +51,7 @@ class CashdeskService
 
         $valueStart = $attributes['valueStart'];
         $source = $attributes['source'];
-        $cashBook = $this->cashBookRepository->save($valueStart+$treasure->getValue(), null, $dateHour, $userLogged, $store);
+        $cashBook = $this->cashBookRepository->save($treasure->getValue(), null, $dateHour, $userLogged, $store);
         $moves = $this->cashBookMoveRepository->save($valueStart, SourceType::CASH_DRAWER, TypeMovesType::ENTRY, $cashBook, $userLogged);
         $outlay = $this->outlayRepository->save('Aporte - caixa inicial', $valueStart, $dateHour, $source, CostCenterSystemType::COST_CENTER_APORTE, $moves, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->subValue($valueStart, SourceType::getName($source), $store);
@@ -77,9 +78,13 @@ class CashdeskService
     {
         $source = $attributes['source'];
         $valueContribute = $attributes['valueContribute'];
+        
         $cashBook = $this->cashBookRepository->getLast($store);
+        $movesEntry = $this->cashBookMoveRepository->save($valueContribute, SourceType::CASH_DRAWER, TypeMovesType::ENTRY, $cashBook, $userLogged);
+        $movesOut = $this->cashBookMoveRepository->save($valueContribute, $source, TypeMovesType::OUT, $cashBook, $userLogged);
 
-        $outlay = $this->outlayRepository->save('Aporte', $valueContribute, Carbon::now(), $source, CostCenterSystemType::COST_CENTER_APORTE_CAIXA_INICIAL, null, $paid=true, $userLogged, $store);
+
+        $outlay = $this->outlayRepository->save('Aporte', $valueContribute, Carbon::now(), $source, CostCenterSystemType::COST_CENTER_APORTE_CAIXA_INICIAL, $movesOut, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->subValue($valueContribute, SourceType::getName($source), $store);
         $treasure = $this->treasureRepository->addValue($valueContribute, SourceType::CASH_DRAWER_NAME, $store);
 
@@ -90,8 +95,12 @@ class CashdeskService
         $source = $attributes['source'];
         $valueWithdraw = $attributes['valueWithdraw'];
         $observation = $attributes['observation'];
+
+        $cashBook = $this->cashBookRepository->getLast($store);
+        $movesEntry = $this->cashBookMoveRepository->save($valueWithdraw, $source, TypeMovesType::ENTRY, $cashBook, $userLogged);
+        $movesOut = $this->cashBookMoveRepository->save($valueWithdraw, SourceType::CASH_DRAWER, TypeMovesType::OUT, $cashBook, $userLogged);
         
-        $outlay = $this->outlayRepository->save($observation, $valueWithdraw, Carbon::now(), SourceType::CASH_DRAWER, CostCenterSystemType::COST_CENTER_SANGRIA, null, $paid=true, $userLogged, $store);
+        $outlay = $this->outlayRepository->save($observation, $valueWithdraw, Carbon::now(), SourceType::CASH_DRAWER, CostCenterSystemType::COST_CENTER_SANGRIA, $movesOut, $paid=true, $userLogged, $store);
         $treasure = $this->treasureRepository->addValue($valueWithdraw, SourceType::getName($source), $store);
         $treasure = $this->treasureRepository->subValue($valueWithdraw, SourceType::CASH_DRAWER_NAME, $store);
 
@@ -131,10 +140,13 @@ class CashdeskService
         if(!$cashBook) throw new \Exception("Não foi aberto o caixa");
         
         $moves = $cashBook->getMoves();
+        $moves = $moves->filter(function($move){
+            return !$move->hasOutlay();
+        });
         $outlays = $this->getValueTotal($moves, TypeMovesType::OUT);
         $sales = $this->getValueTotalSalesByDate($date, $store);
-        $contribute = $this->getValutTotalContribute($date, $store);
-        $bleed = $this->getValutTotalBleed($date, $store);
+        $contribute = $this->getValutTotalContribute($date, $store, $cashBook);
+        $bleed = $this->getValutTotalBleed($date, $store, $cashBook);
 
         return [
             'sales' => $sales,
@@ -170,17 +182,17 @@ class CashdeskService
             });
     }
 
-    private function getValutTotalContribute(Carbon $date, $store)
+    private function getValutTotalContribute(Carbon $date, $store, CashBook $cashBook)
     {
         return $this->outlayRepository
-            ->getContributesByDate($date, $store)
+            ->getContributesByDate($date, $store, $cashBook)
             ->sum('value');
     }
     
-    private function getValutTotalBleed(Carbon $date, $store)
+    private function getValutTotalBleed(Carbon $date, $store, CashBook $cashBook)
     {
         return $this->outlayRepository
-            ->getBleedByDate($date, $store)
+            ->getBleedByDate($date, $store, $cashBook)
             ->sum('value');
     }
 }

@@ -3,6 +3,7 @@
 namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\User;
+use BichoEnsaboado\Models\Outlay;
 use BichoEnsaboado\Models\CashBook;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,10 @@ class CashBookMove extends Model
     public function cashBook()
     {
         return $this->belongsTo(CashBook::class, 'cash_book_id');
+    }
+    public function outlay()
+    {
+        return $this->hasOne(Outlay::class);
     }
     
     public function getId()
@@ -42,6 +47,10 @@ class CashBookMove extends Model
     public function getCashBook()
     {
         return $this->cashBook;
+    }
+    public function hasOutlay()
+    {
+        return (bool) $this->outlay;
     }
     public function getCreatedAt()
     {

@@ -7,6 +7,7 @@ use BichoEnsaboado\Models\User;
 use BichoEnsaboado\Models\Outlay;
 use Illuminate\Support\Collection;
 use BichoEnsaboado\Enums\CostCenterSystemType;
+use BichoEnsaboado\Models\CashBook;
 
 class OutlayRepository
 {
@@ -90,21 +91,27 @@ class OutlayRepository
         return $paginate ? $search->paginate(15) : $search->get();
     }
     
-    public function getContributesByDate(Carbon $datePay, $store)
+    public function getContributesByDate(Carbon $datePay, $store, CashBook $cashBook)
     {
         return $this->outlay
             ->where('store_id', $store)
             ->whereIn('cost_center_id', CostCenterSystemType::GROUP_CONTRIBUTE)
             ->whereDate('date_pay', 'like', $datePay->format('Y-m-d%'))
+            ->whereHas('cashBookMove', function($query) use($cashBook){
+                $query->where('cash_book_id', $cashBook->getId());
+            })
             ->get();
     }
     
-    public function getBleedByDate(Carbon $datePay, $store)
+    public function getBleedByDate(Carbon $datePay, $store, CashBook $cashBook)
     {
         return $this->outlay
             ->where('store_id', $store)
             ->where('cost_center_id', CostCenterSystemType::COST_CENTER_SANGRIA)
             ->where('date_pay', 'like', $datePay->format('Y-m-d%'))
+            ->whereHas('cashBookMove', function($query) use($cashBook){
+                $query->where('cash_book_id', $cashBook->getId());
+            })
             ->get();
     }
 

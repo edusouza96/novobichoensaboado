@@ -17,3 +17,11 @@ mix.js("resources/js/app.js", "public/js")
     "public/css"
 );
 // .copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/fortawesome/fontawesome-free/webfonts');
+
+var LiveReloadPlugin = require('webpack-livereload-plugin');
+
+mix.webpackConfig({
+    plugins: [
+        new LiveReloadPlugin()
+    ]
+});

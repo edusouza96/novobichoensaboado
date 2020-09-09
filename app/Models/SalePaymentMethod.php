@@ -3,6 +3,7 @@
 namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\Sale;
+use BichoEnsaboado\Models\CashBookMove;
 use Illuminate\Database\Eloquent\Model;
 use BichoEnsaboado\Enums\PaymentMethodsType;
 
@@ -10,10 +11,21 @@ class SalePaymentMethod extends Model
 {
     protected $table = 'sales_payment_method';
     public $timestamps = false;
+    protected $appends = ['value_total'];
 
     public function sale()
     {
         return $this->belongsTo(Sale::class);
+    }
+
+    public function cashBookMove()
+    {
+        return $this->belongsTo(CashBookMove::class, 'cash_book_move_id');
+    }
+    
+    public function getCashBookMove()
+    {
+        return $this->cashBookMove;
     }
 
     public function getSale()
@@ -52,6 +64,11 @@ class SalePaymentMethod extends Model
         return $this->getLeftover() > 0
             ? abs($this->getValueReceived() - $this->getLeftover())
             : $this->getValueReceived();
+    }
+
+    public function getValueTotalAttribute()
+    {
+        return $this->getCalcValueTotal();
     }
    
 }

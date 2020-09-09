@@ -24,6 +24,10 @@
             <div class="collapse navbar-collapse" id="navbarsDefault">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a>
+                    </li>
+                    
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('diary.index') }}">Agenda</a>
                     </li>
 
@@ -33,10 +37,6 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('sales.ofDay') }}">Vendas do dia</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a>
                     </li>
 
                     <li class="nav-item dropdown">

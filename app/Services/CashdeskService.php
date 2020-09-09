@@ -141,20 +141,29 @@ class CashdeskService
         
         $moves = $cashBook->getMoves();
         $moves = $moves->filter(function($move){
-            return !$move->hasOutlay();
+            return !$move->hasOutlay() || !$move->getOutlay()->getCostCenter()->getCategory()->isSystem();
         });
+
         $outlays = $this->getValueTotal($moves, TypeMovesType::OUT);
-        $sales = $this->getValueTotalSalesByDate($date, $store);
+        $sales = $this->getValueTotalSalesByCashBook($cashBook);
         $contribute = $this->getValutTotalContribute($date, $store, $cashBook);
         $bleed = $this->getValutTotalBleed($date, $store, $cashBook);
+        $treasure = $this->treasureRepository->getCashDrawer($store);
 
         return [
             'sales' => $sales,
+            'sales_total' => $sales->sum('value'),
             'outlays' => $outlays,
+            'outlays_total' => $outlays->sum('value'),
             'value_start' => $cashBook->getValueStart(),
             'value_end' => $cashBook->getValueEnd(),
+            'only_cash_drawer' => $treasure->getValue(),
             'contribute' => $contribute,
             'bleed' => $bleed,
+            'opened_by' => $cashBook->getCreatedBy()->getName(),
+            'closed_by' => $cashBook->getValueEnd() ? $cashBook->getUpdatedBy()->getName() : '',
+            'datetime_open' => $cashBook->getCreatedAt()->format('d/m/Y H:i:s'),
+            'datetime_close' => $cashBook->getValueEnd() ? $cashBook->getDateHour()->format('d/m/Y H:i:s') : '',
         ];
     }
 
@@ -165,19 +174,36 @@ class CashdeskService
             ->map(function($move){ 
                 return [
                     'value' => $move->sum('value'),
-                    'method' => SourceType::getDisplay($move->first()->getSource())
+                    'method' => SourceType::getDisplay($move->first()->getSource()),
+                    'details' => $move->map(function($itemMove){
+                        return [
+                            'description' => $itemMove->getOutlay()->getDescription(),
+                            'value' => $itemMove->getOutlay()->getValue(),
+                        ];
+                    })
                 ];
             });
     }
-    private function getValueTotalSalesByDate(Carbon $date, $store)
+    private function getValueTotalSalesByCashBook(CashBook $cashBook)
     {
-        return $this->saleRepository
-            ->findByDate($date , $store)
-            ->groupBy('payment_method_id')
-            ->map(function($saleGroup){ 
+        // Procura todas vendas
+        $sales = $this->saleRepository->findByCashBook($cashBook);
+
+        $salePaymentMethods = collect();
+        // percorre todas vendas
+        foreach ($sales as $sale) {
+            // percorre todos os métodos de pagamento de cada venda 
+            foreach ($sale->getSalePaymentMethod() as $salePaymentMethod) {
+                $salePaymentMethods->push($salePaymentMethod);
+            }
+        }
+       
+        return $salePaymentMethods->groupBy('payment_method_id')
+            ->map(function($sale){ 
+
                 return [
-                    'value' => $saleGroup->sum('total') - $saleGroup->sum('rebate'),
-                    'method' => PaymentMethodsType::getName($saleGroup->first()->getSalePaymentMethod()->first()->getPaymentMethodId())
+                    'value' => $sale->sum('value_total'),
+                    'method' => PaymentMethodsType::getName($sale->first()->getPaymentMethodId())
                 ];
             });
     }

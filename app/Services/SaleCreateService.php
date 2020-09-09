@@ -60,35 +60,42 @@ class SaleCreateService
         $products = collect($attributes['products']);
         $this->attachProduct($sale, $products);
 
+        $source = $this->defineSource($attributes['paymentMethod'], $attributes['cardMachine']);
+        $sourceName = SourceType::getName($source);
+        $value = $hasSecondMethod ? $attributes['valueReceived'] : $this->applyPromotion($attributes['amountSale'], $attributes['promotionValue']);
+        $cashBookMove = $this->cashBookMoveService->generateMovementEntry($value, $sourceName, $store, $source, $userLogged);
+
         $this->salePaymentMethodRepository->save(
             $sale, 
             $attributes['valueReceived'],
             $attributes['leftover'],
             $attributes['paymentMethod'],
-            $attributes['plots']
+            $attributes['plots'],
+            $cashBookMove
         );
-
-        $source = $this->defineSource($attributes['paymentMethod'], $attributes['cardMachine']);
-        $sourceName = SourceType::getName($source);
-        $value = $hasSecondMethod ? $attributes['valueReceived'] : $attributes['amountSale'];
-        $this->cashBookMoveService->generateMovementEntry($value, $sourceName, $store, $source, $userLogged);
-
+        
         if($hasSecondMethod){
+            $source = $this->defineSource($attributes['paymentMethod2'], $attributes['cardMachine2']);
+            $sourceName = SourceType::getName($source);
+            $cashBookMove = $this->cashBookMoveService->generateMovementEntry(abs($attributes['leftover']), $sourceName, $store, $source, $userLogged);
+
             $this->salePaymentMethodRepository->save(
                 $sale, 
                 $attributes['valueReceived2'],
                 $attributes['leftover2'],
                 $attributes['paymentMethod2'],
-                $attributes['plots2']
+                $attributes['plots2'],
+                $cashBookMove
             );
-
-            $source = $this->defineSource($attributes['paymentMethod2'], $attributes['cardMachine2']);
-            $sourceName = SourceType::getName($source);
-            $this->cashBookMoveService->generateMovementEntry($attributes['leftover'], $sourceName, $store, $source, $userLogged);
         }
 
         return $sale->getId();
 
+    }
+
+    private function applyPromotion($value, $promotion)
+    {
+        return $value - $promotion;
     }
 
     private function attachDiary(Sale $sale, $diaryId = null)

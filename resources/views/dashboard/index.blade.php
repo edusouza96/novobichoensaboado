@@ -11,7 +11,7 @@
     <modal-bleed :store="'{{auth()->user()->getStore()->getId()}}'" @failed="alertError" @bleeded="bleeded"></modal-bleed>
     <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value" :store="'{{auth()->user()->getStore()->getId()}}'" :is-admin="'{{auth()->user()->canSeeAdministrativePage()}}'"></modal-open-cashdesk>
     <modal-close-cashdesk @failed="alertError" @closed="closed" :closing-date="closingDate" :store="'{{auth()->user()->getStore()->getId()}}'"></modal-close-cashdesk>
-    <modal-extract-day :key="reloadComponent"></modal-extract-day>
+    <modal-extract-day @closecashdesk="closeCashdesk" :_key="reloadComponent" :key="reloadComponent"></modal-extract-day>
     <modal-money-transfer :store="'{{auth()->user()->getStore()->getId()}}'"></modal-money-transfer>
     <alert-message :title="titleAlertMessage" text="" :type="typeAlertMessage" :active="showAlert" @active="showAlert=$event"></alert-message>
 
@@ -32,7 +32,7 @@
 
             <div class="row mt-2">
                 <div class="col-md-12">
-                    <button class="btn btn-danger btn-action-dashboard" data-toggle="modal" data-target="#modal-close-cashdesk" v-if="isOpen" @click="setDateCurrent()">Fechar Caixa</button>
+                    <button class="btn btn-danger btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" v-if="isOpen" @click="reload()">Fechar Caixa</button>
                 </div>
             </div>
             
@@ -58,7 +58,7 @@
 
             <div class="row mt-2">
                 <div class="col-md-12">
-                    <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Resumo do Dia</button>
+                    <button class="btn btn-dark btn-action-dashboard" data-toggle="modal" data-target="#modal-extract-day" @click="reload">Extrato do Caixa</button>
                 </div>
             </div>
 
@@ -101,7 +101,7 @@
         data: {
             value:null,
             isOpen: false,
-            reloadComponent: '1',
+            reloadComponent: '0',
             showAlert: false,
             titleAlertMessage: "",
             typeAlertMessage: "",
@@ -126,6 +126,10 @@
                 this.typeAlertMessage = 'error';
                 this.titleAlertMessage = 'Ocorreu um erro, tente novamente!';
                 this.showAlert = true;
+            },
+            closeCashdesk(){
+                this.setDateCurrent();
+                $("#modal-close-cashdesk").modal();
             },
             closed(data){
                 this.value = this.convertToBrPattern(data.value);

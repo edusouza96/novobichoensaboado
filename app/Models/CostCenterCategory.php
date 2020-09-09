@@ -5,6 +5,7 @@ namespace BichoEnsaboado\Models;
 use BichoEnsaboado\Models\CostCenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use BichoEnsaboado\Enums\CostCenterSystemType;
 
 class CostCenterCategory extends Model
 {
@@ -27,5 +28,9 @@ class CostCenterCategory extends Model
     public function getCostCenter()
     {
         return $this->costCenter;
+    }
+    public function isSystem()
+    {
+        return $this->id == CostCenterSystemType::CATEGORY_SISTEMA;
     }
 }

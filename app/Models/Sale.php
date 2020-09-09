@@ -116,6 +116,7 @@ class Sale extends Model
             'id' => $this->getId(),
             'value' => $this->getCalcValueTotal(),
             'description' => $this->getDescription(),
+            'salePaymentMethod' => $this->getSalePaymentMethod()
         ];
     }
 

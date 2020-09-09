@@ -57,5 +57,13 @@ class CashBook extends Model
     {
         return $this->moves;
     }
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
    
 }

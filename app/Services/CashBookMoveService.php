@@ -29,6 +29,7 @@ class CashBookMoveService
         $treasure = $this->treasureRepository->addValue($value, $name, $store);
         $cashBook = $this->cashBookRepository->getLast($store);
         $moves = $this->cashBookMoveRepository->save($value, $source, TypeMovesType::ENTRY, $cashBook, $userLogged);
+        return $moves;
     }
  
     public function generateMovementOut($value, $name, $store, $source, $userLogged)

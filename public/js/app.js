@@ -1766,7 +1766,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["_key"],
   data: function data() {
     return {
       outlays: [],
@@ -1774,7 +1803,15 @@ __webpack_require__.r(__webpack_exports__);
       valueStart: null,
       valueEnd: null,
       contribute: null,
-      bleed: null
+      bleed: null,
+      datetimeOpen: null,
+      openedBy: null,
+      datetimeClose: null,
+      closedBy: null,
+      salesTotal: null,
+      outlaysTotal: null,
+      sum: null,
+      onlyCashDrawer: null
     };
   },
   methods: {
@@ -1798,11 +1835,24 @@ __webpack_require__.r(__webpack_exports__);
         this.valueEnd = this.convertToBrPattern(data.value_end);
         this.contribute = this.convertToBrPattern(data.contribute);
         this.bleed = this.convertToBrPattern(data.bleed);
+        this.datetimeOpen = data.datetime_open;
+        this.openedBy = data.opened_by;
+        this.datetimeClose = data.datetime_close;
+        this.closedBy = data.closed_by;
+        this.salesTotal = this.convertToBrPattern(data.sales_total);
+        this.outlaysTotal = this.convertToBrPattern(data.outlays_total);
+        this.onlyCashDrawer = this.convertToBrPattern(data.only_cash_drawer);
+        this.sum = this.convertToBrPattern(parseFloat(data.sales_total) + parseFloat(data.contribute) + parseFloat(data.value_start) - (parseFloat(data.outlays_total) + parseFloat(data.bleed)));
       }.bind(this));
+    },
+    openModalCloseCashdesk: function openModalCloseCashdesk() {
+      this.$emit('closecashdesk');
     }
   },
   created: function created() {
-    this.getExtractOfToday();
+    if (this._key > 0) {
+      this.getExtractOfToday();
+    }
   }
 });
 
@@ -92318,122 +92368,218 @@ var render = function() {
       attrs: { id: "modal-extract-day", tabindex: "-1", role: "dialog" }
     },
     [
-      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-body" }, [
-            _c(
-              "fieldset",
-              [
-                _c("legend", { staticClass: "text-center" }, [
-                  _vm._v("Entrada")
+      _c(
+        "div",
+        { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("fieldset", [
+                _c("legend", [_vm._v("Informações")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _vm._v("Aberto em: ")
+                  ]),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _vm._v(_vm._s(_vm.datetimeOpen))
+                  ])
                 ]),
                 _vm._v(" "),
-                _vm._l(_vm.sales, function(entry, index) {
-                  return _c("div", { key: index, staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-8" }, [
-                      _vm._v(_vm._s(entry.method))
-                    ]),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _vm._v(
-                        "R$ " + _vm._s(_vm.convertToBrPattern(entry.value))
-                      )
-                    ])
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _vm._v("Aberto por: ")
+                  ]),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _vm._v(_vm._s(_vm.openedBy))
                   ])
-                }),
-                _vm._v(" "),
-                _vm.sales.length == 0
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "alert alert-info text-center",
-                        attrs: { role: "alert" }
-                      },
-                      [
-                        _vm._v(
-                          "\n\t\t\t\t\t\tNenhuma venda no dia encontrada.\n\t\t\t\t\t"
-                        )
-                      ]
-                    )
-                  : _vm._e()
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "fieldset",
-              { staticClass: "mt-5 mb-5" },
-              [
-                _c("legend", { staticClass: "text-center" }, [_vm._v("Saida")]),
-                _vm._v(" "),
-                _vm._l(_vm.outlays, function(out, index) {
-                  return _c("div", { key: index, staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-8" }, [
-                      _vm._v(_vm._s(out.method))
-                    ]),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _vm._v("R$ " + _vm._s(_vm.convertToBrPattern(out.value)))
-                    ])
-                  ])
-                }),
-                _vm._v(" "),
-                _vm.outlays.length == 0
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "alert alert-info text-center",
-                        attrs: { role: "alert" }
-                      },
-                      [
-                        _vm._v(
-                          "\n\t\t\t\t\t\tNenhuma despesa no dia encontrada.\n\t\t\t\t\t"
-                        )
-                      ]
-                    )
-                  : _vm._e()
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c("fieldset", { staticClass: "mt-5 mb-5" }, [
-              _c("legend", { staticClass: "text-center" }, [_vm._v("Resumo")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8" }, [
-                  _vm._v("Caixa Inicial")
                 ]),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _vm._v("R$ " + _vm._s(_vm.valueStart))
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _vm._v("Fechado em: ")
+                  ]),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _vm._v(_vm._s(_vm.datetimeClose))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _vm._v("Fechado por: ")
+                  ]),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _vm._v(_vm._s(_vm.closedBy))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _vm._v("Caixa Inicial")
+                  ]),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _vm._v("R$ " + _vm._s(_vm.valueStart))
+                  ])
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8" }, [_vm._v("Caixa Final")]),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _vm._v("R$" + _vm._s(_vm.valueEnd))
-                ])
-              ]),
+              _c(
+                "fieldset",
+                { staticClass: "mt-5 mb-5" },
+                [
+                  _c("legend", [_vm._v("Entradas")]),
+                  _vm._v(" "),
+                  _vm.contribute != "0,00"
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _vm._v("Aporte")
+                        ]),
+                        _c("div", { staticClass: "col-md-4" }, [
+                          _vm._v("R$ " + _vm._s(_vm.contribute))
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._l(_vm.sales, function(entry, index) {
+                    return _c("div", { key: index, staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-8" }, [
+                        _vm._v("Vendas em " + _vm._s(entry.method))
+                      ]),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _vm._v(
+                          "R$ " + _vm._s(_vm.convertToBrPattern(entry.value))
+                        )
+                      ])
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _vm.sales.length == 0
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "text-danger col-md-8" }, [
+                          _vm._v("Nenhuma venda no dia encontrada.")
+                        ])
+                      ])
+                    : _vm._e()
+                ],
+                2
+              ),
               _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8" }, [_vm._v("Aporte")]),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _vm._v("R$ " + _vm._s(_vm.contribute))
-                ])
-              ]),
+              _c(
+                "fieldset",
+                { staticClass: "mt-5 mb-5" },
+                [
+                  _c("legend", [_vm._v("Saidas")]),
+                  _vm._v(" "),
+                  _vm.bleed != "0,00"
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _vm._v("Sangria")
+                        ]),
+                        _c("div", { staticClass: "col-md-4" }, [
+                          _vm._v("R$ " + _vm._s(_vm.bleed))
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._l(_vm.outlays, function(out, index) {
+                    return _c(
+                      "div",
+                      { key: index, staticClass: "row" },
+                      [
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _vm._v(_vm._s(out.method))
+                        ]),
+                        _c("div", { staticClass: "col-md-4" }, [
+                          _vm._v(
+                            "R$ " + _vm._s(_vm.convertToBrPattern(out.value))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(out.details, function(detail, i) {
+                          return _c(
+                            "div",
+                            { key: i, staticClass: "col-md-12" },
+                            [
+                              _c("div", { staticClass: "row text-primary" }, [
+                                _c("div", { staticClass: "col-md-8 pl-5" }, [
+                                  _vm._v(_vm._s(detail.description))
+                                ]),
+                                _c("div", { staticClass: "col-md-4" }, [
+                                  _vm._v(
+                                    "R$ " +
+                                      _vm._s(
+                                        _vm.convertToBrPattern(detail.value)
+                                      )
+                                  )
+                                ])
+                              ])
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  }),
+                  _vm._v(" "),
+                  _vm.outlays.length == 0
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "text-danger col-md-8" }, [
+                          _vm._v("Nenhuma despesa no dia encontrada.")
+                        ])
+                      ])
+                    : _vm._e()
+                ],
+                2
+              ),
               _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8" }, [_vm._v("Sangria")]),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _vm._v("R$ " + _vm._s(_vm.bleed))
+              _c("fieldset", { staticClass: "mt-5 mb-5" }, [
+                _c("legend", [_vm._v("Saldo Final")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _vm._v("Somente Dinheiro")
+                  ]),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _vm._v("R$" + _vm._s(_vm.onlyCashDrawer))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [_vm._v("Tudo")]),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _vm._v("R$ " + _vm._s(_vm.sum))
+                  ])
                 ])
               ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _vm.closedBy == ""
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button", "data-dismiss": "modal" },
+                      on: { click: _vm.openModalCloseCashdesk }
+                    },
+                    [_vm._v("Fechar Caixa")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Fechar")]
+              )
             ])
-          ]),
-          _vm._v(" "),
-          _vm._m(1)
-        ])
-      ])
+          ])
+        ]
+      )
     ]
   )
 }
@@ -92443,7 +92589,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("Extrato do Dia")]),
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Extrato do Caixa")]),
       _vm._v(" "),
       _c(
         "button",
@@ -92456,21 +92602,6 @@ var staticRenderFns = [
           }
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Fechar")]
       )
     ])
   }

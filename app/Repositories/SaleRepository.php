@@ -2,6 +2,7 @@
 
 namespace BichoEnsaboado\Repositories;
 
+use BichoEnsaboado\Models\CashBook;
 use Carbon\Carbon;
 use BichoEnsaboado\Models\Sale;
 use BichoEnsaboado\Models\Diary;
@@ -32,6 +33,13 @@ class SaleRepository
             ->where('store_id', $store)
             ->where('created_at', 'like', $date->format('Y-m-d%'))
             ->get();
+    }
+   
+    public function findByCashBook(CashBook $cashBook)
+    {
+        return $this->sale->whereHas('salePaymentMethod.cashBookMove', function($query) use($cashBook){
+            $query->where('cash_book_id', $cashBook->getId());
+        })->get();
     }
 
     public function findByFilter(array $attributes, $offDay=false, $paginate=false)

@@ -52,6 +52,10 @@ class CashBookMove extends Model
     {
         return (bool) $this->outlay;
     }
+    public function getOutlay()
+    {
+        return $this->outlay;
+    }
     public function getCreatedAt()
     {
         return $this->created_at;

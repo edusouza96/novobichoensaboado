@@ -185,7 +185,7 @@
 
 <script>
 export default {
-  props: ["data", "date"],
+  props: ["data", "date", "msg"],
   data: function() {
     return {
       action: null,
@@ -338,6 +338,9 @@ export default {
           let type = 'success';
 
           this.$notify({ group, title, text, type });
+
+          let url = laroute.route("diary.index", {date:moment(register.date).format('YYYY-MM-DD') ,msg:1});
+          location.replace(url);
           
         }.bind(this))
         .fail(function() {
@@ -445,6 +448,16 @@ export default {
       },
       deep: true
     }
-  }
+  },
+  mounted() {
+    if(this.msg){
+        let group = 'alert-status';
+        let title = 'Horário Agendado!';
+        let text = '';
+        let type = 'success';
+
+        this.$notify({ group, title, text, type });
+    }
+  },
 };
 </script>

@@ -153,6 +153,7 @@ class Diary extends Model
             'gross' => $this->getGross(),
             'client' => $this->getClient(),
             'package' => $this->getPackage() ? $this->getPackage()->getId() : null,
+            'date_other_package' => $this->getPackage() ? $this->getPackage()->listDatesPackagesAll() : null,
             'servicePet' => $this->getServicePet(),
             'serviceVet' => $this->getServiceVet(),
             'status' => $this->getStatus(),

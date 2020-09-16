@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('acesso-admin', ['as' => 'user.acessAdmin', 'uses' => 'UserController@acessAdmin']);
 
         Route::group(['prefix' => 'agenda'], function () {
-            Route::get('{date?}', ['as' => 'diary.index', 'uses' => 'DiaryController@index']);
+            Route::get('{date?}/{msg?}', ['as' => 'diary.index', 'uses' => 'DiaryController@index']);
             Route::post('salvar', ['as' => 'diary.store', 'uses' => 'DiaryController@store']);
             Route::post('checkin', ['as' => 'diary.checkin', 'uses' => 'DiaryController@checkin']);
             Route::post('cancelar', ['as' => 'diary.destroy', 'uses' => 'DiaryController@destroy']);

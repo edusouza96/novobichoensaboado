@@ -16,7 +16,7 @@
             v-model="day">
         </datetime>
     </div>
-    <diary-table :data="data" date="{{$date}}"></diary-table>
+    <diary-table :data="data" date="{{$date}}" msg="{{$msg}}"></diary-table>
 </div>
 @endsection
 @push('js-end')

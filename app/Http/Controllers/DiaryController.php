@@ -23,7 +23,7 @@ class DiaryController extends Controller
         $this->diaryService = $diaryService;
     }
 
-    public function index($date = null)
+    public function index($date = null, $msg = null)
     {
         try {
             if (is_null($date)) {
@@ -34,7 +34,7 @@ class DiaryController extends Controller
 
             $storeId = auth()->user()->getStore()->getId();
             $diaries = $this->diaryRepository->findByDate($date, $storeId);
-            return view('diary.index', compact('date', 'diaries'));
+            return view('diary.index', compact('date', 'diaries', 'msg'));
         } catch (\InvalidArgumentException $ex) {
             return back()->with('alertType', 'danger')->with('message', 'Data Invalida!');
         }

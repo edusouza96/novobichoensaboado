@@ -10,7 +10,7 @@
         </div>
 
         <div class="modal-body">
-          <table class="table" v-if="hasServices">
+          <table class="table" v-if="hasServices && !blockEdition">
             <thead class="thead-primary">
               <tr>
                 <th>Descrição</th>
@@ -89,7 +89,8 @@ export default {
     return {
       listServices: [],
       packages: [],
-      serviceSelected: null
+      serviceSelected: null,
+      blockEdition: false,
     };
   },
   props: ["register", "date"],
@@ -151,6 +152,13 @@ export default {
     }
   },
   watch: {
+    'register.date_other_package': function () {
+      if(this.register.date_other_package){
+        this.packages = this.register.date_other_package;
+        this.blockEdition = true;
+        this.serviceSelected = this.register.servicePet;
+      }
+    },
     breedId: function() {
       if (this.breedId > 0) {
         var that = this;

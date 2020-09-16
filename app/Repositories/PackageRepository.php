@@ -24,6 +24,11 @@ class PackageRepository
         return $package;
     }
 
+    public function findByKey($key)
+    {
+        $search = $this->package->newQuery();
+        return $search->where('key', $key)->get();   
+    }
     public function find($id)
     {
         return $this->package->find($id);   

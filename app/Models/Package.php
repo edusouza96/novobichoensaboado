@@ -16,6 +16,16 @@ class Package extends Model
     {
         return $this->belongsTo(Diary::class, 'diary_id');
     }
+    
+    public function packages()
+    {
+        return $this->hasMany(Package::class, 'key', 'key');
+    }
+    
+    public function getPackages()
+    {
+        return $this->packages;
+    }
 
     public function getId()
     {
@@ -33,5 +43,15 @@ class Package extends Model
     public function getKey()
     {
         return $this->key;
+    }
+
+    public function listDatesPackagesAll()
+    {
+        return $this->packages->map(function($package){
+            return [ 
+                'dateHour' => $package->getDiary()->getDateHour()->format('Y-m-d\TH:i:s'),
+                'id' => $package->getNumber()
+            ];
+        });
     }
 }

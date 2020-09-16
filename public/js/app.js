@@ -2018,7 +2018,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       listServices: [],
       packages: [],
-      serviceSelected: null
+      serviceSelected: null,
+      blockEdition: false
     };
   },
   props: ["register", "date"],
@@ -2086,6 +2087,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   watch: {
+    'register.date_other_package': function registerDate_other_package() {
+      if (this.register.date_other_package) {
+        this.packages = this.register.date_other_package;
+        this.blockEdition = true;
+        this.serviceSelected = this.register.servicePet;
+      }
+    },
     breedId: function breedId() {
       if (this.breedId > 0) {
         var that = this;
@@ -2427,7 +2435,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["data", "date"],
+  props: ["data", "date", "msg"],
   data: function data() {
     return {
       action: null,
@@ -2845,6 +2853,11 @@ __webpack_require__.r(__webpack_exports__);
           text: text,
           type: type
         });
+        var url = laroute.route("diary.index", {
+          date: moment(register.date).format('YYYY-MM-DD'),
+          msg: 1
+        });
+        location.replace(url);
       }.bind(this)).fail(function () {
         console.log('Erro');
       });
@@ -2950,6 +2963,20 @@ __webpack_require__.r(__webpack_exports__);
         this.calcGross();
       },
       deep: true
+    }
+  },
+  mounted: function mounted() {
+    if (this.msg) {
+      var group = 'alert-status';
+      var title = 'Horário Agendado!';
+      var text = '';
+      var type = 'success';
+      this.$notify({
+        group: group,
+        title: title,
+        text: text,
+        type: type
+      });
     }
   }
 });
@@ -92771,7 +92798,7 @@ var render = function() {
           _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
-            _vm.hasServices
+            _vm.hasServices && !_vm.blockEdition
               ? _c("table", { staticClass: "table" }, [
                   _vm._m(1),
                   _vm._v(" "),

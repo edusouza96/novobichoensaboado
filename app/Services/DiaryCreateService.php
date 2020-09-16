@@ -4,6 +4,7 @@ namespace BichoEnsaboado\Services;
 
 use Carbon\Carbon;
 use BichoEnsaboado\Models\User;
+use BichoEnsaboado\Models\Diary;
 use BichoEnsaboado\Models\Client;
 use BichoEnsaboado\Models\Service;
 use BichoEnsaboado\Enums\StatusType;
@@ -40,6 +41,8 @@ class DiaryCreateService
 
     public function create(array $attributes, User $userLogged, $store)
     {
+        $diary = $this->diaryRepository->findOrNew($attributes['id']);
+
         $client = $this->clientRepository->find($attributes['client']);
         $servicePet = isset($attributes['servicePet']) ? $this->serviceRepository->find($attributes['servicePet']) : null;
         $valuePet = $servicePet ? $servicePet->getValue() : 0;
@@ -50,10 +53,10 @@ class DiaryCreateService
         $deliveryFee = $fetch ? $client->getNeighborhood()->getValue() : 0; 
         $gross = $attributes['gross'];
         $observation = $attributes['observation'];
-
+        
         // Se for pacote
-        if(empty($attributes['id'])){
-            if(isset($attributes['package'])){
+        if(isset($attributes['package'])){
+            if(empty($attributes['id'])){
                 return $this->createPackage(
                     $attributes['package'], 
                     $userLogged, 
@@ -68,6 +71,21 @@ class DiaryCreateService
                     $gross, 
                     $observation
                 );
+            }else{
+                return $this->updatePackage(
+                    $diary,
+                    $attributes['package'], 
+                    $dateHour,
+                    $userLogged, 
+                    $store, 
+                    $client, 
+                    $serviceVet, 
+                    $valueVet, 
+                    $fetch, 
+                    $deliveryFee, 
+                    $observation
+                );
+
             }
         }
         
@@ -76,7 +94,6 @@ class DiaryCreateService
         
         $status = empty($attributes['id']) ? StatusType::SCHEDULED : null;
         
-        $diary = $this->diaryRepository->findOrNew($attributes['id']);
         $diary = $this->diaryRepository->save($diary, $userLogged, $store, $client, $dateHour, $status, $servicePet, $valuePet, $serviceVet, $valueVet, $fetch, $deliveryFee, $gross, $observation, 0, $companion);
         return $diary;
     }
@@ -124,6 +141,61 @@ class DiaryCreateService
 
         return $diaries->first();
 
+    }
+    
+    private function updatePackage(Diary $diaryParam, $packageDates, Carbon $dateHour, User $userLogged, $store, Client $client, Service $serviceVet = null, $valueVet = 0, bool $fetch, $deliveryFee = 0, $observation)
+    {
+                
+        if(is_array($packageDates)){    
+            $key = $diaryParam->getPackage()->getKey();
+            $packages = $this->packageRepository->findByKey($key);
+
+            foreach ($packages as $i => $package) {
+                $diary = $package->getDiary();
+
+                $diary = $this->diaryRepository->save(
+                    $diary, 
+                    $userLogged, 
+                    $store, 
+                    $client, 
+                    Carbon::createFromFormat('Y-m-d\TH:i:s.uP', $packageDates[$i]['dateHour']),
+                    null, 
+                    $diary->getServicePet(), 
+                    $diary->getServicePetValue(), 
+                    $diary->getServiceVet(),
+                    $diary->getServiceVetValue(), 
+                    $diary->getFetch(), 
+                    $diary->getDeliveryFee(), 
+                    $diary->getGross(), 
+                    $diary->getObservation()."\nAlterado as datas no dia ".Carbon::now()->format('d/m/Y H:i:s')." pelo(a) operador(a) ".$userLogged->getName(),
+                    $diary->getPackage()->getId(),
+                    $diary->getCompanion()
+                );
+            }
+        }
+
+        $diff = ((bool)$diaryParam->getFetch()) != $fetch;
+        $deliveryFee = $diff ? $deliveryFee : $diaryParam->getDeliveryFee();
+        $gross = $diaryParam->getServicePetValue() + $valueVet + $deliveryFee;
+        return $this->diaryRepository->save(
+            $diaryParam, 
+            $userLogged, 
+            $store, 
+            $client, 
+            $dateHour,
+            null, 
+            $diaryParam->getServicePet(), 
+            $diaryParam->getServicePetValue(), 
+            $serviceVet,
+            $valueVet, 
+            $fetch, 
+            $deliveryFee, 
+            $diff ? $gross : $diaryParam->getGross(), 
+            $diaryParam->getObservation()."\nAlteração no pacote no dia ".Carbon::now()->format('d/m/Y H:i:s')." pelo(a) operador(a) ".$userLogged->getName(),
+            $diaryParam->getPackage()->getId(),
+            $diaryParam->getCompanion()
+        );
+        
     }
     
 }

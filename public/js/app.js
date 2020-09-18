@@ -1794,6 +1794,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["_key"],
   data: function data() {
@@ -1811,7 +1815,8 @@ __webpack_require__.r(__webpack_exports__);
       salesTotal: null,
       outlaysTotal: null,
       sum: null,
-      onlyCashDrawer: null
+      onlyCashDrawer: null,
+      salesDeliveryFee: null
     };
   },
   methods: {
@@ -1840,9 +1845,10 @@ __webpack_require__.r(__webpack_exports__);
         this.datetimeClose = data.datetime_close;
         this.closedBy = data.closed_by;
         this.salesTotal = this.convertToBrPattern(data.sales_total);
+        this.salesDeliveryFee = this.convertToBrPattern(data.sales_delivery_fee);
         this.outlaysTotal = this.convertToBrPattern(data.outlays_total);
         this.onlyCashDrawer = this.convertToBrPattern(data.only_cash_drawer);
-        this.sum = this.convertToBrPattern(parseFloat(data.sales_total) + parseFloat(data.contribute) + parseFloat(data.value_start) - (parseFloat(data.outlays_total) + parseFloat(data.bleed)));
+        this.sum = this.convertToBrPattern(parseFloat(data.sales_total) + parseFloat(data.contribute) + parseFloat(data.value_start) - (parseFloat(data.outlays_total) + parseFloat(data.bleed)) - parseFloat(data.sales_delivery_fee));
       }.bind(this));
     },
     openModalCloseCashdesk: function openModalCloseCashdesk() {
@@ -4267,6 +4273,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["products", "amountSale", "diariesId"],
   data: function data() {
@@ -4285,7 +4312,12 @@ __webpack_require__.r(__webpack_exports__);
       plots2: 1,
       cardMachine2: 3,
       valueReceived2: "",
-      leftover2: '0,00'
+      leftover2: '0,00',
+      paymentMethodPayDelivery: 1,
+      plotsPayDelivery: 1,
+      cardMachinePayDelivery: 3,
+      valueReceivedPayDelivery: "",
+      leftoverPayDelivery: '0,00'
     };
   },
   methods: {
@@ -4302,11 +4334,18 @@ __webpack_require__.r(__webpack_exports__);
         valueReceived2: this.convertToUsPattern(this.valueReceived2),
         leftover: this.convertToUsPattern(this.leftover),
         leftover2: this.convertToUsPattern(this.leftover2),
-        amountSale: this.convertToUsPattern(this.amountSale),
+        amountSale: this.convertToUsPattern(this.amountSaleWithoutDeliveryFee),
         diariesId: this.diariesId,
         cardMachine: this.cardMachine,
         cardMachine2: this.cardMachine2,
-        hasSecondMethod: this.hasSecondMethod
+        hasSecondMethod: this.hasSecondMethod,
+        hasDeliveryFee: this.hasDeliveryFee,
+        paymentMethodPayDelivery: this.paymentMethodPayDelivery,
+        plotsPayDelivery: this.plotsPayDelivery,
+        cardMachinePayDelivery: this.cardMachinePayDelivery,
+        valueReceivedPayDelivery: this.convertToUsPattern(this.valueReceivedPayDelivery),
+        leftoverPayDelivery: this.convertToUsPattern(this.leftoverPayDelivery),
+        amountSaleDeliveryFee: this.totalDeliveryFee
       }).done(function (result) {
         window.location.href = laroute.route("pdv.invoice", result);
       });
@@ -4328,7 +4367,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     isOwing: function isOwing() {
-      return this.hasSecondMethod ? this.convertToUsPattern(this.leftover2) < 0 : this.convertToUsPattern(this.leftover) < 0;
+      return this.hasSecondMethod ? this.convertToUsPattern(this.leftover2) < 0 || this.convertToUsPattern(this.leftoverPayDelivery) < 0 : this.convertToUsPattern(this.leftover) < 0 || this.convertToUsPattern(this.leftoverPayDelivery) < 0;
     },
     getRebates: function getRebates() {
       $.get(laroute.route("rebate.findActive")).done(function (data) {
@@ -4351,6 +4390,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    hasDeliveryFee: function hasDeliveryFee() {
+      return this.totalDeliveryFee > 0;
+    },
     hasSecondMethod: function hasSecondMethod() {
       return this.convertToUsPattern(this.valueReceived2) > 0;
     },
@@ -4404,6 +4446,26 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         return 0.0;
       }
+    },
+    totalDeliveryFee: function totalDeliveryFee() {
+      var products = this.products.filter(function (product) {
+        if (product.type == window.servicesType.DELIVERY_FEE) {
+          return product;
+        }
+      });
+
+      if (products.length > 0) {
+        return products.reduce(function (accumulator, product) {
+          return {
+            amount: parseFloat(accumulator.amount) + parseFloat(product.amount)
+          };
+        }).amount;
+      } else {
+        return 0.0;
+      }
+    },
+    amountSaleWithoutDeliveryFee: function amountSaleWithoutDeliveryFee() {
+      return this.convertToBrPattern(this.convertToUsPattern(this.amountSale) - this.totalDeliveryFee);
     }
   },
   created: function created() {
@@ -92510,6 +92572,17 @@ var render = function() {
                       ])
                     : _vm._e(),
                   _vm._v(" "),
+                  _vm.salesDeliveryFee != "0,00"
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-8" }, [
+                          _vm._v("Máquina das Buscas")
+                        ]),
+                        _c("div", { staticClass: "col-md-4" }, [
+                          _vm._v("R$ " + _vm._s(_vm.salesDeliveryFee))
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _vm._l(_vm.outlays, function(out, index) {
                     return _c(
                       "div",
@@ -95329,102 +95402,133 @@ var render = function() {
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
-              _c("fieldset", [
-                _c("legend", [_vm._v("Desconto")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-8" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "promotion" } }, [
-                        _vm._v("Promoção")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
+              _c(
+                "fieldset",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value:
+                        _vm.convertToUsPattern(
+                          _vm.amountSaleWithoutDeliveryFee
+                        ) > 0,
+                      expression:
+                        "convertToUsPattern(amountSaleWithoutDeliveryFee) > 0"
+                    }
+                  ]
+                },
+                [
+                  _c("legend", [_vm._v("Desconto")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-8" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "promotion" } }, [
+                          _vm._v("Promoção")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.rebate,
+                                expression: "rebate"
+                              }
+                            ],
+                            staticClass: "form-control promotion",
+                            attrs: { name: "promotion" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.rebate = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Selecione")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.rebates, function(reb) {
+                              return _c(
+                                "option",
+                                { key: reb.id, domProps: { value: reb.id } },
+                                [_vm._v(_vm._s(reb.name))]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "promotionValue" } }, [
+                          _vm._v("Valor do Desconto")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
                           directives: [
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.rebate,
-                              expression: "rebate"
+                              value: _vm.promotionValue,
+                              expression: "promotionValue"
                             }
                           ],
-                          staticClass: "form-control promotion",
-                          attrs: { name: "promotion" },
+                          staticClass: "form-control promotion-value",
+                          attrs: {
+                            type: "text",
+                            name: "promotionValue",
+                            disabled: ""
+                          },
+                          domProps: { value: _vm.promotionValue },
                           on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.rebate = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.promotionValue = $event.target.value
                             }
                           }
-                        },
-                        [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("Selecione")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.rebates, function(reb) {
-                            return _c(
-                              "option",
-                              { key: reb.id, domProps: { value: reb.id } },
-                              [_vm._v(_vm._s(reb.name))]
-                            )
-                          })
-                        ],
-                        2
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "promotionValue" } }, [
-                        _vm._v("Valor do Desconto")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.promotionValue,
-                            expression: "promotionValue"
-                          }
-                        ],
-                        staticClass: "form-control promotion-value",
-                        attrs: {
-                          type: "text",
-                          name: "promotionValue",
-                          disabled: ""
-                        },
-                        domProps: { value: _vm.promotionValue },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.promotionValue = $event.target.value
-                          }
-                        }
-                      })
+                        })
+                      ])
                     ])
                   ])
-                ])
-              ]),
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "div",
-                { attrs: { id: "first-method" } },
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value:
+                        _vm.convertToUsPattern(
+                          _vm.amountSaleWithoutDeliveryFee
+                        ) > 0,
+                      expression:
+                        "convertToUsPattern(amountSaleWithoutDeliveryFee) > 0"
+                    }
+                  ],
+                  attrs: { id: "first-method" }
+                },
                 [
                   _c("payment-method", {
                     attrs: { idPaymentMethod: "payment-method-1" },
@@ -95444,7 +95548,7 @@ var render = function() {
                   _c("pay", {
                     attrs: {
                       idPay: "pay-1",
-                      amountSale: _vm.amountSale,
+                      amountSale: _vm.amountSaleWithoutDeliveryFee,
                       promotionValue: _vm.promotionValue,
                       canAddPaymentMethod: _vm.canAddPaymentMethod
                     },
@@ -95506,7 +95610,66 @@ var render = function() {
                     ],
                     1
                   )
-                : _vm._e()
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.totalDeliveryFee > 0,
+                      expression: "totalDeliveryFee > 0"
+                    }
+                  ],
+                  attrs: { id: "delivery-fee-method" }
+                },
+                [
+                  _c("hr"),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("h4", { staticClass: "font-weight-bold" }, [
+                    _vm._v(" Pagamento da Busca ")
+                  ]),
+                  _vm._v(" "),
+                  _c("payment-method", {
+                    attrs: {
+                      idPaymentMethod: "delivery-fee-method-payment-method"
+                    },
+                    on: {
+                      method: function($event) {
+                        _vm.paymentMethodPayDelivery = $event
+                      },
+                      plots: function($event) {
+                        _vm.plotsPayDelivery = $event
+                      },
+                      cardMachine: function($event) {
+                        _vm.cardMachinePayDelivery = $event
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("pay", {
+                    attrs: {
+                      idPay: "pay-delivery-fee",
+                      amountSale: _vm.convertToBrPattern(_vm.totalDeliveryFee),
+                      promotionValue: "0",
+                      canAddPaymentMethod: false
+                    },
+                    on: {
+                      valueReceived: function($event) {
+                        _vm.valueReceivedPayDelivery = $event
+                      },
+                      leftover: function($event) {
+                        _vm.leftoverPayDelivery = $event
+                      },
+                      showSecondMethod: false
+                    }
+                  })
+                ],
+                1
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
@@ -96642,7 +96805,7 @@ var render = function() {
                   _vm._l(_vm.cardMachines, function(card) {
                     return _c(
                       "option",
-                      { key: card.id, domProps: { value: card.id } },
+                      { key: card.id, domProps: { value: card.source_id } },
                       [_vm._v(_vm._s(card.display))]
                     )
                   })

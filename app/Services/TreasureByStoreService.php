@@ -21,6 +21,7 @@ class TreasureByStoreService
         $this->treasureRepository->create($this->sourceCashDrawerData($store));
         $this->treasureRepository->create($this->sourcePagseguroData($store));
         $this->treasureRepository->create($this->sourceBankData($store));
+        $this->treasureRepository->create($this->sourceDeliveryFee($store));
     }
 
     private function sourceSafeBoxData(Store $store)
@@ -30,7 +31,8 @@ class TreasureByStoreService
             'display' => SourceType::getDisplay(SourceType::SAFE_BOX_NAME),
             'value' => 0,
             'store_id' => $store->getId(),
-            'card_machine' => 0
+            'card_machine' => 0,
+            'source_id' => 1
         );
     }
     private function sourceCashDrawerData(Store $store)
@@ -40,7 +42,8 @@ class TreasureByStoreService
             'display' => SourceType::getDisplay(SourceType::CASH_DRAWER_NAME),
             'value' => 0,
             'store_id' => $store->getId(),
-            'card_machine' => 0
+            'card_machine' => 0,
+            'source_id' => 2
         );
     }
     private function sourcePagseguroData(Store $store)
@@ -50,7 +53,8 @@ class TreasureByStoreService
             'display' => SourceType::getDisplay(SourceType::PAGSEGURO_NAME),
             'value' => 0,
             'store_id' => $store->getId(),
-            'card_machine' => 1
+            'card_machine' => 1,
+            'source_id' => 3
         );
     }
     private function sourceBankData(Store $store)
@@ -60,7 +64,19 @@ class TreasureByStoreService
             'display' => SourceType::getDisplay(SourceType::BANK_NAME),
             'value' => 0,
             'store_id' => $store->getId(),
-            'card_machine' => 0
+            'card_machine' => 0,
+            'source_id' => 4
+        );
+    }
+    private function sourceDeliveryFee(Store $store)
+    {
+        return array(
+            'name' => SourceType::DELIVERY_FEE,
+            'display' => SourceType::getDisplay(SourceType::DELIVERY_FEE_NAME),
+            'value' => 0,
+            'store_id' => $store->getId(),
+            'card_machine' => 1,
+            'source_id' => 5
         );
     }
 

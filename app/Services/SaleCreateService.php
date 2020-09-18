@@ -42,9 +42,10 @@ class SaleCreateService
     public function create(array $attributes, User $userLogged, $store)
     {
         $hasSecondMethod = filter_var($attributes['hasSecondMethod'],FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
+        $hasDeliveryFee = filter_var($attributes['hasDeliveryFee'],FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
 
         $sale = $this->saleRepository->save(
-            $attributes['amountSale'],
+            ($attributes['amountSale']+$attributes['amountSaleDeliveryFee']),
             $attributes['promotionValue'],
             $userLogged, 
             $store
@@ -88,6 +89,22 @@ class SaleCreateService
                 $cashBookMove
             );
         }
+       
+        if($hasDeliveryFee){
+            $source = $this->defineSource($attributes['paymentMethodPayDelivery'], $attributes['cardMachinePayDelivery']);
+            $sourceName = SourceType::getName($source);
+            $cashBookMove = $this->cashBookMoveService->generateMovementEntry($attributes['amountSaleDeliveryFee'], $sourceName, $store, $source, $userLogged);
+
+            $this->salePaymentMethodRepository->save(
+                $sale, 
+                $attributes['valueReceivedPayDelivery'],
+                $attributes['leftoverPayDelivery'],
+                $attributes['paymentMethodPayDelivery'],
+                $attributes['plotsPayDelivery'],
+                $cashBookMove, 
+                true
+            );
+        }
 
         return $sale->getId();
 
@@ -122,5 +139,6 @@ class SaleCreateService
     {
         if($paymentMethod == PaymentMethodsType::CASH) return SourceType::CASH_DRAWER;
         if($cardMachine == SourceType::PAGSEGURO) return SourceType::PAGSEGURO;
+        if($cardMachine == SourceType::DELIVERY_FEE) return SourceType::DELIVERY_FEE;
     }
 }

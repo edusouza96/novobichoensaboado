@@ -28,7 +28,7 @@
 						<label for="cardMachine">Maquina</label>
 						<select name="cardMachine" class="form-control" v-model="cardMachine">
 							<option value>Selecione</option>
-							<option v-for="card in cardMachines" :value="card.id" :key="card.id">{{ card.display }}</option>
+							<option v-for="card in cardMachines" :value="card.source_id" :key="card.id">{{ card.display }}</option>
 						</select>
 					</div>
 				</div>

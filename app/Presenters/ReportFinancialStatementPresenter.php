@@ -26,6 +26,7 @@ class ReportFinancialStatementPresenter implements Arrayable, JsonSerializable
             return [
                 'year' => substr($key, 3),
                 'period' => $key,
+                'delivery_fee' => $this->getDeliveryFee($item),
                 'sales_cash' => $this->getSalesCash($item),
                 'sales_debit_card' => $this->applyAliquot($this->getSalesDebitCard($item), AliquotType::ALIQUOT_DEBIT),
                 'sales_credit_card_1x' => $this->applyAliquot($this->getSalesCreditCard1x($item), AliquotType::ALIQUOT_CREDIT1X),
@@ -54,10 +55,13 @@ class ReportFinancialStatementPresenter implements Arrayable, JsonSerializable
 
     private function getOutlayTotal($item)
     {
-        return $item->where('type', 'outlay')
+        $total = $item->where('type', 'outlay')
             ->sum(function ($outlay) {
                 return $outlay['data']->getValue();
             });
+
+        return $total + $this->getDeliveryFee($item);
+
     }
     private function getOutlayBank($item)
     {
@@ -149,6 +153,17 @@ class ReportFinancialStatementPresenter implements Arrayable, JsonSerializable
             ->sum(function ($sale) {
                 return $sale['data']->getSalePaymentMethod()
                     ->where('payment_method_id', PaymentMethodsType::CASH)
+                    ->sum(function ($paymentMethod) {
+                        return $paymentMethod->getCalcValueTotal();
+                    });
+            });
+    }
+    private function getDeliveryFee($item)
+    {
+        return $item->where('type', 'sale')
+            ->sum(function ($sale) {
+                return $sale['data']->getSalePaymentMethod()
+                    ->where('delivery_fee', true)
                     ->sum(function ($paymentMethod) {
                         return $paymentMethod->getCalcValueTotal();
                     });

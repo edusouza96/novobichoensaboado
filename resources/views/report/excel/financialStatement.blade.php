@@ -10,6 +10,7 @@
             <th scope="col">Cofre</th>
             <th scope="col">PagSeguro</th>
             <th scope="col">Banco</th>
+            <th scope="col">Máquina da Busca</th>
             <th scope="col">Total de Saida</th>
         </tr>
     </thead>
@@ -27,6 +28,7 @@
                 <td>R$ {{ number_format($data['outlay_safe_box'], 2, ',', '.') }}</td>
                 <td>R$ {{ number_format($data['outlay_pagseguro'], 2, ',', '.') }}</td>
                 <td>R$ {{ number_format($data['outlay_bank'], 2, ',', '.') }}</td>
+                <td>R$ {{ number_format($data['delivery_fee'], 2, ',', '.') }}</td>
                 <td>R$ {{ number_format($data['outlay_total'], 2, ',', '.') }}</td>
                 
             </tr>

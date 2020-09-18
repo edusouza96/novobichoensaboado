@@ -70,6 +70,7 @@
                             <th scope="col">Cofre</th>
                             <th scope="col">PagSeguro</th>
                             <th scope="col">Banco</th>
+                            <th scope="col">Máquina da Busca</th>
                             <th scope="col">Total de Saida</th>
                         </tr>
                     </thead>
@@ -84,6 +85,7 @@
                             <td>R$ @{{ convertToBrPattern(data['outlay_safe_box']) }}</td>
                             <td>R$ @{{ convertToBrPattern(data['outlay_pagseguro']) }}</td>
                             <td>R$ @{{ convertToBrPattern(data['outlay_bank']) }}</td>
+                            <td>R$ @{{ convertToBrPattern(data['delivery_fee']) }}</td>
                             <td class="bg-danger text-light">R$ @{{ convertToBrPattern(data['outlay_total']) }}</td>
                             
                         </tr>
@@ -99,6 +101,7 @@
                             <th>R$ @{{ convertToBrPattern(sumOutlaySafeBox) }}</th>
                             <th>R$ @{{ convertToBrPattern(sumOutlayPagseguro) }}</th>
                             <th>R$ @{{ convertToBrPattern(sumOutlayBank) }}</th>
+                            <th>R$ @{{ convertToBrPattern(sumDeliveryFee) }}</th>
                             <th class="bg-danger text-light">R$ @{{ convertToBrPattern(sumOutlayTotal) }}</th>
                         </tr>
                     </tfoot>
@@ -147,6 +150,7 @@
                 sumOutlayCashDrawer: 0.00,
                 sumOutlaySafeBox: 0.00,
                 sumOutlayPagseguro: 0.00,
+                sumDeliveryFee: 0.00,
                 sumOutlayBank: 0.00,
                 sumOutlayTotal: 0.00,
 
@@ -180,6 +184,7 @@
                     this.sumOutlayCashDrawer = 0.00;
                     this.sumOutlaySafeBox = 0.00;
                     this.sumOutlayPagseguro = 0.00;
+                    this.sumDeliveryFee = 0.00;
                     this.sumOutlayBank = 0.00;
                     this.sumOutlayTotal = 0.00;
 
@@ -191,6 +196,7 @@
                         this.sumOutlayCashDrawer += data.outlay_cash_drawer;
                         this.sumOutlaySafeBox += data.outlay_safe_box;
                         this.sumOutlayPagseguro += data.outlay_pagseguro;
+                        this.sumDeliveryFee += data.delivery_fee;
                         this.sumOutlayBank += data.outlay_bank;
                         this.sumOutlayTotal += data.outlay_total;
                     });

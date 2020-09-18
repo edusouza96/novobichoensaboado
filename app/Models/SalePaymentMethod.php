@@ -70,5 +70,10 @@ class SalePaymentMethod extends Model
     {
         return $this->getCalcValueTotal();
     }
+
+    public function isDeliveryFee()
+    {
+        return (bool) $this->delivery_fee;
+    }
    
 }

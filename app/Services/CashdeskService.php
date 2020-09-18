@@ -15,6 +15,7 @@ use BichoEnsaboado\Repositories\OutlayRepository;
 use BichoEnsaboado\Repositories\CashBookRepository;
 use BichoEnsaboado\Repositories\TreasureRepository;
 use BichoEnsaboado\Repositories\CashBookMoveRepository;
+use BichoEnsaboado\Repositories\SalePaymentMethodRepository;
 
 class CashdeskService
 {
@@ -23,19 +24,22 @@ class CashdeskService
     private $outlayRepository;
     private $treasureRepository;
     private $saleRepository;
+    private $salePaymentMethodRepository;
 
     public function __construct(
         CashBookRepository $cashBookRepository, 
         CashBookMoveRepository $cashBookMoveRepository, 
         OutlayRepository $outlayRepository,
         TreasureRepository $treasureRepository,
-        SaleRepository $saleRepository
+        SaleRepository $saleRepository,
+        SalePaymentMethodRepository $salePaymentMethodRepository
     ) {
         $this->cashBookRepository = $cashBookRepository;
         $this->cashBookMoveRepository = $cashBookMoveRepository;
         $this->outlayRepository = $outlayRepository;
         $this->treasureRepository = $treasureRepository;
         $this->saleRepository = $saleRepository;
+        $this->salePaymentMethodRepository = $salePaymentMethodRepository;
     }
 
     public function open(array $attributes, User $userLogged, $store)
@@ -146,6 +150,7 @@ class CashdeskService
 
         $outlays = $this->getValueTotal($moves, TypeMovesType::OUT);
         $sales = $this->getValueTotalSalesByCashBook($cashBook);
+        $salesDeliveryFee = $this->getValueTotalSalesDeliveryFeeOnCard($cashBook);
         $contribute = $this->getValutTotalContribute($date, $store, $cashBook);
         $bleed = $this->getValutTotalBleed($date, $store, $cashBook);
         $treasure = $this->treasureRepository->getCashDrawer($store);
@@ -153,6 +158,7 @@ class CashdeskService
         return [
             'sales' => $sales,
             'sales_total' => $sales->sum('value'),
+            'sales_delivery_fee' => $salesDeliveryFee->sum('value_total'),
             'outlays' => $outlays,
             'outlays_total' => $outlays->sum('value'),
             'value_start' => $cashBook->getValueStart(),
@@ -206,6 +212,16 @@ class CashdeskService
                     'method' => PaymentMethodsType::getName($sale->first()->getPaymentMethodId())
                 ];
             });
+    }
+   
+    private function getValueTotalSalesDeliveryFeeOnCard(CashBook $cashBook)
+    {
+        // Procura todas vendas
+        $salePaymentMethods = $this->salePaymentMethodRepository->findByCashBook($cashBook);
+       
+        return $salePaymentMethods->filter(function($salePaymentMethod){ 
+            return $salePaymentMethod->getPaymentMethodId() != PaymentMethodsType::CASH;
+        });
     }
 
     private function getValutTotalContribute(Carbon $date, $store, CashBook $cashBook)

@@ -10,7 +10,7 @@
 				</div>
 
 				<div class="modal-body">
-					<fieldset>
+					<fieldset v-show="convertToUsPattern(amountSaleWithoutDeliveryFee) > 0">
 						<legend>Desconto</legend>
 						<div class="row">
 							<div class="col-8">
@@ -37,7 +37,7 @@
 							</div>
 						</div>
 					</fieldset>
-					<div id="first-method">
+					<div id="first-method" v-show="convertToUsPattern(amountSaleWithoutDeliveryFee) > 0">
 						<payment-method
 							idPaymentMethod="payment-method-1"
 							@method="paymentMethod = $event"
@@ -47,7 +47,7 @@
 
 						<pay
 							idPay="pay-1"
-							:amountSale="amountSale"
+							:amountSale="amountSaleWithoutDeliveryFee"
 							:promotionValue="promotionValue"
 							:canAddPaymentMethod="canAddPaymentMethod"
 							@valueReceived="valueReceived = $event"
@@ -71,6 +71,27 @@
 							:canAddPaymentMethod="false"
 							@valueReceived="valueReceived2 = $event"
 							@leftover="leftover2 = $event"
+						></pay>
+					</div>
+
+					<div id="delivery-fee-method" v-show="totalDeliveryFee > 0">
+						<hr><br>
+						<h4 class="font-weight-bold"> Pagamento da Busca </h4>
+						<payment-method
+							idPaymentMethod="delivery-fee-method-payment-method"
+							@method="paymentMethodPayDelivery = $event"
+							@plots="plotsPayDelivery = $event"
+							@cardMachine="cardMachinePayDelivery = $event"
+						></payment-method>
+
+						<pay
+							idPay="pay-delivery-fee"
+							:amountSale="convertToBrPattern(totalDeliveryFee)"
+							promotionValue="0"
+							:canAddPaymentMethod="false"
+							@valueReceived="valueReceivedPayDelivery = $event"
+							@leftover="leftoverPayDelivery = $event"
+							@showSecondMethod="false"
 						></pay>
 					</div>
 
@@ -111,6 +132,11 @@ export default {
 			cardMachine2: 3,
 			valueReceived2: "",
 			leftover2: '0,00',
+			paymentMethodPayDelivery: 1,
+			plotsPayDelivery: 1,
+			cardMachinePayDelivery: 3,
+			valueReceivedPayDelivery: "",
+			leftoverPayDelivery: '0,00',
 		};
 	},
 	methods: {
@@ -127,11 +153,18 @@ export default {
 				valueReceived2: this.convertToUsPattern(this.valueReceived2),
 				leftover: this.convertToUsPattern(this.leftover),
 				leftover2: this.convertToUsPattern(this.leftover2),
-				amountSale: this.convertToUsPattern(this.amountSale),
+				amountSale: this.convertToUsPattern(this.amountSaleWithoutDeliveryFee),
 				diariesId: this.diariesId,
 				cardMachine: this.cardMachine,
 				cardMachine2: this.cardMachine2,
 				hasSecondMethod: this.hasSecondMethod,
+				hasDeliveryFee: this.hasDeliveryFee,
+				paymentMethodPayDelivery: this.paymentMethodPayDelivery,
+				plotsPayDelivery: this.plotsPayDelivery,
+				cardMachinePayDelivery: this.cardMachinePayDelivery,
+				valueReceivedPayDelivery: this.convertToUsPattern(this.valueReceivedPayDelivery),
+				leftoverPayDelivery: this.convertToUsPattern(this.leftoverPayDelivery),
+				amountSaleDeliveryFee: this.totalDeliveryFee,
 			}).done(result => {
 				window.location.href = laroute.route("pdv.invoice", result);
 			});
@@ -156,8 +189,8 @@ export default {
 		},
 		isOwing() {
 			return this.hasSecondMethod
-				? this.convertToUsPattern(this.leftover2) < 0
-				: this.convertToUsPattern(this.leftover) < 0;
+				? (this.convertToUsPattern(this.leftover2) < 0 || this.convertToUsPattern(this.leftoverPayDelivery) < 0)
+				: (this.convertToUsPattern(this.leftover) < 0 || this.convertToUsPattern(this.leftoverPayDelivery) < 0);
 		},
 		getRebates() {
 			$.get(laroute.route("rebate.findActive")).done(
@@ -188,6 +221,9 @@ export default {
 		},
 	},
 	computed: {
+		hasDeliveryFee(){
+			return this.totalDeliveryFee > 0;
+		},
 		hasSecondMethod(){
 			return this.convertToUsPattern(this.valueReceived2) > 0;
 		},
@@ -248,6 +284,28 @@ export default {
 				return 0.0;
 			}
 		},
+		totalDeliveryFee() {
+			let products = this.products.filter(product => {
+				if (product.type == window.servicesType.DELIVERY_FEE) {
+					return product;
+				}
+			});
+
+			if (products.length > 0) {
+				return products.reduce((accumulator, product) => {
+					return {
+						amount:
+							parseFloat(accumulator.amount) +
+							parseFloat(product.amount)
+					};
+				}).amount;
+			} else {
+				return 0.0;
+			}
+		},
+		amountSaleWithoutDeliveryFee(){
+			return this.convertToBrPattern(this.convertToUsPattern(this.amountSale) - this.totalDeliveryFee);
+		}
 	},
 	created: function() {
 		this.getRebates();

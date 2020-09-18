@@ -14,6 +14,8 @@ final class SourceType extends Enum
     const PAGSEGURO_NAME = 'pagseguro';
     const BANK = 4;
     const BANK_NAME = 'bank';
+    const DELIVERY_FEE = 5;
+    const DELIVERY_FEE_NAME = 'delivery_fee';
 
     public static function getDisplay($id)
     {
@@ -34,6 +36,8 @@ final class SourceType extends Enum
                 return 'PagSeguro';
             case self::BANK_NAME:
                 return 'Banco';
+            case self::DELIVERY_FEE_NAME:
+                return 'Máquina da Busca';
         }
     }
     
@@ -48,6 +52,8 @@ final class SourceType extends Enum
                 return self::PAGSEGURO_NAME;
             case self::BANK:
                 return self::BANK_NAME;
+            case self::DELIVERY_FEE:
+                return self::DELIVERY_FEE_NAME;
         }
     }
 }

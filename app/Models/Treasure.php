@@ -10,7 +10,7 @@ class Treasure extends Model
     use SoftDeletes;
     protected $table = 'treasures';
     public $timestamps = false;
-    protected $fillable = ['name', 'display', 'value', 'store_id', 'card_machine'];
+    protected $fillable = ['name', 'display', 'value', 'store_id', 'card_machine', 'source_id'];
 
     public function getId()
     {
@@ -27,6 +27,10 @@ class Treasure extends Model
     public function getDisplay()
     {
         return $this->display;
+    }
+    public function getSource()
+    {
+        return $this->source_id;
     }
     public function getStore()
     {

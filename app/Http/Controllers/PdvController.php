@@ -10,6 +10,7 @@ use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Presenters\InvoicePresenter;
 use BichoEnsaboado\Repositories\SaleRepository;
 use BichoEnsaboado\Repositories\DiaryRepository;
+use Illuminate\Database\DatabaseManager;
 
 class PdvController extends Controller
 {
@@ -24,18 +25,23 @@ class PdvController extends Controller
     
     /** @var BuySearchService */
     private $buySearchService;
+    
+    /** @var DatabaseManager */
+    private $db;
 
     public function __construct(
         DiaryRepository $diaryRepository, 
         SaleRepository $saleRepository,
         SaleCreateService $saleCreateService, 
-        BuySearchService $buySearchService
+        BuySearchService $buySearchService,
+        DatabaseManager $db
     )
     {
         $this->diaryRepository = $diaryRepository;
         $this->saleRepository = $saleRepository;
         $this->saleCreateService = $saleCreateService;
         $this->buySearchService = $buySearchService;
+        $this->db = $db;
     }
    
     public function index($id = null)
@@ -67,6 +73,7 @@ class PdvController extends Controller
 
     public function registerPayment(Request $request)
     {
+        $this->db->beginTransaction();
         try {
             $store = auth()->user()->getStore()->getId();
             $id = $this->saleCreateService->create($request->all(), auth()->user(), $store);
@@ -74,8 +81,10 @@ class PdvController extends Controller
             if($request->get('diariesId'))
                 $this->diaryRepository->paid($request->get('diariesId'));
                 
+            $this->db->commit();
             return response(['id'=> $id], 201);
         } catch (\Exception $ex) {
+            $this->db->rollback();
             dd($ex->getMessage());
         }
     }

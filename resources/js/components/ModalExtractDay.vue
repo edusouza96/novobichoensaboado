@@ -49,6 +49,10 @@
 						<div class="row" v-if="bleed != '0,00'">
 							<div class="col-md-8">Sangria</div><div class="col-md-4">R$ {{bleed}}</div>
 						</div>
+						
+						<div class="row" v-if="salesDeliveryFee != '0,00'">
+							<div class="col-md-8">Máquina das Buscas</div><div class="col-md-4">R$ {{salesDeliveryFee}}</div>
+						</div>
 
 						<div class="row" v-for="(out, index) in outlays" :key="index">
 							<div class="col-md-8">{{out.method}}</div><div class="col-md-4">R$ {{convertToBrPattern(out.value)}}</div>
@@ -102,6 +106,7 @@ export default {
 			outlaysTotal: null,
 			sum: null,
 			onlyCashDrawer: null,
+			salesDeliveryFee: null,
 		};
 	},
 	methods: {
@@ -127,11 +132,13 @@ export default {
 				this.datetimeClose = data.datetime_close;
 				this.closedBy = data.closed_by;
 				this.salesTotal = this.convertToBrPattern(data.sales_total);
+				this.salesDeliveryFee = this.convertToBrPattern(data.sales_delivery_fee);
 				this.outlaysTotal = this.convertToBrPattern(data.outlays_total);
 				this.onlyCashDrawer = this.convertToBrPattern(data.only_cash_drawer);
 				this.sum = this.convertToBrPattern(
 					(parseFloat(data.sales_total) + parseFloat(data.contribute) + parseFloat(data.value_start)) -
-					(parseFloat(data.outlays_total) + parseFloat(data.bleed))
+					(parseFloat(data.outlays_total) + parseFloat(data.bleed)) - 
+					(parseFloat(data.sales_delivery_fee))
 				);
 			}.bind(this));
 		},

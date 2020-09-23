@@ -70,7 +70,7 @@
 					<fieldset class="mt-5 mb-5">
 						<legend>Saldo Final</legend>
 						<div class="row">
-							<div class="col-md-8">Somente Dinheiro</div><div class="col-md-4">R${{onlyCashDrawer}}</div>
+							<div class="col-md-8">Somente Dinheiro</div><div class="col-md-4">R$ {{onlyCashDrawer}}</div>
 						</div>
 						<div class="row">
 							<div class="col-md-8">Tudo</div><div class="col-md-4">R$ {{sum}}</div>

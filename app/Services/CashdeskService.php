@@ -16,6 +16,7 @@ use BichoEnsaboado\Repositories\CashBookRepository;
 use BichoEnsaboado\Repositories\TreasureRepository;
 use BichoEnsaboado\Repositories\CashBookMoveRepository;
 use BichoEnsaboado\Repositories\SalePaymentMethodRepository;
+use BichoEnsaboado\Repositories\TransferRepository;
 
 class CashdeskService
 {
@@ -25,6 +26,7 @@ class CashdeskService
     private $treasureRepository;
     private $saleRepository;
     private $salePaymentMethodRepository;
+    private $transferRepository;
 
     public function __construct(
         CashBookRepository $cashBookRepository, 
@@ -32,7 +34,8 @@ class CashdeskService
         OutlayRepository $outlayRepository,
         TreasureRepository $treasureRepository,
         SaleRepository $saleRepository,
-        SalePaymentMethodRepository $salePaymentMethodRepository
+        SalePaymentMethodRepository $salePaymentMethodRepository,
+        TransferRepository $transferRepository
     ) {
         $this->cashBookRepository = $cashBookRepository;
         $this->cashBookMoveRepository = $cashBookMoveRepository;
@@ -40,6 +43,7 @@ class CashdeskService
         $this->treasureRepository = $treasureRepository;
         $this->saleRepository = $saleRepository;
         $this->salePaymentMethodRepository = $salePaymentMethodRepository;
+        $this->transferRepository = $transferRepository;
     }
 
     public function open(array $attributes, User $userLogged, $store)
@@ -71,12 +75,15 @@ class CashdeskService
         $cashBook = $this->cashBookRepository->findByDate($closingDate, $store);
         if(!$cashBook) throw new \Exception("Caixa não aberto para o dia ".$closingDate->format('d/m/Y'));
         
-        $treasure = $this->treasureRepository->addValue($valueWithdraw, SourceType::getName($source), $store);
-        $treasure = $this->treasureRepository->subValue($valueWithdraw, SourceType::CASH_DRAWER_NAME, $store);
-        $cashDrawer = $treasure->getValue() + $valueWithdraw;
+        $treasureDestiny = $this->treasureRepository->addValue($valueWithdraw, SourceType::getName($source), $store);
+        $treasureOrigin = $this->treasureRepository->subValue($valueWithdraw, SourceType::CASH_DRAWER_NAME, $store);
+
+        $this->transferRepository->create($cashBook, $treasureOrigin, $treasureDestiny, $valueWithdraw, $userLogged);
+        
+        $cashDrawer = $treasureOrigin->getValue() + $valueWithdraw;
 
         $cashBook = $this->cashBookRepository->updateValueEnd($cashBook, $cashDrawer, $userLogged, $store);
-        return $treasure;
+        return $treasureOrigin;
     }
     public function contribute(array $attributes, User $userLogged, $store)
     {
@@ -116,10 +123,14 @@ class CashdeskService
         $destiny = $attributes['destiny'];
         $value = $attributes['value'];
 
-        $treasure = $this->treasureRepository->subValue($value, SourceType::getName($origin), $store);
-        $treasure = $this->treasureRepository->addValue($value, SourceType::getName($destiny), $store);
+        $treasureOrigin = $this->treasureRepository->subValue($value, SourceType::getName($origin), $store);
+        $treasureDestiny = $this->treasureRepository->addValue($value, SourceType::getName($destiny), $store);
 
-        return $treasure;
+        $cashBook = $this->cashBookRepository->getLast($store);
+
+        $this->transferRepository->create($cashBook, $treasureOrigin, $treasureDestiny, $value, $userLogged);
+
+        return $treasureDestiny;
     }
 
     public function status($store)

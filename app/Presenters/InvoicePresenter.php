@@ -62,7 +62,7 @@ class InvoicePresenter
                 $item = array();
                 $item['units'] = 1;
                 $item['barcode'] = null;
-                $item['description'] = $diary->getServicePet()->getName();
+                $item['description'] = $diary->getServicePet()->getName().$diary->getNumberPackage();
                 $item['unitaryValue'] = $diary->getServicePetValue();
                 $item['unitaryValue_string'] = number_format($item['unitaryValue'], 2, ',', '');
                 $item['amountValue'] = $diary->getServicePetValue();

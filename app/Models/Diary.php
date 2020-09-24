@@ -152,7 +152,8 @@ class Diary extends Model
             'fetch' => $this->getFetch(),
             'gross' => $this->getGross(),
             'client' => $this->getClient(),
-            'package' => $this->getPackage() ? $this->getPackage()->getId() : null,
+            'package' => $this->getNumberPackage(),
+            'package_number' => $this->getPackage() ? "/ Nº ".$this->getPackage()->getNumber() : null,
             'date_other_package' => $this->getPackage() ? $this->getPackage()->listDatesPackagesAll() : null,
             'servicePet' => $this->getServicePet(),
             'serviceVet' => $this->getServiceVet(),
@@ -166,13 +167,18 @@ class Diary extends Model
         ];
     }
 
+    public function getNumberPackage()
+    {
+        return $this->getPackage() ? "/ Nº ".$this->getPackage()->getNumber() : null;
+    }
+
     public function toArrayPet()
     {
         if (is_null($this->getServicePet())) return null;
         return [
             "id" => $this->getId(),
             "units" => 1,
-            "description" => $this->getServicePet()->getName().' - '.$this->getClient()->getName(),
+            "description" => $this->getServicePet()->getName().$this->getNumberPackage().' - '.$this->getClient()->getName(),
             "unitaryValue" => $this->getServicePetValue(),
             "amount" => $this->getServicePetValue(),
             "type" => ServicesType::PET,
@@ -206,7 +212,7 @@ class Diary extends Model
     {
         return 
             (is_null($this->getServicePet()) ? '' : $this->getServicePet()->getName().' + ').
-            (is_null($this->getServiceVet()) ? '' : $this->getServiceVet()->getName().' + ').
+            (is_null($this->getServiceVet()) ? '' : $this->getServiceVet()->getName().$this->getNumberPackage().' + ').
             (is_null($this->getFetch())      ? '' : 'Serviço de Busca');
     }
 }

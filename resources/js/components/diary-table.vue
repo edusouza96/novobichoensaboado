@@ -97,7 +97,10 @@
           </td>
 
           <td class="text-center">
-            <div id="service_pet">{{ register.servicePet ? register.servicePet.name : "" }}</div>
+            <div id="service_pet">
+              {{ register.servicePet ? register.servicePet.name : "" }}
+              {{register.package_number}}
+            </div>
             <a
               v-if="register.editable"
               data-toggle="modal"

@@ -2440,6 +2440,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["data", "date", "msg"],
   data: function data() {
@@ -93531,9 +93534,13 @@ var render = function() {
                 _c("td", { staticClass: "text-center" }, [
                   _c("div", { attrs: { id: "service_pet" } }, [
                     _vm._v(
-                      _vm._s(
-                        register.servicePet ? register.servicePet.name : ""
-                      )
+                      "\n            " +
+                        _vm._s(
+                          register.servicePet ? register.servicePet.name : ""
+                        ) +
+                        "\n            " +
+                        _vm._s(register.package_number) +
+                        "\n          "
                     )
                   ]),
                   _vm._v(" "),

@@ -53,7 +53,7 @@
                         @foreach ($historic as $diary)
                             <tr>
                                 <td>{{ $diary->getDateHour()->format('d/m/Y H:i') }}</td>
-                                <td>{{ $diary->getServicePet()? $diary->getServicePet()->getName() : '' }}</td>
+                                <td>{{ $diary->getServicePet()? $diary->getServicePet()->getName().$diary->getNumberPackage() : '' }}</td>
                                 <td>{{ $diary->getServiceVet()? $diary->getServiceVet()->getName() : '' }}</td>
                                 <td>{{ $diary->getCheckinHour() }}</td>
                                 <td>{{ $diary->getObservation() }}</td>

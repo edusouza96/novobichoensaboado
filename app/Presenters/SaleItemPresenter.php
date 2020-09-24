@@ -45,7 +45,7 @@ class SaleItemPresenter implements Arrayable, JsonSerializable
             'quantity' => 1,
             'id' => $this->saleItem->pivot->id,
             'type' => $this->type,
-            'name' => $this->saleItem->getServicePet()->getName(),
+            'name' => $this->saleItem->getServicePet()->getName().$this->saleItem->getNumberPackage(),
             'value' => $this->saleItem->getServicePetValue(),
             'value_br' => number_format($this->saleItem->getServicePetValue(), 2, ',', '.'),
         ];

@@ -92642,7 +92642,7 @@ var render = function() {
                     _vm._v("Somente Dinheiro")
                   ]),
                   _c("div", { staticClass: "col-md-4" }, [
-                    _vm._v("R$" + _vm._s(_vm.onlyCashDrawer))
+                    _vm._v("R$ " + _vm._s(_vm.onlyCashDrawer))
                   ])
                 ]),
                 _vm._v(" "),

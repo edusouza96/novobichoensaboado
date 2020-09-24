@@ -94,6 +94,10 @@ class DiaryCreateService
         
         $status = empty($attributes['id']) ? StatusType::SCHEDULED : null;
         
+        if(!empty($attributes['id']) && $dateHour->diffInMinutes($diary->getDateHour()) != 0){
+            $observation .= "\nAlterado a data/hora no dia ".Carbon::now()->format('d/m/Y H:i:s')." pelo(a) operador(a) ".$userLogged->getName();
+        }
+
         $diary = $this->diaryRepository->save($diary, $userLogged, $store, $client, $dateHour, $status, $servicePet, $valuePet, $serviceVet, $valueVet, $fetch, $deliveryFee, $gross, $observation, 0, $companion);
         return $diary;
     }

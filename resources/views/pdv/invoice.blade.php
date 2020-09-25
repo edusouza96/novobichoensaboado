@@ -116,10 +116,13 @@
     </div>
 </div>
 
+<div class="container noprint">
+    <div class="row float-right mt-3 mb-3">
+        <div class="col-12">
+            <a class="btn btn-primary ml-2" href="{{ route('dashboard.index') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a class="btn btn-primary ml-2" href="{{ route('diary.index') }}"><i class="far fa-calendar-alt"></i> Agenda</a>
+            <button class="btn btn-success ml-2" type="button" onclick="window.print();"><i class="fas fa-print"></i> Imprimir</button>
+        </div>
+    </div>
+</div>
 @endsection
-
-@push('js-end')
-<script>
-
-</script>
-@endpush

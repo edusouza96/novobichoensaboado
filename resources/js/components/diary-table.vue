@@ -139,7 +139,7 @@
                 @blur="refreshRegisterCurrent(index)"
               >
                 <i class="fas fa-plus-circle" data-toggle="tooltip" data-placement="bottom" title="Adicionar Observação" v-if="register.editable"></i>
-                <i class="fas fa-eye" data-toggle="tooltip" data-placement="bottom" title="Ver Observação" v-else></i>
+                <i class="fas fa-eye" data-toggle="tooltip" data-placement="bottom" title="Ver Observação" v-else :class="register.observation ? 'text-danger' : ''"></i>
               </a>
             </div>
           </td>

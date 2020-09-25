@@ -2098,6 +2098,9 @@ __webpack_require__.r(__webpack_exports__);
         this.packages = this.register.date_other_package;
         this.blockEdition = true;
         this.serviceSelected = this.register.servicePet;
+      } else {
+        this.blockEdition = false;
+        this.packages = [];
       }
     },
     breedId: function breedId() {
@@ -93648,6 +93651,7 @@ var render = function() {
                             })
                           : _c("i", {
                               staticClass: "fas fa-eye",
+                              class: register.observation ? "text-danger" : "",
                               attrs: {
                                 "data-toggle": "tooltip",
                                 "data-placement": "bottom",

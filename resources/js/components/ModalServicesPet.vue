@@ -157,6 +157,9 @@ export default {
         this.packages = this.register.date_other_package;
         this.blockEdition = true;
         this.serviceSelected = this.register.servicePet;
+      }else{
+        this.blockEdition = false;
+        this.packages = [];
       }
     },
     breedId: function() {

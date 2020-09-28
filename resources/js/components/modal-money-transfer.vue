@@ -54,7 +54,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					<button type="button" @click="finish()" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
 					<button
 						type="button"
 						class="btn btn-success"
@@ -93,6 +93,9 @@ export default {
 	},
 	props: ["store"],
 	methods: {
+		finish(){
+			this.$emit('finish');
+		},
 		confirm() {
 			$.post(laroute.route("cashdesk.moneyTransfer"), {
 				origin: this.origin,

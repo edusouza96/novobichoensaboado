@@ -27,6 +27,9 @@
 						<div class="row">
 							<div class="col-md-8">Caixa Inicial</div><div class="col-md-4">R$ {{valueStart}}</div>
 						</div>
+						<div class="row">
+							<div class="col-md-8">Caixa Final</div><div class="col-md-4">R$ {{valueEnd}}</div>
+						</div>
 					</fieldset>
 
 					<fieldset class="mt-5 mb-5">
@@ -67,8 +70,30 @@
 						</div>
 					</fieldset>
 
+					<fieldset class="mt-5 mb-5" v-if="transfers.length > 0">
+						<legend>Transferencias Realizadas</legend>
+						<div class="table-responsive">
+							<table class="table table-sm table-striped">
+								<thead class="thead-primary">
+									<tr>
+										<th scope="col">Origem</th>
+										<th scope="col">Destino</th>
+										<th scope="col">Valor</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="transfer in transfers" :key="transfer.id">
+										<td>{{ transfer.origin.display}}</td>
+										<td>{{ transfer.destiny.display}}</td>
+										<td>R$ {{ convertToBrPattern(transfer.value) }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</fieldset>
+
 					<fieldset class="mt-5 mb-5">
-						<legend>Saldo Final</legend>
+						<legend>Saldo</legend>
 						<div class="row">
 							<div class="col-md-8">Somente Dinheiro</div><div class="col-md-4">R$ {{onlyCashDrawer}}</div>
 						</div>
@@ -80,7 +105,7 @@
 
 				<div class="modal-footer">
                     <button v-if="closedBy == ''" class="btn btn-danger" type="button" data-dismiss="modal" @click="openModalCloseCashdesk">Fechar Caixa</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-success" data-dismiss="modal">Sair</button>
 				</div>
 			</div>
 		</div>
@@ -107,6 +132,9 @@ export default {
 			sum: null,
 			onlyCashDrawer: null,
 			salesDeliveryFee: null,
+			transfers: [],
+			sumOrigin: null,
+			sumDestiny: null,
 		};
 	},
 	methods: {
@@ -134,11 +162,12 @@ export default {
 				this.salesTotal = this.convertToBrPattern(data.sales_total);
 				this.salesDeliveryFee = this.convertToBrPattern(data.sales_delivery_fee);
 				this.outlaysTotal = this.convertToBrPattern(data.outlays_total);
+				this.transfers = data.transfers;
 				this.onlyCashDrawer = this.convertToBrPattern(data.only_cash_drawer);
 				this.sum = this.convertToBrPattern(
 					(parseFloat(data.sales_total) + parseFloat(data.contribute) + parseFloat(data.value_start)) -
 					(parseFloat(data.outlays_total) + parseFloat(data.bleed)) - 
-					(parseFloat(data.sales_delivery_fee))
+					(parseFloat(data.sales_delivery_fee)) + parseFloat(data.sum_destiny) - parseFloat(data.sum_origin)
 				);
 			}.bind(this));
 		},

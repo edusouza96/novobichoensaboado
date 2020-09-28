@@ -12,7 +12,7 @@
     <modal-open-cashdesk @failed="alertError" @opened="opened" :value="value" :store="'{{auth()->user()->getStore()->getId()}}'" :is-admin="'{{auth()->user()->canSeeAdministrativePage()}}'"></modal-open-cashdesk>
     <modal-close-cashdesk @failed="alertError" @closed="closed" :closing-date="closingDate" :store="'{{auth()->user()->getStore()->getId()}}'"></modal-close-cashdesk>
     <modal-extract-day @closecashdesk="closeCashdesk" :_key="reloadComponent" :key="reloadComponent"></modal-extract-day>
-    <modal-money-transfer :store="'{{auth()->user()->getStore()->getId()}}'"></modal-money-transfer>
+    <modal-money-transfer :store="'{{auth()->user()->getStore()->getId()}}'" @finish="getCashDrawer"></modal-money-transfer>
     <alert-message :title="titleAlertMessage" text="" :type="typeAlertMessage" :active="showAlert" @active="showAlert=$event"></alert-message>
 
     <div class="row justify-content-between">

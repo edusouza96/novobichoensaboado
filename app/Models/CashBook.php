@@ -3,6 +3,7 @@
 namespace BichoEnsaboado\Models;
 
 use BichoEnsaboado\Models\User;
+use BichoEnsaboado\Models\Transfer;
 use BichoEnsaboado\Models\CashBookMove;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,11 @@ class CashBook extends Model
     public function store()
     {
         return $this->belongsTo(Store::class);
+    }
+
+    public function tranfers()
+    {
+        return $this->hasMany(Transfer::class);
     }
 
     public function getId()
@@ -64,6 +70,11 @@ class CashBook extends Model
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    public function getTransfers()
+    {
+        return $this->tranfers;
     }
    
 }

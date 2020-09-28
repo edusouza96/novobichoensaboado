@@ -1798,6 +1798,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["_key"],
   data: function data() {
@@ -1816,7 +1841,10 @@ __webpack_require__.r(__webpack_exports__);
       outlaysTotal: null,
       sum: null,
       onlyCashDrawer: null,
-      salesDeliveryFee: null
+      salesDeliveryFee: null,
+      transfers: [],
+      sumOrigin: null,
+      sumDestiny: null
     };
   },
   methods: {
@@ -1847,8 +1875,9 @@ __webpack_require__.r(__webpack_exports__);
         this.salesTotal = this.convertToBrPattern(data.sales_total);
         this.salesDeliveryFee = this.convertToBrPattern(data.sales_delivery_fee);
         this.outlaysTotal = this.convertToBrPattern(data.outlays_total);
+        this.transfers = data.transfers;
         this.onlyCashDrawer = this.convertToBrPattern(data.only_cash_drawer);
-        this.sum = this.convertToBrPattern(parseFloat(data.sales_total) + parseFloat(data.contribute) + parseFloat(data.value_start) - (parseFloat(data.outlays_total) + parseFloat(data.bleed)) - parseFloat(data.sales_delivery_fee));
+        this.sum = this.convertToBrPattern(parseFloat(data.sales_total) + parseFloat(data.contribute) + parseFloat(data.value_start) - (parseFloat(data.outlays_total) + parseFloat(data.bleed)) - parseFloat(data.sales_delivery_fee) + parseFloat(data.sum_destiny) - parseFloat(data.sum_origin));
       }.bind(this));
     },
     openModalCloseCashdesk: function openModalCloseCashdesk() {
@@ -4582,6 +4611,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: ["store"],
   methods: {
+    finish: function finish() {
+      this.$emit('finish');
+    },
     confirm: function confirm() {
       $.post(laroute.route("cashdesk.moneyTransfer"), {
         origin: this.origin,
@@ -92517,6 +92549,15 @@ var render = function() {
                   _c("div", { staticClass: "col-md-4" }, [
                     _vm._v("R$ " + _vm._s(_vm.valueStart))
                   ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _vm._v("Caixa Final")
+                  ]),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _vm._v("R$ " + _vm._s(_vm.valueEnd))
+                  ])
                 ])
               ]),
               _vm._v(" "),
@@ -92640,8 +92681,49 @@ var render = function() {
                 2
               ),
               _vm._v(" "),
+              _vm.transfers.length > 0
+                ? _c("fieldset", { staticClass: "mt-5 mb-5" }, [
+                    _c("legend", [_vm._v("Transferencias Realizadas")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c(
+                        "table",
+                        { staticClass: "table table-sm table-striped" },
+                        [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.transfers, function(transfer) {
+                              return _c("tr", { key: transfer.id }, [
+                                _c("td", [
+                                  _vm._v(_vm._s(transfer.origin.display))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(transfer.destiny.display))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    "R$ " +
+                                      _vm._s(
+                                        _vm.convertToBrPattern(transfer.value)
+                                      )
+                                  )
+                                ])
+                              ])
+                            }),
+                            0
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
               _c("fieldset", { staticClass: "mt-5 mb-5" }, [
-                _c("legend", [_vm._v("Saldo Final")]),
+                _c("legend", [_vm._v("Saldo")]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-md-8" }, [
@@ -92677,10 +92759,10 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-secondary",
+                  staticClass: "btn btn-success",
                   attrs: { type: "button", "data-dismiss": "modal" }
                 },
-                [_vm._v("Fechar")]
+                [_vm._v("Sair")]
               )
             ])
           ])
@@ -92709,6 +92791,20 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-primary" }, [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Origem")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Destino")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Valor")])
+      ])
     ])
   }
 ]
@@ -95937,7 +96033,12 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-secondary",
-                attrs: { type: "button", "data-dismiss": "modal" }
+                attrs: { type: "button", "data-dismiss": "modal" },
+                on: {
+                  click: function($event) {
+                    return _vm.finish()
+                  }
+                }
               },
               [_vm._v("Cancelar")]
             ),

@@ -154,6 +154,15 @@ class CashdeskService
         $cashBook = $this->cashBookRepository->findByDate($date, $store, true);
         if(!$cashBook) throw new \Exception("Não foi aberto o caixa");
         
+        $transfers = $cashBook->getTransfers();
+
+        $sumOrigin = $transfers->filter(function($transfer){
+            return $transfer->getOrigin()->getSource() == SourceType::CASH_DRAWER;
+        })->sum('value');
+        $sumDestiny = $transfers->filter(function($transfer){
+            return $transfer->getDestiny()->getSource() == SourceType::CASH_DRAWER;
+        })->sum('value');
+
         $moves = $cashBook->getMoves();
         $moves = $moves->filter(function($move){
             return !$move->hasOutlay() || !$move->getOutlay()->getCostCenter()->getCategory()->isSystem();
@@ -181,6 +190,9 @@ class CashdeskService
             'closed_by' => $cashBook->getValueEnd() ? $cashBook->getUpdatedBy()->getName() : '',
             'datetime_open' => $cashBook->getCreatedAt()->format('d/m/Y H:i:s'),
             'datetime_close' => $cashBook->getValueEnd() ? $cashBook->getDateHour()->format('d/m/Y H:i:s') : '',
+            'transfers' => $transfers,
+            'sum_origin' => $sumOrigin,
+            'sum_destiny' => $sumDestiny,
         ];
     }
 

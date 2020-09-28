@@ -38,5 +38,14 @@ class Transfer extends Model
     {
         return $this->value;
     }
+    
+    public function getOrigin()
+    {
+        return $this->origin;
+    }
+    public function getDestiny()
+    {
+        return $this->destiny;
+    }
      
 }

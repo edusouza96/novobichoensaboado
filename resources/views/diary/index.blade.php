@@ -3,8 +3,8 @@
  
 @section('content') 
 <div id="diaries">
-    <div class="header-info-date-calendar">
-        {{ strtoupper($date->formatLocalized('%A, %d de %B de %Y'))}}
+    <div class="header-info-date-calendar text-uppercase">
+        {{ ($date->formatLocalized('%A, %d de %B de %Y'))}}
         
         <button type="button" @click="openCalendar()" class="btn text-danger">
             <i class="far fa-calendar-alt fa-2x"></i>

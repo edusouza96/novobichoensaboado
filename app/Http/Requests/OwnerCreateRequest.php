@@ -27,7 +27,7 @@ class OwnerCreateRequest extends FormRequest
             "name" => "required",
             "neighborhood_id" => "required|numeric",
             "phone1" => "required|numeric|digits_between:8,9",
-            "phone2" => "sometimes|numeric|digits_between:8,9",
+//             "phone2" => "sometimes|numeric|digits_between:8,9",
         ];
     }
 

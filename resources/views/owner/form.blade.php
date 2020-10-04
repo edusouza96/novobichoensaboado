@@ -53,7 +53,8 @@
         <div class="col-6">
             <div class="form-group">
                 <label for="phone2">Telefone 2</label>
-                <input type="number" name="phone2" class="form-control" value="{{old('phone2', $owner->getPhone2())}}">
+                <the-mask mask="###########" :masked="false" type="tel" name="phone2" class="form-control" value="{{old('phone2', $owner->getPhone2())}}">
+
             </div>
         </div>
     </div>

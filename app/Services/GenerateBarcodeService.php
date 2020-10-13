@@ -17,7 +17,7 @@ class GenerateBarcodeService
     public function generate()
     {
         $product = $this->productRepository->last();
-        $barcode = $product->getBarcode();
+        $barcode = $product ? $product->getBarcode() : 'BE10000000';
         $code = (int) str_replace('BE', '', $barcode);
         return 'BE'.($code+1);
     }

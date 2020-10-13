@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Observação</h5>
+          <h5 class="modal-title">Observações</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -13,7 +13,16 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label for="observation">Observação</label>
+                <label for="observation_pet">Observações do Pet</label>
+                <textarea name="observation_pet" id="observation_pet" class="form-control" cols="30" rows="3" v-model="observationPet" disabled></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="observation">Observações do Agendamento</label>
                 <textarea name="observation" id="observation" class="form-control" cols="30" rows="5" v-model="observation" :disabled="!editable"></textarea>
               </div>
             </div>
@@ -31,7 +40,7 @@
 
 <script>
 export default {
-  props: ['default', 'editable'],
+  props: ['default', 'editable', 'register'],
   data: function() {
     return {
       observation: ""
@@ -40,6 +49,11 @@ export default {
   methods: {
     define: function () {
       this.$emit('setObservation', this.observation);
+    }
+  },
+  computed:{
+    observationPet(){
+      return  this.register.client ? this.register.client.observation : "";
     }
   },
   watch: {

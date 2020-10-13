@@ -26,6 +26,14 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label for="observation">Observação do Pet</label>
+                <textarea cols="30" rows="3" name="observation" class="form-control">{{ old('observation', $client->getObservation()) }}</textarea>
+            </div>
+        </div>
+    </div>
 </div> 
 
 @push('js-end')

@@ -13,7 +13,7 @@ class Client extends Model
     use SoftDeletes;
     
     protected $table = 'clients';
-    protected $fillable = ['owner_id', 'name', 'breed_id'];
+    protected $fillable = ['owner_id', 'name', 'breed_id', 'observation'];
     
     public function breed()
     {
@@ -64,6 +64,11 @@ class Client extends Model
     {
         return $this->getOwner()->getPhone2();
     }
+
+    public function getObservation()
+    {
+        return $this->observation;
+    }
         
     public function toArray()
     {
@@ -81,6 +86,7 @@ class Client extends Model
             'phone2'        => $this->getPhone2(),
             'phones'        => $this->getPhone1().'<br>'.$this->getPhone2(),
             'email'         => $this->getOwner()->getEmail(),
+            'observation'   => $this->getObservation(),
         ];
     }
 }

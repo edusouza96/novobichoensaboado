@@ -53,6 +53,13 @@
                                 <span>{{pet.phone2}}</span>
                             </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-12 mt-2 mb-2">
+                                <strong>Observações do Pet:</strong>
+                                <span>{{pet.observation}}</span>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-4 mt-3 mb-3">

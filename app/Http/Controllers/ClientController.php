@@ -2,9 +2,7 @@
 
 namespace BichoEnsaboado\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use BichoEnsaboado\Http\Requests;
+use Exception;
 use BichoEnsaboado\Http\Controllers\Controller;
 use BichoEnsaboado\Repositories\OwnerRepository;
 use BichoEnsaboado\Repositories\ClientRepository;
@@ -44,7 +42,7 @@ class ClientController extends Controller
     public function store(ClientCreateRequest $request)
     {
         try {
-            $this->clientRepository->create($request->only('owner_id', 'name', 'breed_id'));
+            $this->clientRepository->create($request->only('owner_id', 'name', 'breed_id', 'observation'));
             return redirect()->route('owner.index')->with('alertType', 'success')->with('message', 'Pet Cadastrado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());
@@ -60,7 +58,7 @@ class ClientController extends Controller
     public function update(ClientCreateRequest $request, $id)
     {
         try {
-            $this->clientRepository->update($id, $request->only('owner_id', 'name', 'breed_id'));
+            $this->clientRepository->update($id, $request->only('owner_id', 'name', 'breed_id', 'observation'));
             return redirect()->route('owner.index')->with('alertType', 'success')->with('message', 'Pet Atualizado.');
         } catch (Exception $ex) {
             return back()->with('alertType', 'danger')->with('message', $ex->getMessage());

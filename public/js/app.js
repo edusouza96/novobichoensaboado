@@ -1933,8 +1933,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['default', 'editable'],
+  props: ['default', 'editable', 'register'],
   data: function data() {
     return {
       observation: ""
@@ -1943,6 +1952,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     define: function define() {
       this.$emit('setObservation', this.observation);
+    }
+  },
+  computed: {
+    observationPet: function observationPet() {
+      return this.register.client ? this.register.client.observation : "";
     }
   },
   watch: {
@@ -4086,6 +4100,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -92844,8 +92865,46 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "observation_pet" } }, [
+                    _vm._v("Observações do Pet")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.observationPet,
+                        expression: "observationPet"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      name: "observation_pet",
+                      id: "observation_pet",
+                      cols: "30",
+                      rows: "3",
+                      disabled: ""
+                    },
+                    domProps: { value: _vm.observationPet },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.observationPet = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "observation" } }, [
-                    _vm._v("Observação")
+                    _vm._v("Observações do Agendamento")
                   ]),
                   _vm._v(" "),
                   _c("textarea", {
@@ -92923,7 +92982,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("Observação")]),
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Observações")]),
       _vm._v(" "),
       _c(
         "button",
@@ -93410,6 +93469,7 @@ var render = function() {
       _vm._v(" "),
       _c("modal-observation", {
         attrs: {
+          register: _vm.registerCurrent,
           default: _vm.observationCurrent,
           editable: _vm.editableCurrent
         },
@@ -95368,6 +95428,14 @@ var render = function() {
                         _c("strong", [_vm._v("Telefone 2:")]),
                         _vm._v(" "),
                         _c("span", [_vm._v(_vm._s(_vm.pet.phone2))])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 mt-2 mb-2" }, [
+                        _c("strong", [_vm._v("Observações do Pet:")]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(_vm.pet.observation))])
                       ])
                     ]),
                     _vm._v(" "),

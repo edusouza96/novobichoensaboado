@@ -4,7 +4,7 @@
     <modal-clients @clientSelected="clientSelected"></modal-clients>
     <modal-services-pet :date="date" :register="registerCurrent" @servicePetSelected="servicePetSelected" @packageSelected="packageSelected"></modal-services-pet>
     <modal-services-vet :register="registerCurrent" @serviceVetSelected="serviceVetSelected"></modal-services-vet>
-    <modal-observation :default="observationCurrent" :editable="editableCurrent" @setObservation="setObservation"></modal-observation>
+    <modal-observation :register="registerCurrent" :default="observationCurrent" :editable="editableCurrent" @setObservation="setObservation"></modal-observation>
     <modal-pets-by-owner :register="registerCurrent" @petSelected="petSelected" :key="reloadComponent"></modal-pets-by-owner>
     <modal-authenticate :action="action" @cancel="cancel" @edit="edit" :key="reloadComponentAuth"></modal-authenticate>
 

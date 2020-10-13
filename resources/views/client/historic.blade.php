@@ -46,7 +46,7 @@
                             <th scope="col">Serviço PET</th>
                             <th scope="col">Serviço VET</th>
                             <th scope="col">Checkin</th>
-                            <th scope="col">Observações</th>
+                            <th scope="col">Observações do agendamento</th>
                         </tr>
                     </thead>
                     <tbody>

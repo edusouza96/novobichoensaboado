@@ -70,8 +70,8 @@ class Client extends Model
         return [
             'id'            => $this->getId(),
             'name'          => $this->getName(),
-            'breed_name'    => $this->getBreed()->getName(),
-            'breed_id'      => $this->getBreed()->getId(),
+            'breed_name'    => $this->getBreed() ? $this->getBreed()->getName() : '',
+            'breed_id'      => $this->getBreed() ? $this->getBreed()->getId() : '',
             'owner_name'    => $this->getOwnerName(),
             'owner_id'      => $this->getOwnerId(),
             'neighborhood'  => $this->getNeighborhood()->getName(),

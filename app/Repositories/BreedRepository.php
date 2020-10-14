@@ -15,7 +15,7 @@ class BreedRepository
 
     public function all()
     {
-        return $this->breed->all();   
+        return $this->breed->orderBy('name')->get();   
     }
 
     public function find($id)

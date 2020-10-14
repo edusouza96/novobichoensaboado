@@ -1,4 +1,4 @@
-<div id='form'>
+<div id='form' v-cloak>
     <div class="row">
         <div class="col-6">
             <div class="form-group">
@@ -68,9 +68,9 @@
                     precision: 2
                 },
                 package_types:[{id:1, name:'Selecione'}, {id:2, name:'15 Dias'}, {id:3, name:'30 Dias'}],
-                package_type_id: "{{ old('package_type_id', $service->package_type_id) }}",
+                package_type_id: "{{ old('package_type_id', $service->getPackageType()) }}",
                 breeds:[],
-                breed_id: "{{old('breed_id', $service->breed_id) }}",
+                breed_id: "{{old('breed_id', $service->getBreedId()) }}",
             },
             methods:{
                 getBreeds(){

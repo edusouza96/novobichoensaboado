@@ -34,6 +34,10 @@ class Service extends Model
     {
         return $this->breed;
     }
+    public function getBreedId()
+    {
+        return $this->breed_id ? $this->breed_id : 0;
+    }
 
     public function isPet()
     {
@@ -47,7 +51,7 @@ class Service extends Model
 
     public function getPackageType()
     {
-        return $this->package_type_id;
+        return $this->package_type_id ? $this->package_type_id : 1;
     }
 
 }

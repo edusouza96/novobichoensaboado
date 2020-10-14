@@ -18,7 +18,7 @@ class CreateServicesTable extends Migration
             $table->string('name', 255);
             $table->decimal('value', 10, 2);
             $table->integer('breed_id');
-            $table->integer('package_type_id');
+            $table->integer('package_type_id')->default(1);
             $table->timestamps();
         });
     }

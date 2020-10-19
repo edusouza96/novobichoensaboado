@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 use BichoEnsaboado\Http\Middleware\CashdeskStatus;
 
 /*
@@ -250,5 +251,7 @@ Route::group(['middleware' => 'auth'], function() {
 
         });
     });
+
+    Route::get('dev/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
 

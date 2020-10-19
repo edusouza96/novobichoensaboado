@@ -34,6 +34,12 @@ return [
     */
 
     'channels' => [
+        'stack-prod' => [
+            'driver' => 'stack',
+            'channels' => ['daily', 'slack'],
+            'ignore_exceptions' => false,
+        ],
+        
         'stack' => [
             'driver' => 'stack',
             'channels' => ['daily'],
@@ -56,9 +62,9 @@ return [
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
+            'username' => 'Log: Bidu informa',
             'emoji' => ':boom:',
-            'level' => 'critical',
+            'level' => 'debug',
         ],
 
         'papertrail' => [

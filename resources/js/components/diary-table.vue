@@ -145,7 +145,7 @@
           </td>
           
           <td>
-            <div id="delivery_fee">{{ register.fetch && register.id == null ? register.client.deliveryFee : register.deliveryFee }}</div>
+            <div id="delivery_fee">{{ register.fetch && register.id == null ? (register.client.deliveryFee * ((register.package == undefined) ? 1 : (register.package.length == 0 ? 1 : register.package.length))) : register.deliveryFee }}</div>
           </td>
 
           <td>
@@ -300,6 +300,7 @@ export default {
       this.registerCurrent = this.schedules[this.indexCurrent];
     },
     calcGross: function() {
+      let count = 0;
       let registerCurrent = this.schedules[this.indexCurrent];
       
       if (registerCurrent) {
@@ -308,7 +309,14 @@ export default {
         let deliveryFee = registerCurrent.fetch
           ? registerCurrent.client.deliveryFee
           : 0;
-        registerCurrent.gross = parseFloat(petValue) + parseFloat(vetValue) + parseFloat(deliveryFee);
+
+        if(registerCurrent.id){
+          count = (registerCurrent.date_other_package == undefined) ? 1 : registerCurrent.date_other_package.length;
+        }else{
+          count = (registerCurrent.package == undefined) ? 1 : registerCurrent.package.length;
+        }
+        if(count == 0) count = 1;
+        registerCurrent.gross = parseFloat(petValue) + parseFloat(vetValue) + (parseFloat(deliveryFee) * count);
       }
     },
     save: function(register) {

@@ -54,7 +54,6 @@ class DiaryCreateService
         $gross = $attributes['gross'];
         $observation = $attributes['observation'];
         
-        // Se for pacote
         if(isset($attributes['package'])){
             if(empty($attributes['id'])){
                 return $this->createPackage(
@@ -111,6 +110,7 @@ class DiaryCreateService
         $key = md5(time());
         $diaries = collect();
 
+        $deliveryFee = $deliveryFee * count($packageDates);
         foreach ($packageDates as $item) {
             $diary = $this->diaryRepository->newEmptyInstance();
 

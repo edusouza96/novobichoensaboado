@@ -2863,13 +2863,22 @@ __webpack_require__.r(__webpack_exports__);
       this.registerCurrent = this.schedules[this.indexCurrent];
     },
     calcGross: function calcGross() {
+      var count = 0;
       var registerCurrent = this.schedules[this.indexCurrent];
 
       if (registerCurrent) {
         var vetValue = registerCurrent.vetValue;
         var petValue = registerCurrent.petValue;
         var deliveryFee = registerCurrent.fetch ? registerCurrent.client.deliveryFee : 0;
-        registerCurrent.gross = parseFloat(petValue) + parseFloat(vetValue) + parseFloat(deliveryFee);
+
+        if (registerCurrent.id) {
+          count = registerCurrent.date_other_package == undefined ? 1 : registerCurrent.date_other_package.length;
+        } else {
+          count = registerCurrent["package"] == undefined ? 1 : registerCurrent["package"].length;
+        }
+
+        if (count == 0) count = 1;
+        registerCurrent.gross = parseFloat(petValue) + parseFloat(vetValue) + parseFloat(deliveryFee) * count;
       }
     },
     save: function save(register) {
@@ -93824,7 +93833,12 @@ var render = function() {
                     _vm._v(
                       _vm._s(
                         register.fetch && register.id == null
-                          ? register.client.deliveryFee
+                          ? register.client.deliveryFee *
+                              (register.package == undefined
+                                ? 1
+                                : register.package.length == 0
+                                ? 1
+                                : register.package.length)
                           : register.deliveryFee
                       )
                     )

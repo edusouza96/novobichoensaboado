@@ -1823,6 +1823,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["_key"],
   data: function data() {
@@ -1842,6 +1847,7 @@ __webpack_require__.r(__webpack_exports__);
       sum: null,
       onlyCashDrawer: null,
       salesDeliveryFee: null,
+      salesDeliveryFeeCash: null,
       transfers: [],
       sumOrigin: null,
       sumDestiny: null
@@ -1874,6 +1880,7 @@ __webpack_require__.r(__webpack_exports__);
         this.closedBy = data.closed_by;
         this.salesTotal = this.convertToBrPattern(data.sales_total);
         this.salesDeliveryFee = this.convertToBrPattern(data.sales_delivery_fee);
+        this.salesDeliveryFeeCash = this.convertToBrPattern(data.sales_delivery_fee_cash);
         this.outlaysTotal = this.convertToBrPattern(data.outlays_total);
         this.transfers = data.transfers;
         this.onlyCashDrawer = this.convertToBrPattern(data.only_cash_drawer);
@@ -92617,7 +92624,20 @@ var render = function() {
                         _vm._v(
                           "R$ " + _vm._s(_vm.convertToBrPattern(entry.value))
                         )
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _vm.salesDeliveryFeeCash != "0,00"
+                        ? _c("div", { staticClass: "col-md-12" }, [
+                            _c("div", { staticClass: "row text-primary" }, [
+                              _c("div", { staticClass: "col-md-8 pl-5" }, [
+                                _vm._v("Buscas Em dinheiro")
+                              ]),
+                              _c("div", { staticClass: "col-md-4" }, [
+                                _vm._v("R$ " + _vm._s(_vm.salesDeliveryFeeCash))
+                              ])
+                            ])
+                          ])
+                        : _vm._e()
                     ])
                   }),
                   _vm._v(" "),

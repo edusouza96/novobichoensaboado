@@ -171,6 +171,7 @@ class CashdeskService
         $outlays = $this->getValueTotal($moves, TypeMovesType::OUT);
         $sales = $this->getValueTotalSalesByCashBook($cashBook);
         $salesDeliveryFee = $this->getValueTotalSalesDeliveryFeeOnCard($cashBook);
+        $salesDeliveryFeeCash = $this->getValueTotalSalesDeliveryFeeOnCash($cashBook);
         $contribute = $this->getValutTotalContribute($date, $store, $cashBook);
         $bleed = $this->getValutTotalBleed($date, $store, $cashBook);
         $treasure = $this->treasureRepository->getCashDrawer($store);
@@ -179,6 +180,7 @@ class CashdeskService
             'sales' => $sales,
             'sales_total' => $sales->sum('value'),
             'sales_delivery_fee' => $salesDeliveryFee->sum('value_total'),
+            'sales_delivery_fee_cash' => $salesDeliveryFeeCash->sum('value_total'),
             'outlays' => $outlays,
             'outlays_total' => $outlays->sum('value'),
             'value_start' => $cashBook->getValueStart(),
@@ -244,6 +246,16 @@ class CashdeskService
        
         return $salePaymentMethods->filter(function($salePaymentMethod){ 
             return $salePaymentMethod->getPaymentMethodId() != PaymentMethodsType::CASH;
+        });
+    }
+    
+    private function getValueTotalSalesDeliveryFeeOnCash(CashBook $cashBook)
+    {
+        // Procura todas vendas
+        $salePaymentMethods = $this->salePaymentMethodRepository->findByCashBook($cashBook);
+       
+        return $salePaymentMethods->filter(function($salePaymentMethod){ 
+            return $salePaymentMethod->getPaymentMethodId() == PaymentMethodsType::CASH;
         });
     }
 

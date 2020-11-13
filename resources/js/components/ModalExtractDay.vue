@@ -40,6 +40,11 @@
 
 						<div class="row" v-for="(entry, index) in sales" :key="index">
 							<div class="col-md-8">Vendas em {{entry.method}}</div><div class="col-md-4">R$ {{convertToBrPattern(entry.value)}}</div>
+							<div class="col-md-12" v-if="salesDeliveryFeeCash != '0,00'">
+								<div class="row text-primary">
+									<div class="col-md-8 pl-5">Buscas Em dinheiro</div><div class="col-md-4">R$ {{salesDeliveryFeeCash}}</div>
+								</div>
+							</div>
 						</div>
 						<div class="row" v-if="sales.length == 0">
 							<div class="text-danger col-md-8">Nenhuma venda no dia encontrada.</div>
@@ -132,6 +137,7 @@ export default {
 			sum: null,
 			onlyCashDrawer: null,
 			salesDeliveryFee: null,
+			salesDeliveryFeeCash: null,
 			transfers: [],
 			sumOrigin: null,
 			sumDestiny: null,
@@ -161,6 +167,7 @@ export default {
 				this.closedBy = data.closed_by;
 				this.salesTotal = this.convertToBrPattern(data.sales_total);
 				this.salesDeliveryFee = this.convertToBrPattern(data.sales_delivery_fee);
+				this.salesDeliveryFeeCash = this.convertToBrPattern(data.sales_delivery_fee_cash);
 				this.outlaysTotal = this.convertToBrPattern(data.outlays_total);
 				this.transfers = data.transfers;
 				this.onlyCashDrawer = this.convertToBrPattern(data.only_cash_drawer);

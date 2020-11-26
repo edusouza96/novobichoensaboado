@@ -49,7 +49,7 @@ class Package extends Model
     {
         return $this->packages->map(function($package){
             return [ 
-                'dateHour' => $package->getDiary()->getDateHour()->format('Y-m-d\TH:i:s'),
+                'dateHour' => $package->getDiary() ? $package->getDiary()->getDateHour()->format('Y-m-d\TH:i:s') : '',
                 'id' => $package->getNumber()
             ];
         });
